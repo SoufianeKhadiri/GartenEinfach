@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Tabbedpages="clr-namespace:GardenEinfach.Views.TabbedPages"
+             x:Class="GardenEinfach.Views.MainPage">
+    <!--Pages can be added as references or inline-->
+
+    <TabbedPage.Children>
+        <NavigationPage Title="Home"   >
+            <x:Arguments>
+                <Tabbedpages:Home/>
+            </x:Arguments>
+        </NavigationPage>
+        <NavigationPage Title="Search"   >
+            <x:Arguments>
+                <Tabbedpages:Search/>
+            </x:Arguments>
+        </NavigationPage>
+        <NavigationPage Title="Add"   >
+            <x:Arguments>
+                <Tabbedpages:AddPost/>
+            </x:Arguments>
+        </NavigationPage>
+        <NavigationPage Title="Messages" >
+            <x:Arguments>
+                <Tabbedpages:Messages/>
+            </x:Arguments>
+        </NavigationPage>
+        <NavigationPage Title="Account" >
+            <x:Arguments>
+                <Tabbedpages:Account/>
+            </x:Arguments>
+        </NavigationPage>
+
+
+    </TabbedPage.Children>
+</TabbedPage>
