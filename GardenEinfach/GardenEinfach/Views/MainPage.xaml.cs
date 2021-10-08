@@ -15,7 +15,9 @@ namespace GardenEinfach.Views
     {
         public MainPage()
         {
+            NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
+
             BindingContext = new MainPageViewModel();
         }
     }

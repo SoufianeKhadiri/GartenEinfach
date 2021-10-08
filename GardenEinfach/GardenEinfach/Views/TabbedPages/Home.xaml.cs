@@ -5,11 +5,18 @@ namespace GardenEinfach.Views.TabbedPages
 {
     public partial class Home : ContentPage
     {
-        
+        HomeViewModel homeViewModel;
         public Home()
         {
+            //NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
-            BindingContext = new HomeViewModel(Navigation);
+            BindingContext = homeViewModel = new HomeViewModel();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            homeViewModel.OnAppearing();
         }
     }
 }

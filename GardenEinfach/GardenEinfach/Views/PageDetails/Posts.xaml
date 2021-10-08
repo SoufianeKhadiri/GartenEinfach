@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             
+            xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+        xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+        xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             x:Class="GardenEinfach.Views.PageDetails.Posts">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--NavBar-->
+        <StackLayout Orientation="Horizontal" Margin="0,10,10,0">
+            <ffimageloadingsvg:SvgCachedImage  Margin="10" IsVisible="true" Source="backGreen.svg"
+                   BackgroundColor="transparent" WidthRequest="30" HeightRequest="30"
+                HorizontalOptions="Start" VerticalOptions="Start"
+                >
+                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Back}"></TapGestureRecognizer>
+                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+
+            </ffimageloadingsvg:SvgCachedImage>
+
+            <ffimageloading:CachedImage   VerticalOptions="Center" Margin="0,0,10,0" Source="plant.jpg"
+                                                  HeightRequest="40" WidthRequest="40" HorizontalOptions="EndAndExpand">
+                <ffimageloading:CachedImage.Transformations>
+                    <fftransformations:RoundedTransformation Radius="240"/>
+                </ffimageloading:CachedImage.Transformations>
+            </ffimageloading:CachedImage>
+
+
+        </StackLayout >
+        <!--Separator-->
+        <BoxView  Grid.Row="1" Style="{StaticResource Separator}" />
+        <StackLayout  Margin="10,0" Grid.Row="2">
+
+            <Label Text="Offers near to you" FontAttributes="Bold" FontSize="Medium" />
+
+
+
+            <CollectionView   ItemsSource="{Binding Posts}" SelectionMode="Single" 
+                         VerticalScrollBarVisibility="Never" Margin="0,5,0,0"
+                        >
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="5" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid >
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="White" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Frame CornerRadius="10" Margin="0" Padding="0" IsClippedToBounds="True" HeightRequest="150" WidthRequest="150">
+                                <Image Aspect="AspectFill" Source="{Binding Images[0]}" />
+                            </Frame>
+                            <StackLayout Grid.Column="1">
+                                <Label Text="{Binding Titel}" />
+                                <Label Text="{Binding Price}" />
+
+                            </StackLayout>
+
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.Footer>
+                    <Grid HeightRequest="0"/>
+                </CollectionView.Footer>
+            </CollectionView>
+
+        </StackLayout>
+    </Grid>
+</ContentPage>

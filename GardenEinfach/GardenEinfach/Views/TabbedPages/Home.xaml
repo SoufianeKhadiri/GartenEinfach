@@ -1,9 +1,147 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            
+            xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+        xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+        xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              x:Class="GardenEinfach.Views.TabbedPages.Home">
-    <ContentPage.Content>
-        <Button Text="go To PostDetail" Command="{Binding Test}"/>
-    </ContentPage.Content>
+    <RefreshView>
+        <Grid  VerticalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="1"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="1"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!--Hello and Login pic-->
+
+            <StackLayout Orientation="Horizontal" Margin="10,10,10,0">
+                <StackLayout>
+                    <Label Text="Hello" FontSize="Large" />
+                    <Label Text="find Garden service near to you"/>
+
+                </StackLayout>
+                <StackLayout HeightRequest="60" WidthRequest="60" HorizontalOptions="EndAndExpand">
+                    <ffimageloading:CachedImage  VerticalOptions="Center" Margin="0,0,0,0" Source="plant.jpg"   >
+                        <ffimageloading:CachedImage.Transformations>
+                            <fftransformations:RoundedTransformation Radius="240"/>
+                        </ffimageloading:CachedImage.Transformations>
+                        <ffimageloading:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding GoAccount}"/>
+                        </ffimageloading:CachedImage.GestureRecognizers>
+                    </ffimageloading:CachedImage>
+                </StackLayout>
+
+            </StackLayout >
+            <!--Separator-->
+            <BoxView  Grid.Row="1" Style="{StaticResource Separator}" />
+
+            <!--my post-->
+            <StackLayout Grid.Row="2"  HeightRequest="150" Margin="10,0">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="My posts" FontAttributes="Bold" FontSize="Medium"  />
+                    <Grid>
+                        <ffimageloadingsvg:SvgCachedImage Source="circle.svg" WidthRequest="22" VerticalOptions="Center" Margin="0,-8,0,0"/>
+                        <Label Text="{Binding PostsNumber}" TextColor="White" Margin="8,4,0,0" FontSize="12"/>
+                    </Grid>
+                    <Button Text="Show all" HorizontalOptions="EndAndExpand" TextColor="#5DBA63" 
+                        HeightRequest="40" FontSize="12" Margin="0,-5,0,0" Command="{Binding ShowAllMyPosts}"
+                        BorderColor="Transparent" BackgroundColor="Transparent"/>
+                </StackLayout>
+                <CollectionView  Grid.Row="2" ItemsSource="{Binding PostsList}" SelectionMode="Single" 
+                          Margin="0,5,0,0" SelectedItem="{Binding PostDetail}"
+                        >
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Horizontal" VerticalItemSpacing="20" HorizontalItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+
+                            <Grid >
+                                <!--<VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="White" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>-->
+                                <StackLayout>
+                                    <Frame CornerRadius="10"  Padding="0" IsClippedToBounds="True" HeightRequest="80" WidthRequest="80">
+                                        <Image Aspect="AspectFill" Source="{Binding Images[0]}"  />
+                                    </Frame>
+                                    <Label Text="{Binding Titel}" />
+                                </StackLayout>
+
+                            </Grid>
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+
+            </StackLayout>
+
+            <!--Separator-->
+            <BoxView Grid.Row="3" Style="{StaticResource Separator}" />
+            <!--Post near to you-->
+            <StackLayout Grid.Row="4" Margin="10,0">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Offers near to you" FontAttributes="Bold" FontSize="Medium" />
+                    <Grid>
+                        <ffimageloadingsvg:SvgCachedImage Source="circle.svg" WidthRequest="22" VerticalOptions="Center" Margin="0,-8,0,0"/>
+                        <Label Text="{Binding PostsNumber}" TextColor="White" Margin="8,4,0,0" FontSize="12"/>
+                    </Grid>
+                    <Button Text="Show all" HorizontalOptions="EndAndExpand" TextColor="#5DBA63" 
+                        HeightRequest="40" FontSize="12" Margin="0,-8,0,0" Command="{Binding ShowAllPosts}"
+                        BorderColor="Transparent" BackgroundColor="Transparent"/>
+                </StackLayout>
+                <CollectionView   ItemsSource="{Binding PostsList}" SelectionMode="Single" 
+                         VerticalScrollBarVisibility="Never" Margin="0,5,0,0" SelectedItem="{Binding Post }"
+                        >
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="5" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid >
+                                <VisualStateManager.VisualStateGroups>
+                                    <!--<VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="White" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>-->
+                                </VisualStateManager.VisualStateGroups>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Frame CornerRadius="10" Margin="0" Padding="0" IsClippedToBounds="True" HeightRequest="150" WidthRequest="150">
+                                    <Image Aspect="AspectFill" Source="{Binding Images[0]}"/>
+                                </Frame>
+                                <StackLayout Grid.Column="1">
+                                    <Label Text="{Binding Titel}" />
+                                    <Label Text="{Binding Price}" />
+
+                                </StackLayout>
+
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.Footer>
+                        <Grid HeightRequest="0"/>
+                    </CollectionView.Footer>
+                </CollectionView>
+
+            </StackLayout>
+
+
+        </Grid>
+    </RefreshView>
 </ContentPage>

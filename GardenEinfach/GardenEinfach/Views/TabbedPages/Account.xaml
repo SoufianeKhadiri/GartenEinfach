@@ -1,7 +1,71 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            
+             Shell.PresentationMode="Modal"
+            xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              x:Class="GardenEinfach.Views.TabbedPages.Account">
-  
+    <Grid >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="auto"/>
+
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+
+        </Grid.RowDefinitions>
+
+        <!--Banner-->
+        <pancake:PancakeView  CornerRadius="0,0,40,40" Padding="0"
+                         IsClippedToBounds="True" HeightRequest="220" >
+            <Image Source="nature.jpg" Aspect="AspectFill" />
+        </pancake:PancakeView>
+        <!--profile image-->
+        <ffimageloading:CachedImage    Source="plant.jpg"  Grid.Row ="0" HeightRequest="100" VerticalOptions="EndAndExpand"
+                                                  Margin="0,0,0,-40">
+            <ffimageloading:CachedImage.Transformations>
+                <fftransformations:RoundedTransformation Radius="240"/>
+            </ffimageloading:CachedImage.Transformations>
+        </ffimageloading:CachedImage>
+        <!--Profile Name-->
+        <Label Text="{Binding UserName}" x:Name="firstName" Grid.Row="1" HorizontalOptions="Center" FontSize="22" FontAttributes="Bold" Margin="0,30,0,0"/>
+        <!--Separator-->
+        <BoxView  Grid.Row="3" Style="{StaticResource Separator}" />
+        <!--myPosts-->
+
+        <StackLayout  Grid.Row="4" HeightRequest="40" Orientation="Horizontal" Margin="10,10,10,0">
+            <ffimageloadingsvg:SvgCachedImage HeightRequest="35" Source="posts.svg"/>
+            <Label Text="My posts" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center"  Margin="10,0,0,0"/>
+
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding GoToMyPosts}"/>
+            </StackLayout.GestureRecognizers>
+
+        </StackLayout>
+        <StackLayout  Grid.Row="5" HeightRequest="40" Orientation="Horizontal" Margin="10,7">
+            <ffimageloadingsvg:SvgCachedImage HeightRequest="35" Source="accountSetting.svg" />
+            <Label Text="Profile setting" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center"  Margin="10,0,0,0"/>
+
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding GoToMyPosts}"/>
+            </StackLayout.GestureRecognizers>
+
+        </StackLayout>
+        <StackLayout  Grid.Row="6" HeightRequest="40" Orientation="Horizontal" Margin="10,7">
+            <ffimageloadingsvg:SvgCachedImage HeightRequest="35" Source="logout.svg"/>
+            <Label Text="Logout" FontSize="18" HorizontalOptions="Center" VerticalOptions="Center"  Margin="10,0,0,0"/>
+
+            <StackLayout.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding Logout}"/>
+            </StackLayout.GestureRecognizers>
+
+        </StackLayout>
+
+
+    </Grid>
 </ContentPage>

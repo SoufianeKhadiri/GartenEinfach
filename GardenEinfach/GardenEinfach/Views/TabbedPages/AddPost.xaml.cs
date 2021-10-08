@@ -7,6 +7,7 @@ namespace GardenEinfach.Views.TabbedPages
     {
         public AddPost()
         {
+            //NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
             BindingContext = new AddPostViewModel();
         }

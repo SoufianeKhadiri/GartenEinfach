@@ -7,6 +7,7 @@ namespace GardenEinfach.Views.TabbedPages
     {
         public Search()
         {
+
             InitializeComponent();
             BindingContext = new SearchViewModel();
         }

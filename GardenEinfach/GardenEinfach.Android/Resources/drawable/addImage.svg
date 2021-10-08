@@ -1,0 +1,15 @@
+<svg id="Group_6" data-name="Group 6" xmlns="http://www.w3.org/2000/svg" width="393" height="256" viewBox="0 0 393 256">
+  <rect id="Rectangle_2" data-name="Rectangle 2" width="393" height="256" fill="#fff"/>
+  <text id="Add_Images" data-name="Add Images" transform="translate(145 179)" fill="#707070" font-size="20" font-family="Lato-Bold, Lato" font-weight="700"><tspan x="0" y="0">Add Images</tspan></text>
+  <g id="addImage" transform="translate(153.096 61.596)">
+    <g id="background">
+      <rect id="Rectangle_1" data-name="Rectangle 1" width="86" height="86" transform="translate(0.404 0.404)" fill="none"/>
+    </g>
+    <g id="image_x5F_add" transform="translate(0 10.851)">
+      <path id="Path_15" data-name="Path 15" d="M75.957,14.851H65.106L54.255,4H32.55L21.7,14.851H10.851S0,14.851,0,25.7V58.255C0,69.106,10.851,69.106,10.851,69.106H42.1a24.392,24.392,0,0,0,43.182-5.122,13.584,13.584,0,0,0,1.53-5.729V25.7C86.808,14.851,75.957,14.851,75.957,14.851ZM38.068,57.333a16.257,16.257,0,1,1,18.1-25.375A24.4,24.4,0,0,0,37.978,55.542C37.978,56.147,38.027,56.739,38.068,57.333ZM62.393,74.214A18.675,18.675,0,1,1,81.065,55.542,18.713,18.713,0,0,1,62.393,74.214Z" transform="translate(0 -4)" fill="#5dba63"/>
+      <g id="Group_5" data-name="Group 5" transform="translate(48.829 37.978)">
+        <path id="Path_16" data-name="Path 16" d="M45.127,28.851H34.282V18H28.851V28.851H18v5.425H28.851V45.127h5.431V34.276H45.127Z" transform="translate(-18 -18)" fill="#5dba63"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -7,6 +7,7 @@ namespace GardenEinfach.Views.TabbedPages
     {
         public Messages()
         {
+            //NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
             BindingContext = new MessagesViewModel();
         }

@@ -1,9 +1,91 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+        xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+        xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+        
+        xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"       
              x:Class="GardenEinfach.Views.PageDetails.PostDetail">
-    <ContentPage.Content>
-        <Label Text="this is Post Detail" FontSize="40"/>
-    </ContentPage.Content>
+    <ScrollView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="1"/>
+
+                <RowDefinition Height="auto"/>
+
+            </Grid.RowDefinitions>
+            <!--Images Collection-->
+            <pancake:PancakeView  CornerRadius="0,0,40,40" Padding="0"
+                         IsClippedToBounds="True" HeightRequest="320" >
+                <CarouselView ItemsSource="{Binding Images}" IndicatorView="Indicator" >
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding}" Aspect="AspectFill"/>
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+            </pancake:PancakeView>
+            <IndicatorView x:Name="Indicator" IndicatorColor="LightGray" Margin="0,10"
+                           SelectedIndicatorColor="#5DBA63" HorizontalOptions="Center" VerticalOptions="EndAndExpand"/>
+
+            <ffimageloadingsvg:SvgCachedImage  Margin="10" IsVisible="true" Source="back.svg"
+                   BackgroundColor="transparent" WidthRequest="20" HeightRequest="20"
+                HorizontalOptions="Start" VerticalOptions="Start"
+                >
+                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Back}"></TapGestureRecognizer>
+                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+
+            </ffimageloadingsvg:SvgCachedImage>
+
+            <!--Titel-->
+            <Label Text="{Binding Titel}" Grid.Row="1" Margin="10" FontSize="Large" TextColor="Black" />
+            <!--price-->
+            <StackLayout Orientation="Horizontal" Grid.Row="1" HorizontalOptions="EndAndExpand" Margin="10,10,20,10">
+
+                <Label  Text="€" FontAttributes="Bold" FontSize="Large" TextColor="Black"/>
+                <Label   Text="{Binding Price}"  FontAttributes="Bold" FontSize="Large" TextColor="Black"/>
+            </StackLayout>
+            <!--description-->
+            <Label Margin="10" Grid.Row="2" Text="{Binding Description}"/>
+
+
+            <!--Separator-->
+            <BoxView  Grid.Row="3" Style="{StaticResource Separator}" />
+
+            <!--Profile-->
+            <pancake:PancakeView Grid.Row="4" Padding="0" CornerRadius="20,20,0,0" HeightRequest="80" 
+               Margin="0,0"   BackgroundColor="WhiteSmoke" >
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+
+                    <!--profile image-->
+                    <ffimageloading:CachedImage    Source="plant.jpg"  Grid.RowSpan="2"
+                                                  Margin="10">
+                        <ffimageloading:CachedImage.Transformations>
+                            <fftransformations:RoundedTransformation Radius="240"/>
+                        </ffimageloading:CachedImage.Transformations>
+                    </ffimageloading:CachedImage>
+
+
+                    <Label Text="{Binding UserName}" Grid.Column="1" Margin="0,20,0,0" />
+                    <Label Text="8793  Glogglehoff gasse 12 trofaiach" Grid.Column="1" Grid.Row="1" />
+                </Grid>
+
+            </pancake:PancakeView>
+        </Grid>
+
+    </ScrollView>
 </ContentPage>

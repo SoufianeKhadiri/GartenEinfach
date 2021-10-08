@@ -1,4 +1,6 @@
-﻿using GardenEinfach.Services;
+﻿using GardenEinfach.Model;
+using GardenEinfach.Service;
+using GardenEinfach.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +12,12 @@ namespace GardenEinfach.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        //public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+        //public IDataStore<Post> DataStore => DependencyService.Get<IDataStore<Post>>();
+        public IDataStore<Post> dataStore;
+        public BaseViewModel()
+        {
+            dataStore = new MockDataStore();
+        }
 
         bool isBusy = false;
         public bool IsBusy

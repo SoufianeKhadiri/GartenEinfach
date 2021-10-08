@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Firebase.Database;
+using Firebase.Database.Query;
+using Firebase.Storage;
+using GardenEinfach.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,55 +10,57 @@ using System.Threading.Tasks;
 
 namespace GardenEinfach.Services
 {
-    //public class MockDataStore : IDataStore<Item>
-    //{
-    //    readonly List<Item> items;
 
-    //    public MockDataStore()
-    //    {
-    //        items = new List<Item>()
-    //        {
-    //            new Item { Id = Guid.NewGuid().ToString(), Text = "First item", Description="This is an item description." },
-    //            new Item { Id = Guid.NewGuid().ToString(), Text = "Second item", Description="This is an item description." },
-    //            new Item { Id = Guid.NewGuid().ToString(), Text = "Third item", Description="This is an item description." },
-    //            new Item { Id = Guid.NewGuid().ToString(), Text = "Fourth item", Description="This is an item description." },
-    //            new Item { Id = Guid.NewGuid().ToString(), Text = "Fifth item", Description="This is an item description." },
-    //            new Item { Id = Guid.NewGuid().ToString(), Text = "Sixth item", Description="This is an item description." }
-    //        };
-    //    }
+    public class MockDataStore : IDataStore<Post>
+    {
+        public static FirebaseClient client;
+        public static FirebaseStorage storage;
+        public MockDataStore()
+        {
+            client = new FirebaseClient("https://gardenservice-ec613-default-rtdb.firebaseio.com");
+            storage = new FirebaseStorage("gardenservice-ec613.appspot.com");
+        }
+        public async Task AddItemAsync(Post item)
+        {
+            await client.Child("Posts").PostAsync(item);
 
-    //    public async Task<bool> AddItemAsync(Item item)
-    //    {
-    //        items.Add(item);
+        }
 
-    //        return await Task.FromResult(true);
-    //    }
+        public Task DeleteItemAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
 
-    //    public async Task<bool> UpdateItemAsync(Item item)
-    //    {
-    //        var oldItem = items.Where((Item arg) => arg.Id == item.Id).FirstOrDefault();
-    //        items.Remove(oldItem);
-    //        items.Add(item);
+        public Post GetItemAsync(List<Post> items, string id)
+        {
+            Post Post = new Post();
+            var post = items.Where(x => x.Titel == id);
+            foreach (var item in post)
+            {
+                Post = item;
+            }
+            return Post;
+        }
 
-    //        return await Task.FromResult(true);
-    //    }
+        public async Task<List<Post>> GetItemsAsync()
+        {
+            return (await client
+              .Child("Posts")
+              .OnceAsync<Post>()).Select(item => new Post
+              {
+                  Images = item.Object.Images,
+                  Titel = item.Object.Titel,
+                  Description = item.Object.Description,
+                  Price = item.Object.Price,
+                  User = item.Object.User,
+                  Key = item.Key
 
-    //    public async Task<bool> DeleteItemAsync(string id)
-    //    {
-    //        var oldItem = items.Where((Item arg) => arg.Id == id).FirstOrDefault();
-    //        items.Remove(oldItem);
+              }).ToList();
+        }
 
-    //        return await Task.FromResult(true);
-    //    }
-
-    //    public async Task<Item> GetItemAsync(string id)
-    //    {
-    //        return await Task.FromResult(items.FirstOrDefault(s => s.Id == id));
-    //    }
-
-    //    public async Task<IEnumerable<Item>> GetItemsAsync(bool forceRefresh = false)
-    //    {
-    //        return await Task.FromResult(items);
-    //    }
-    //}
+        public Task UpdateItemAsync(Post item)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

@@ -2,31 +2,38 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:Tabbedpages="clr-namespace:GardenEinfach.Views.TabbedPages"
+             xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
+            NavigationPage.HasNavigationBar="False"
+             android:TabbedPage.ToolbarPlacement="Bottom"
+            android:TabbedPage.BarItemColor ="Gray"
+            android:TabbedPage.BarSelectedItemColor ="#5DBA63"
+            android:TabbedPage.IsSwipePagingEnabled="False"
+            android:TabbedPage.IsSmoothScrollEnabled="False"
              x:Class="GardenEinfach.Views.MainPage">
     <!--Pages can be added as references or inline-->
 
     <TabbedPage.Children>
-        <NavigationPage Title="Home"   >
+        <NavigationPage Title="Home"  IconImageSource="baseline_home_black_24.png" >
             <x:Arguments>
                 <Tabbedpages:Home/>
             </x:Arguments>
         </NavigationPage>
-        <NavigationPage Title="Search"   >
+        <NavigationPage Title="Search" IconImageSource="baseline_search_black_24"  >
             <x:Arguments>
                 <Tabbedpages:Search/>
             </x:Arguments>
         </NavigationPage>
-        <NavigationPage Title="Add"   >
+        <NavigationPage Title="Add"  IconImageSource="baseline_add_circle_24" >
             <x:Arguments>
                 <Tabbedpages:AddPost/>
             </x:Arguments>
         </NavigationPage>
-        <NavigationPage Title="Messages" >
+        <NavigationPage Title="Messages" IconImageSource="baseline_question_answer_black_24" >
             <x:Arguments>
                 <Tabbedpages:Messages/>
             </x:Arguments>
         </NavigationPage>
-        <NavigationPage Title="Account" >
+        <NavigationPage Title="Account" IconImageSource="baseline_person_black_24">
             <x:Arguments>
                 <Tabbedpages:Account/>
             </x:Arguments>
