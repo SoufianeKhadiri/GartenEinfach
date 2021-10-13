@@ -14,9 +14,11 @@ namespace GardenEinfach.ViewModels
     {
         //public IDataStore<Post> DataStore => DependencyService.Get<IDataStore<Post>>();
         public IDataStore<Post> dataStore;
+        public IUserService userService;
         public BaseViewModel()
         {
             dataStore = new MockDataStore();
+            userService = new UserService();
         }
 
         bool isBusy = false;

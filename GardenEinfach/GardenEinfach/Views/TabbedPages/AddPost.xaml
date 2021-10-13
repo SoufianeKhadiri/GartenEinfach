@@ -119,7 +119,9 @@
             <!--Post btn-->
             <Button Grid.Row="7" Command="{Binding AddPost}" CornerRadius="20" Margin="10" Text="Post" Background="white"  BorderColor="#5DBA63" TextColor="#5DBA63" BorderWidth="1"/>
 
-
+            <ActivityIndicator IsRunning="{Binding Loading}" Color="Green" WidthRequest="10" HeightRequest="20" Grid.Row="6"/>
         </Grid>
+
     </ScrollView>
+
 </ContentPage>

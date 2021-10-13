@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:CustomEntry ="clr-namespace:GardenEinfach.CustomUi"
+             x:Class="GardenEinfach.Views.SignIn_Up.Login"
+           xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"  
+>
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition  />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Image Source="login.png" Aspect="AspectFill" Grid.RowSpan="4"/>
+        <!--Email-->
+        <Frame CornerRadius="5" Padding="0" Grid.Row="1" VerticalOptions= "Center" Margin="50,0">
+            <CustomEntry:BorderlessEntry  Placeholder="Email" PlaceholderColor="#bababa" FontSize="16" 
+                                              HorizontalOptions="FillAndExpand" Text="{Binding Email}"/>
+        </Frame>
+        <!--Password-->
+        <Frame CornerRadius="5" Padding="0" Grid.Row="1" VerticalOptions= "EndAndExpand" Margin="50,0">
+            <CustomEntry:BorderlessEntry  Placeholder="Password" PlaceholderColor="#bababa" FontSize="16" 
+                                              HorizontalOptions="FillAndExpand" Text="{Binding Password}"/>
+        </Frame>
+
+        <Button Text="Login" CornerRadius="20" Grid.Row="2" Margin="50,45" HeightRequest="50" Command="{Binding LoginCommand}"/>
+        <StackLayout Orientation="Horizontal" Grid.Row="3" HorizontalOptions="Center">
+            <Label Text="Dont't have an account?" TextColor="White"/>
+            <Button Text="sign up" BackgroundColor="Transparent" TextColor="#5DBA63" VerticalOptions="StartAndExpand" 
+                      Margin="-10,-14,0,0" Command="{Binding Register}"/>
+        </StackLayout>
+    </Grid>
+</ContentPage>

@@ -69,12 +69,19 @@ namespace GardenEinfach.ViewModels
         #endregion
 
 
+        private bool _Loading;
+        public bool Loading
+        {
+            get { return _Loading; }
+            set { SetProperty(ref _Loading, value); }
+        }
 
         PostService postService;
         //ctor
         public static DelegateCommand FotoFromCamera { get; set; }
         public static DelegateCommand FotoFromGallery { get; set; }
 
+        public static DelegateCommand CleanForm { get; set; }
         public AddPostViewModel()
         {
 
@@ -86,6 +93,8 @@ namespace GardenEinfach.ViewModels
             InitPicker();
             FotoFromCamera = new DelegateCommand(TakeFotoFromCamera);
             FotoFromGallery = new DelegateCommand(TakeFotoFromGalery);
+            CleanForm = new DelegateCommand(EmptyForm);
+            Loading = false;
         }
 
 
@@ -101,6 +110,7 @@ namespace GardenEinfach.ViewModels
 
         async void AddPostM()
         {
+            Loading = true;
             List<string> imagesUrl = new List<string>();
             int imageNumber = 0;
             foreach (var item in ImagesStream)
@@ -114,6 +124,9 @@ namespace GardenEinfach.ViewModels
             //, Password = "password", Phone = "92863827532" };
             Post p = new Post() { Images = imagesUrl, Category = Category, Price = Price, Titel = Titel, Description = Description, Time = getCurrentTime() };
             await dataStore.AddItemAsync(p);
+            Loading = false;
+
+            await PopupNavigation.Instance.PushAsync(new AddPostPopup());
 
         }
 
@@ -187,8 +200,6 @@ namespace GardenEinfach.ViewModels
         void TakeFotoM()
         {
             PopupNavigation.Instance.PushAsync(new ImagePopup());
-            //await _nav.NavigateAsync("ImagePopup");
-
 
         }
 
@@ -273,6 +284,13 @@ namespace GardenEinfach.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", ex.Message.ToString(), "ok");
 
             }
+        }
+
+        private void EmptyForm()
+        {
+            Price = 0;
+            Titel = Description = Category = "";
+            Images.Clear();
         }
 
     }

@@ -44,7 +44,7 @@
                     <Label Text="My posts" FontAttributes="Bold" FontSize="Medium"  />
                     <Grid>
                         <ffimageloadingsvg:SvgCachedImage Source="circle.svg" WidthRequest="22" VerticalOptions="Center" Margin="0,-8,0,0"/>
-                        <Label Text="{Binding PostsNumber}" TextColor="White" Margin="8,4,0,0" FontSize="12"/>
+                        <Label Text="{Binding PostsNumber}" TextColor="White" Margin="5,4,0,0" FontSize="12"/>
                     </Grid>
                     <Button Text="Show all" HorizontalOptions="EndAndExpand" TextColor="#5DBA63" 
                         HeightRequest="40" FontSize="12" Margin="0,-5,0,0" Command="{Binding ShowAllMyPosts}"
@@ -93,7 +93,7 @@
                     <Label Text="Offers near to you" FontAttributes="Bold" FontSize="Medium" />
                     <Grid>
                         <ffimageloadingsvg:SvgCachedImage Source="circle.svg" WidthRequest="22" VerticalOptions="Center" Margin="0,-8,0,0"/>
-                        <Label Text="{Binding PostsNumber}" TextColor="White" Margin="8,4,0,0" FontSize="12"/>
+                        <Label Text="{Binding PostsNumber}" TextColor="White" Margin="5,4,0,0" FontSize="12"/>
                     </Grid>
                     <Button Text="Show all" HorizontalOptions="EndAndExpand" TextColor="#5DBA63" 
                         HeightRequest="40" FontSize="12" Margin="0,-8,0,0" Command="{Binding ShowAllPosts}"

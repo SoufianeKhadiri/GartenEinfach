@@ -45,16 +45,12 @@ namespace GardenEinfach.ViewModels
             set { SetProperty(ref _Adress, value); }
         }
 
+
         private string _Titel;
         public string Titel
         {
             get { return _Titel; }
-            set
-            {
-                _Titel = value;
-
-
-            }
+            set { SetProperty(ref _Titel, value); }
         }
 
         private string _Price;

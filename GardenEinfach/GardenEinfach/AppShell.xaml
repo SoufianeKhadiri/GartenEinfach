@@ -2,6 +2,7 @@
 <Shell xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:views="clr-namespace:GardenEinfach.Views.TabbedPages"
+             xmlns:login="clr-namespace:GardenEinfach.Views.SignIn_Up"
              x:Class="GardenEinfach.AppShell">
     <Shell.Resources>
         <ResourceDictionary>
@@ -23,11 +24,13 @@
             <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
         </ResourceDictionary>
     </Shell.Resources>
-    <TabBar>
-        <ShellContent Title="Home"  Icon="baseline_home_black_24.png" Route="Home" ContentTemplate="{DataTemplate views:Home}"></ShellContent>
-        <ShellContent Title="Search" Icon="baseline_search_black_24" ContentTemplate="{DataTemplate views:Search}"/>
-        <ShellContent Title="Add"  Icon="baseline_add_circle_24" ContentTemplate="{DataTemplate views:AddPost}"/>
-        <ShellContent Title="Messages" Icon="baseline_question_answer_black_24" ContentTemplate="{DataTemplate views:Messages}"/>
-        <ShellContent Title="Account" Icon="baseline_person_black_24" ContentTemplate="{DataTemplate views:Account}"/>
+    <TabBar Route="HomePage">
+        <ShellContent Title="Home" Route="Home"  Icon="baseline_home_black_24.png"  ContentTemplate="{DataTemplate views:Home}"></ShellContent>
+        <ShellContent Title="Search" Route="Search" Icon="baseline_search_black_24" ContentTemplate="{DataTemplate views:Search}"/>
+        <ShellContent Title="Add"  Route="AddPost" Icon="baseline_add_circle_24" ContentTemplate="{DataTemplate views:AddPost}"/>
+        <ShellContent Title="Messages" Route="Messages" Icon="baseline_question_answer_black_24" ContentTemplate="{DataTemplate views:Messages}"/>
+        <ShellContent Title="Account" Route="Account" Icon="baseline_person_black_24" ContentTemplate="{DataTemplate views:Account}"/>
     </TabBar>
+
+    <ShellContent Route="Login" ContentTemplate="{DataTemplate login:Login}"/>
 </Shell>
