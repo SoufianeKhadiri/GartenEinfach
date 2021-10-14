@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Shell.NavBarIsVisible="False"
              xmlns:CustomEntry ="clr-namespace:GardenEinfach.CustomUi"
              x:Class="GardenEinfach.Views.SignIn_Up.Login"
            xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
@@ -32,7 +33,7 @@
         <StackLayout Orientation="Horizontal" Grid.Row="3" HorizontalOptions="Center">
             <Label Text="Dont't have an account?" TextColor="White"/>
             <Button Text="sign up" BackgroundColor="Transparent" TextColor="#5DBA63" VerticalOptions="StartAndExpand" 
-                      Margin="-10,-14,0,0" Command="{Binding Register}"/>
+                      Margin="-10,-14,0,0" Command="{Binding RegisterC}"/>
         </StackLayout>
     </Grid>
 </ContentPage>

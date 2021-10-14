@@ -1,4 +1,5 @@
 ﻿using GardenEinfach.Model;
+using GardenEinfach.Views.PageDetails;
 using Prism.Commands;
 using Prism.Mvvm;
 using System;
@@ -17,6 +18,41 @@ namespace GardenEinfach.ViewModels
             get { return _Posts; }
             set { SetProperty(ref _Posts, value); }
         }
+
+        private Post _Post;
+        public Post Post
+        {
+            get { return _Post; }
+            set
+            {
+                SetProperty(ref _Post, value);
+
+                if (Post != null)
+                {
+                    OnItemSelected(Post);
+                    Post = null;
+
+                }
+            }
+        }
+
+        async void OnItemSelected(Post post)
+        {
+            if (post == null)
+            {
+                return;
+            }
+            else
+            {
+
+                // This will push the ItemDetailPage onto the navigation stack
+                await Shell.Current
+                    .GoToAsync($"{nameof(PostDetail)}?{nameof(PostDetailViewModel.Key)}={post.Key}");
+
+            }
+
+        }
+
         public DelegateCommand Back { get; set; }
 
         public PostsViewModel()

@@ -1,13 +1,16 @@
-﻿using Firebase.Database;
+﻿using Firebase.Auth;
+using Firebase.Database;
 using Firebase.Database.Query;
 using Firebase.Storage;
 using GardenEinfach.Model;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace GardenEinfach.Service
 {
@@ -15,10 +18,12 @@ namespace GardenEinfach.Service
     {
         public static FirebaseClient client;
         public static FirebaseStorage storage;
+        public string WebApiKey;
         public UserService()
         {
             client = new FirebaseClient("https://gardenservice-ec613-default-rtdb.firebaseio.com");
             storage = new FirebaseStorage("gardenservice-ec613.appspot.com");
+            WebApiKey = "AIzaSyD_rzOMR_cTLm9JYCo1WylNJqXOc56rTvI";
         }
         public async Task<List<MyUser>> GetAllUsers()
         {
@@ -32,20 +37,34 @@ namespace GardenEinfach.Service
                }).ToList();
         }
 
-        public async Task<MyUser> GetUserInfo(string email)
+        public MyUser GetUserInfo(List<MyUser> users, string email)
         {
-            var allUsers = await GetAllUsers();
-            await client
-              .Child("Users")
-              .OnceAsync<MyUser>();
-            return allUsers.Where(a => a.Email == email).FirstOrDefault();
+            MyUser myUser = new MyUser();
+
+            var user = users.Where(x => x.Email == email);
+            foreach (var item in user)
+            {
+                myUser = item;
+            }
+            return myUser;
         }
+
         public async Task AddUser(MyUser user)
         {
 
             await client.Child("Users").PostAsync(user);
 
         }
+
+        async Task<string> IUserService.CreateUserFirebaseAuth(string email, string password)
+        {
+            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(WebApiKey));
+            var auth = await authProvider.CreateUserWithEmailAndPasswordAsync(email, password);
+            var token = auth.FirebaseToken;
+
+            return token;
+        }
+
         public ObservableCollection<MyUser> getUsers()
         {
 
@@ -54,5 +73,10 @@ namespace GardenEinfach.Service
 
             return UserData;
         }
+
+        //Task<string> CreateUserFirebaseAuth(string email, string password)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

@@ -1,7 +1,148 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            
-             x:Class="GardenEinfach.Views.SignIn_Up.Register">
+             xmlns:CustomEntry="clr-namespace:GardenEinfach.CustomUi"
+             Shell.NavBarIsVisible="False"
+             Shell.PresentationMode="Animated"
+             x:Class="GardenEinfach.Views.SignIn_Up.Register"
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             >
+    <Grid>
+        <Image Source="login.png" Aspect="AspectFill" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="2.7*"/>
+                <RowDefinition Height="2.7*"/>
+            </Grid.RowDefinitions>
+            <Frame Grid.Row="1" Grid.RowSpan="2" Margin="20" HeightRequest="600" CornerRadius="20" VerticalOptions="EndAndExpand" >
 
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+
+                    </Grid.RowDefinitions>
+
+                    <!--FirstName/LastName-->
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <!--FirstName-->
+                        <Entry Placeholder="Firstname" Text="{Binding FirstName}" HorizontalTextAlignment="Center"/>
+                        <!--LastName-->
+                        <Entry Grid.Column="1" Placeholder="LastName" Text="{Binding LastName}" HorizontalTextAlignment="Center"/>
+                    </Grid>
+                    <!--GenderList-->
+                    <Picker Grid.Row="1" ItemsSource="{Binding GenderList}" />
+                    <!--Email-->
+                    <Entry Grid.Row="2" Placeholder="Email"/>
+                    <!--Password-->
+                    <Entry Grid.Row="3" Placeholder="Password"/>
+                    <!--Phone-->
+                    <Entry Grid.Row="4" Placeholder="Phone"/>
+                    <!--Adress-->
+                    <Grid Grid.Row="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="0.5*"/>
+
+                        </Grid.ColumnDefinitions>
+                        <Entry Placeholder="Street"/>
+                        <Entry Grid.Column="1" Placeholder="House#" />
+
+                    </Grid>
+                    <Grid Grid.Row="6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Entry Placeholder="City"/>
+                    </Grid>
+                    <Button Text="Register" CornerRadius="20" Grid.Row="7" Margin="50,45" HeightRequest="50" />
+                    <StackLayout Orientation="Horizontal" Grid.Row="3" HorizontalOptions="Center">
+                        <Label Text="already Registred?" TextColor="White"/>
+                        <Button Text="Log in" BackgroundColor="Transparent" TextColor="LightBlue" VerticalOptions="StartAndExpand" 
+                      Margin="-10,-14,0,0" Command="{Binding LoginC}"/>
+                    </StackLayout>
+
+                </Grid>
+            </Frame>
+        </Grid>
+
+    </Grid>
+
+    <!--<Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="150"/>
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Image Source="login.png" Aspect="AspectFill" Grid.RowSpan="4"/>
+        <Label Text="Register" FontSize="25" HorizontalOptions="Center" VerticalOptions="EndAndExpand" 
+               TextColor="White" />
+
+        <StackLayout  Grid.Row="1" HeightRequest="250" Margin="50,25,50,0">
+
+
+            <StackLayout Orientation="Horizontal"    HorizontalOptions="Center">
+                -->
+    <!--First Name-->
+    <!--
+                <Frame CornerRadius="5" Padding="0"  WidthRequest="130">
+                    <CustomEntry:BorderlessEntry  Placeholder="First name" PlaceholderColor="#bababa" FontSize="16" 
+                                              HorizontalOptions="FillAndExpand" Text="{Binding FirstName}"/>
+
+                </Frame>
+
+                -->
+    <!--LastName-->
+    <!--
+                <Frame CornerRadius="5" Padding="0" WidthRequest="130" Margin="5,0,0,0" >
+                    <CustomEntry:BorderlessEntry  Placeholder="Last name" PlaceholderColor="#bababa" FontSize="16" 
+                                              HorizontalOptions="FillAndExpand" Text="{Binding LastName}"/>
+
+                </Frame>
+
+            </StackLayout>
+
+            -->
+    <!--Email-->
+    <!--
+            <Frame CornerRadius="5" Padding="0" Grid.Row="1" Margin="0,7" >
+                <CustomEntry:BorderlessEntry  Placeholder="Email" PlaceholderColor="#bababa" FontSize="16" 
+                                              HorizontalOptions="FillAndExpand" Text="{Binding Email}"/>
+            </Frame>
+            -->
+    <!--Email-->
+    <!--
+            <Frame CornerRadius="5" Padding="0" Grid.Row="1" Margin="0,7" >
+                <CustomEntry:BorderlessEntry  Placeholder="Password" PlaceholderColor="#bababa" FontSize="16" 
+                                              HorizontalOptions="FillAndExpand" Text="{Binding Password}"/>
+            </Frame>
+
+            <Button Text="Register" CornerRadius="20" Command="{Binding Register}"/>
+        </StackLayout>
+
+
+        <Button Text="Register" CornerRadius="20" Grid.Row="2" Margin="50,45" HeightRequest="50" Command="{Binding }"/>
+        <StackLayout Orientation="Horizontal" Grid.Row="3" HorizontalOptions="Center">
+            <Label Text="already Registred?" TextColor="White"/>
+            <Button Text="Log in" BackgroundColor="Transparent" TextColor="LightBlue" VerticalOptions="StartAndExpand" 
+                      Margin="-10,-14,0,0" Command="{Binding LoginC}"/>
+        </StackLayout>
+    </Grid>-->
 </ContentPage>

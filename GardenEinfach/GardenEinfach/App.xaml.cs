@@ -15,10 +15,23 @@ namespace GardenEinfach
 
             MainPage = new AppShell();
 
+            Authentication();
 
         }
 
+        public async void Authentication()
+        {
+            string FirebaseToken = Preferences.Get("myFirebaseRefreshToken", "");
 
+            if (string.IsNullOrEmpty(FirebaseToken))
+            {
+                await Shell.Current.GoToAsync("//Login");
+            }
+            else
+            {
+                await Shell.Current.GoToAsync("//HomePage");
+            }
+        }
 
         protected override void OnStart()
         {

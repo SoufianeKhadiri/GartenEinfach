@@ -100,7 +100,7 @@
                                               Title="Category"  ItemsSource="{Binding Categories}" SelectedItem="{Binding Category}"  />
             </Frame>
             <!--Profil info-->
-            <Frame CornerRadius="5" Padding="0,0,0,5" Grid.Row="6" Margin="10,0,10,0" HeightRequest="80">
+            <!--<Frame CornerRadius="5" Padding="0,0,0,5" Grid.Row="6" Margin="10,0,10,0" HeightRequest="80">
                 <StackLayout>
                     <StackLayout Orientation="Horizontal">
                         <Label Text="Adress:" FontSize="16" Margin="10"/>
@@ -115,11 +115,11 @@
                     </StackLayout>
                 </StackLayout>
 
-            </Frame>
+            </Frame>-->
             <!--Post btn-->
             <Button Grid.Row="7" Command="{Binding AddPost}" CornerRadius="20" Margin="10" Text="Post" Background="white"  BorderColor="#5DBA63" TextColor="#5DBA63" BorderWidth="1"/>
 
-            <ActivityIndicator IsRunning="{Binding Loading}" Color="Green" WidthRequest="10" HeightRequest="20" Grid.Row="6"/>
+            <ActivityIndicator IsRunning="{Binding Loading}" Color="Green" Margin="20" Grid.Row="6"/>
         </Grid>
 
     </ScrollView>

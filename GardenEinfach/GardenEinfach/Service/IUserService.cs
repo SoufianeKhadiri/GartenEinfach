@@ -9,10 +9,10 @@ namespace GardenEinfach.Service
 {
     public interface IUserService
     {
-        Task<MyUser> GetUserInfo(string email);
+        MyUser GetUserInfo(List<MyUser> users, string email);
         Task<List<MyUser>> GetAllUsers();
         Task AddUser(MyUser user);
-
+        Task<string> CreateUserFirebaseAuth(string email, string password);
         ObservableCollection<MyUser> getUsers();
     }
 }

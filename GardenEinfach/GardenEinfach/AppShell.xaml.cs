@@ -31,19 +31,20 @@ namespace GardenEinfach
             Routing.RegisterRoute(nameof(Register), typeof(Register));
 
 
+
         }
 
-        protected async override void OnAppearing()
-        {
-            base.OnAppearing();
-            if (!string.IsNullOrEmpty(Preferences.Get("myFirebaseRefreshTokenn", "")))
-            {
+        //protected async override void OnAppearing()
+        //{
+        //    base.OnAppearing();
+        //    if (!string.IsNullOrEmpty(Preferences.Get("myFirebaseRefreshTokenn", "")))
+        //    {
 
-            }
-            else
-            {
-                await Shell.Current.GoToAsync("//Login");
-            }
-        }
+        //    }
+        //    else
+        //    {
+        //        await Shell.Current.GoToAsync("//Login");
+        //    }
+        //}
     }
 }

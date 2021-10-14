@@ -24,6 +24,12 @@
             <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
         </ResourceDictionary>
     </Shell.Resources>
+
+    <ShellItem Route="Login">
+        <ShellContent ContentTemplate="{DataTemplate login:Login}"/>
+    </ShellItem>
+
+
     <TabBar Route="HomePage">
         <ShellContent Title="Home" Route="Home"  Icon="baseline_home_black_24.png"  ContentTemplate="{DataTemplate views:Home}"></ShellContent>
         <ShellContent Title="Search" Route="Search" Icon="baseline_search_black_24" ContentTemplate="{DataTemplate views:Search}"/>
@@ -32,5 +38,5 @@
         <ShellContent Title="Account" Route="Account" Icon="baseline_person_black_24" ContentTemplate="{DataTemplate views:Account}"/>
     </TabBar>
 
-    <ShellContent Route="Login" ContentTemplate="{DataTemplate login:Login}"/>
+
 </Shell>

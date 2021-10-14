@@ -23,6 +23,7 @@ namespace GardenEinfach.ViewModels
         {
             PopupNavigation.Instance.PopAsync(true);
             AddPostViewModel.CleanForm.Execute();
+            HomeViewModel.RefreshFromPostDetail.Execute();
             Shell.Current.GoToAsync("//HomePage/Home");
         }
 

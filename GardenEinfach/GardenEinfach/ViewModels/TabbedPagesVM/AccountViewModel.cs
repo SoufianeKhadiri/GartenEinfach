@@ -4,15 +4,24 @@ using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace GardenEinfach.ViewModels
 {
     public class AccountViewModel : BaseViewModel
     {
+
+        private string _UserName;
+        public string UserName
+        {
+            get { return _UserName; }
+            set { SetProperty(ref _UserName, value); }
+        }
+
         public AccountViewModel()
         {
-
+            UserName = Preferences.Get("Username", "");
         }
         #region Commands
         private DelegateCommand _GoToMyPosts;
@@ -29,9 +38,10 @@ namespace GardenEinfach.ViewModels
         public DelegateCommand Logout =>
         _Logout ?? (_Logout = new DelegateCommand(LogoutM));
 
-        void LogoutM()
+        async void LogoutM()
         {
-
+            Preferences.Set("myFirebaseRefreshToken", "");
+            await Shell.Current.GoToAsync("//Login");
         }
 
 

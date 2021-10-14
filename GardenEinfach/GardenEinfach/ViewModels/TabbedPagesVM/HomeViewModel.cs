@@ -17,6 +17,20 @@ namespace GardenEinfach.ViewModels
 {
     public class HomeViewModel : BaseViewModel
     {
+        #region Refresh
+
+        public DelegateCommand Refresh { get; set; }
+        public static DelegateCommand RefreshFromPostDetail { get; set; }
+
+        private bool _IsRegreshing;
+        public bool IsRefreshing
+        {
+            get { return _IsRegreshing; }
+            set { SetProperty(ref _IsRegreshing, value); }
+        }
+
+        #endregion
+
 
         public Command LoadItemsCommand { get; }
         public ObservableCollection<Post> Items { get; }
@@ -29,19 +43,17 @@ namespace GardenEinfach.ViewModels
         }
 
 
-        private Post _PostDetail;
+        private Post _MyPostDetail;
         public Post MyPostDetail
         {
-            get { return _PostDetail; }
+            get { return _MyPostDetail; }
             set
             {
-                SetProperty(ref _PostDetail, value);
+                SetProperty(ref _MyPostDetail, value);
 
                 if (MyPostDetail != null)
                 {
-                    //NavigatoToPage("MyPostDetail", "MyPostDetail", PostDetail);
-                    //Navigate("MyPostDetail", Post);
-
+                    OnItemSelected(MyPostDetail);
                     MyPostDetail = null;
 
                 }
@@ -65,14 +77,13 @@ namespace GardenEinfach.ViewModels
             set
             {
                 SetProperty(ref _Post, value);
-                OnItemSelected(Post);
-                //if (Post != null)
-                //{
-                //    //NavigatoToPage("MyPostDetail", "MyPostDetail", Post);
-                //    //Navigate("MyPostDetail", Post);
-                //    Post = null;
 
-                //}
+                if (Post != null)
+                {
+                    OnItemSelected(Post);
+                    Post = null;
+
+                }
             }
         }
 
@@ -106,7 +117,7 @@ namespace GardenEinfach.ViewModels
         public DelegateCommand ShowAllMyPosts { get; set; }
         public DelegateCommand ShowAllPosts { get; set; }
 
-        INavigation Navigation;
+
 
         public DelegateCommand NavigateForwardCommand { get; set; }
 
@@ -114,13 +125,25 @@ namespace GardenEinfach.ViewModels
         public HomeViewModel()
         {
 
-
-
             getPostsData();
             ShowAllMyPosts = new DelegateCommand(ShowMyPosts);
             ShowAllPosts = new DelegateCommand(ShowPosts);
+            Refresh = new DelegateCommand(RefreshM);
+            RefreshFromPostDetail = new DelegateCommand(RefreshM);
+
 
         }
+
+        private void RefreshM()
+        {
+            IsRefreshing = true;
+            getPostsData();
+            IsRefreshing = false;
+        }
+
+
+
+
 
 
         public static PostService postService;
@@ -186,6 +209,8 @@ namespace GardenEinfach.ViewModels
         //{
         //    //await NavigationService.NavigateAsync("Account");
         //}
+
+
 
         public void OnAppearing()
         {

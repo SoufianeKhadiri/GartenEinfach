@@ -1,4 +1,5 @@
 ﻿using Firebase.Auth;
+using GardenEinfach.Model;
 using GardenEinfach.Views.SignIn_Up;
 using Newtonsoft.Json;
 using Prism.Commands;
@@ -40,31 +41,42 @@ namespace GardenEinfach.ViewModels
 
         }
 
+
+
         private DelegateCommand _LoginCommand;
         public DelegateCommand LoginCommand =>
         _LoginCommand ?? (_LoginCommand = new DelegateCommand(LoginMethode));
 
         public async void LoginMethode()
         {
-            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(WebApiKey));
-            var auth = await authProvider.SignInWithEmailAndPasswordAsync(Email, Password);
-            var token = auth.GetFreshAuthAsync();
-            var SerializedContent = JsonConvert.SerializeObject(token);
-            Preferences.Set("myFirebaseRefreshToken", SerializedContent);
-            getUserInfo();
-
-            await Shell.Current.GoToAsync("//HomePage");
-            //NavigatoToPage("login", "MainTabbedPage", Email);
+            try
+            {
 
 
-            //await App.Current.MainPage.DisplayAlert("Alert", gettoken, "ok");
+                var authProvider = new FirebaseAuthProvider(new FirebaseConfig(WebApiKey));
+                var auth = await authProvider.SignInWithEmailAndPasswordAsync(Email, Password);
+                var token = auth.GetFreshAuthAsync();
+                var SerializedContent = JsonConvert.SerializeObject(token);
+                Preferences.Set("myFirebaseRefreshToken", SerializedContent);
+                getUserInfo();
 
+                await Shell.Current.GoToAsync("//HomePage");
+                //NavigatoToPage("login", "MainTabbedPage", Email);
+
+
+                //await App.Current.MainPage.DisplayAlert("Alert", gettoken, "ok");
+            }
+            catch (Exception)
+            {
+
+                await App.Current.MainPage.DisplayAlert("Alert", "Invalid Email or Password", "ok");
+            }
         }
 
         async void getUserInfo()
         {
-
-            var userInfo = await userService.GetUserInfo(Email);
+            var users = await userService.GetAllUsers();
+            var userInfo = userService.GetUserInfo(users, Email);
             Preferences.Set("UserName", userInfo.FirstName);
 
         }
@@ -81,7 +93,7 @@ namespace GardenEinfach.ViewModels
         async void RegisterM()
         {
 
-            await Shell.Current.GoToAsync($"{nameof(Register)}");
+            await Shell.Current.GoToAsync("//Login/Register");
         }
 
 

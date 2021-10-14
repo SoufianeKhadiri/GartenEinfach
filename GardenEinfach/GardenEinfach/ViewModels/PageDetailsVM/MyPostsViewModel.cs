@@ -12,6 +12,39 @@ namespace GardenEinfach.ViewModels
 {
     public class MyPostsViewModel : BaseViewModel
     {
+        private Post _Post;
+        public Post Post
+        {
+            get { return _Post; }
+            set
+            {
+                SetProperty(ref _Post, value);
+
+                if (Post != null)
+                {
+                    OnItemSelected(Post);
+                    Post = null;
+
+                }
+            }
+        }
+
+        async void OnItemSelected(Post post)
+        {
+            if (post == null)
+            {
+                return;
+            }
+            else
+            {
+
+                // This will push the ItemDetailPage onto the navigation stack
+                await Shell.Current
+                    .GoToAsync($"{nameof(PostDetail)}?{nameof(PostDetailViewModel.Key)}={post.Key}");
+
+            }
+
+        }
 
         private DelegateCommand _Back;
         public DelegateCommand Back =>

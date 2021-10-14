@@ -1,6 +1,7 @@
 ﻿
 using GardenEinfach.Model;
 using Newtonsoft.Json;
+using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -16,6 +17,25 @@ namespace GardenEinfach.ViewModels
         #region Post props
 
 
+
+        private bool _SingleImage;
+        public bool SingleImage
+        {
+            get { return _SingleImage; }
+            set { SetProperty(ref _SingleImage, value); }
+        }
+        private bool _CarouselView;
+        public bool CarouselView
+        {
+            get { return _CarouselView; }
+            set { SetProperty(ref _CarouselView, value); }
+        }
+        private bool _IndicatorView;
+        public bool IndicatorView
+        {
+            get { return _IndicatorView; }
+            set { SetProperty(ref _IndicatorView, value); }
+        }
 
         private string _Key;
         public string Key
@@ -84,6 +104,12 @@ namespace GardenEinfach.ViewModels
             set { SetProperty(ref _Time, value); }
         }
 
+        private string _SImage;
+        public string SImage
+        {
+            get { return _SImage; }
+            set { SetProperty(ref _SImage, value); }
+        }
 
         private List<string> _Images;
         public List<string> Images
@@ -112,6 +138,8 @@ namespace GardenEinfach.ViewModels
                 var AllPosts = await dataStore.GetItemsAsync();
                 var post = await Task.FromResult(AllPosts.FirstOrDefault(p => p.Key == key));
                 p = post;
+                // define the Loop of the CarouselViewl
+                CarouselViewLoop(p);
 
             }
             catch (Exception)
@@ -129,10 +157,37 @@ namespace GardenEinfach.ViewModels
         {
             Images = new List<string>();
             Images = PostDetail.Images;
+
             Description = PostDetail.Description;
             Titel = PostDetail.Titel;
             Price = PostDetail.Price.ToString();
             //Username = PostDetail.User.FirstName.ToString();
         }
+
+        private void CarouselViewLoop(Post p)
+        {
+            if (p.Images.Count > 1)
+            {
+                SingleImage = false;
+                IndicatorView = CarouselView = true;
+
+            }
+            else
+            {
+                SImage = p.Images[0];
+                SingleImage = true;
+                IndicatorView = CarouselView = false;
+            }
+        }
+
+        private DelegateCommand _Back;
+        public DelegateCommand Back =>
+        _Back ?? (_Back = new DelegateCommand(BackM));
+
+        async void BackM()
+        {
+            await Shell.Current.GoToAsync("..");
+        }
+
     }
 }

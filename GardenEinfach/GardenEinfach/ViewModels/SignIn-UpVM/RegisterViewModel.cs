@@ -57,7 +57,7 @@ namespace GardenEinfach.ViewModels
         async void CommandMthode()
         {
 
-            await Shell.Current.GoToAsync($"{nameof(Login)}");
+            await Shell.Current.GoToAsync("..");
         }
 
 
@@ -97,21 +97,24 @@ namespace GardenEinfach.ViewModels
 
         private async void CreateUserFirebaseAuth()
         {
-            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(WebApiKey));
+            //var authProvider = new FirebaseAuthProvider(new FirebaseConfig(WebApiKey));
 
-            var auth = await authProvider.CreateUserWithEmailAndPasswordAsync(Email, Password);
+            //var auth = await authProvider.CreateUserWithEmailAndPasswordAsync(Email, Password);
 
-            var token = auth.FirebaseToken;
+            //var token = auth.FirebaseToken;
+            string token = await userService.CreateUserFirebaseAuth(Email, Password);
             var SerializedContent = JsonConvert.SerializeObject(token);
             Preferences.Set("myFirebaseRefreshToken", SerializedContent);
             saveUserInfo(FirstName);
-            await Shell.Current.GoToAsync($"{nameof(Login)}");
+            RegisterUserRealtimeDatabase();
+            await App.Current.MainPage.DisplayAlert("Success", "Account created!", "ok");
+            await Shell.Current.GoToAsync("//HomePage");
             //NavigatoToPage("login", "MainTabbedPage", Email);
         }
 
         private async void RegisterUserRealtimeDatabase()
         {
-            MyUser myUser = new MyUser() { Email = Email, FirstName = FirstName, LastName = LastName, Password = Password };
+            MyUser myUser = new MyUser() { Email = Email, FirstName = FirstName, LastName = LastName };
             await userService.AddUser(myUser);
         }
 

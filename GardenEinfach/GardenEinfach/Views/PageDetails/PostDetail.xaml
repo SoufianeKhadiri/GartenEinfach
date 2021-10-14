@@ -21,17 +21,22 @@
             <!--Images Collection-->
             <pancake:PancakeView  CornerRadius="0,0,40,40" Padding="0"
                          IsClippedToBounds="True" HeightRequest="320" >
-                <CarouselView ItemsSource="{Binding Images}" IndicatorView="Indicator" >
-                    <CarouselView.ItemTemplate>
-                        <DataTemplate>
-                            <Image Source="{Binding}" Aspect="AspectFill"/>
-                        </DataTemplate>
-                    </CarouselView.ItemTemplate>
-                </CarouselView>
+                <Grid>
+                    <CarouselView ItemsSource="{Binding Images}" IsVisible="{Binding CarouselView}"  IndicatorView="Indicator" >
+                        <CarouselView.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding}" Aspect="AspectFill"/>
+                            </DataTemplate>
+                        </CarouselView.ItemTemplate>
+                    </CarouselView >
+                    <ffimageloading:CachedImage  Source="{Binding SImage}" Aspect="AspectFill" IsVisible="{Binding SingleImage}"/>
+
+                </Grid>
             </pancake:PancakeView>
-            <IndicatorView x:Name="Indicator" IndicatorColor="LightGray" Margin="0,10"
+            <IndicatorView x:Name="Indicator" IndicatorColor="LightGray" Margin="0,10" IsVisible="{Binding IndicatorView}" 
                            SelectedIndicatorColor="#5DBA63" HorizontalOptions="Center" VerticalOptions="EndAndExpand"/>
 
+            <!--BackButton-->
             <ffimageloadingsvg:SvgCachedImage  Margin="10" IsVisible="true" Source="back.svg"
                    BackgroundColor="transparent" WidthRequest="20" HeightRequest="20"
                 HorizontalOptions="Start" VerticalOptions="Start"

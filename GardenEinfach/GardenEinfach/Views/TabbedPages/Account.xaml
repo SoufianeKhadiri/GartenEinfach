@@ -26,14 +26,14 @@
             <Image Source="nature.jpg" Aspect="AspectFill" />
         </pancake:PancakeView>
         <!--profile image-->
-        <ffimageloading:CachedImage    Source="plant.jpg"  Grid.Row ="0" HeightRequest="100" VerticalOptions="EndAndExpand"
+        <ffimageloading:CachedImage    Source="man"  Grid.Row ="0" HeightRequest="100" VerticalOptions="EndAndExpand"
                                                   Margin="0,0,0,-40">
             <ffimageloading:CachedImage.Transformations>
                 <fftransformations:RoundedTransformation Radius="240"/>
             </ffimageloading:CachedImage.Transformations>
         </ffimageloading:CachedImage>
         <!--Profile Name-->
-        <Label Text="{Binding UserName}" x:Name="firstName" Grid.Row="1" HorizontalOptions="Center" FontSize="22" FontAttributes="Bold" Margin="0,30,0,0"/>
+        <Label Text="{Binding UserName}" x:Name="firstName" Grid.Row="1" HorizontalOptions="Center" FontSize="22" FontAttributes="Bold" Margin="0,40,0,0"/>
         <!--Separator-->
         <BoxView  Grid.Row="3" Style="{StaticResource Separator}" />
         <!--myPosts-->
