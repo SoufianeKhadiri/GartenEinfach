@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -16,15 +17,19 @@ namespace GardenEinfach.ViewModels
     public class RegisterViewModel : BaseViewModel
     {
 
-        public string WebApiKey = "AIzaSyD_rzOMR_cTLm9JYCo1WylNJqXOc56rTvI";
-
+        #region Props
         private string _Email;
         public string Email
         {
             get { return _Email; }
             set { SetProperty(ref _Email, value); }
         }
-
+        private ObservableCollection<MyUser> _Emails;
+        public ObservableCollection<MyUser> Emails
+        {
+            get { return _Emails; }
+            set { SetProperty(ref _Emails, value); }
+        }
 
         private string _Password;
         public string Password
@@ -49,7 +54,62 @@ namespace GardenEinfach.ViewModels
             set { SetProperty(ref _LastName, value); }
         }
 
+        private string _Adress;
+        public string Adress
+        {
+            get { return _Adress; }
+            set { SetProperty(ref _Adress, value); }
+        }
 
+
+        private string _Phone;
+        public string Phone
+        {
+            get { return _Phone; }
+            set { SetProperty(ref _Phone, value); }
+        }
+
+
+        private string _HouseNumber;
+        public string HouseNumber
+        {
+            get { return _HouseNumber; }
+            set { SetProperty(ref _HouseNumber, value); }
+        }
+
+
+        private string _Street;
+        public string Street
+        {
+            get { return _Street; }
+            set { SetProperty(ref _Street, value); }
+        }
+
+        private string _City;
+        public string City
+        {
+            get { return _City; }
+            set { SetProperty(ref _City, value); }
+        }
+
+
+        private List<string> _GenderList;
+        public List<string> GenderList
+        {
+            get { return _GenderList; }
+            set { SetProperty(ref _GenderList, value); }
+        }
+
+        private string _Gender;
+        public string Gender
+        {
+            get { return _Gender; }
+            set { SetProperty(ref _Gender, value); }
+        }
+
+        #endregion
+
+        #region Commands
         private DelegateCommand _Login;
         public DelegateCommand LoginC =>
         _Login ?? (_Login = new DelegateCommand(CommandMthode));
@@ -62,60 +122,103 @@ namespace GardenEinfach.ViewModels
 
 
         private DelegateCommand _Register;
-        public DelegateCommand Register =>
+        public DelegateCommand RegisterC =>
         _Register ?? (_Register = new DelegateCommand(RegisterM));
 
-        async void RegisterM()
+        #endregion
+
+        //ctor
+        public RegisterViewModel()
         {
-            Emails = userService.getUsers();
-            if (Emails.Count() <= 0)
-            {
-                CreateUserFirebaseAuth();
-                RegisterUserRealtimeDatabase();
-            }
 
-            foreach (var item in Emails)
-            {
-                if (Email == item.Email)
-                {
-                    await App.Current.MainPage.DisplayAlert("Alert", "Email already exist", "ok");
-                    break;
-                }
-                else
-                {
-                    CreateUserFirebaseAuth();
-                    RegisterUserRealtimeDatabase();
-                    break;
-
-                }
-            }
-
-
-
+            Emails = new ObservableCollection<MyUser>();
+            GenderList = new List<string>();
+            GenderList.Add("Male");
+            GenderList.Add("Female");
+            GenderList.Add("Other");
 
         }
 
-        private async void CreateUserFirebaseAuth()
+        async void RegisterM()
         {
-            //var authProvider = new FirebaseAuthProvider(new FirebaseConfig(WebApiKey));
+            string token;
 
-            //var auth = await authProvider.CreateUserWithEmailAndPasswordAsync(Email, Password);
+            try
+            {
+                token = await userService.CreateUserFirebaseAuth(Email, Password);
+                var SerializedContent = JsonConvert.SerializeObject(token);
+                Preferences.Set("myFirebaseRefreshToken", SerializedContent);
+                RegisterUserRealtimeDatabase();
+                await App.Current.MainPage.DisplayAlert("Success", "Account created!", "ok");
+                await Shell.Current.GoToAsync("//HomePage");
 
-            //var token = auth.FirebaseToken;
-            string token = await userService.CreateUserFirebaseAuth(Email, Password);
-            var SerializedContent = JsonConvert.SerializeObject(token);
-            Preferences.Set("myFirebaseRefreshToken", SerializedContent);
-            saveUserInfo(FirstName);
-            RegisterUserRealtimeDatabase();
-            await App.Current.MainPage.DisplayAlert("Success", "Account created!", "ok");
-            await Shell.Current.GoToAsync("//HomePage");
+                emptyForm();
+            }
+            catch (FirebaseAuthException ex)
+            {
+                string message = "";
+                if (ex.Reason == AuthErrorReason.InvalidEmailAddress)
+                {
+                    message = "Invalid email adress, please try again!";
+                }
+                else if (ex.Reason == AuthErrorReason.EmailExists)
+                {
+                    message = "Email already exisit, please try again!";
+                }
+                else
+                {
+                    message = ex.Reason.ToString();
+                }
+                await App.Current.MainPage.DisplayAlert("Alert", message, "ok");
+            }
+
+        }
+
+        private void emptyForm()
+        {
+            FirstName = LastName = Phone = HouseNumber = Street = City =
+            Email = Password = Gender;
+
+        }
+
+        async void CreateUserFirebaseAuth()
+        {
+
+            //var SerializedContent = JsonConvert.SerializeObject(token);
+            //Preferences.Set("myFirebaseRefreshToken", SerializedContent);
+            //saveUserInfo(FirstName);
+            //RegisterUserRealtimeDatabase();
+            //await App.Current.MainPage.DisplayAlert("Success", "Account created!", "ok");
+            //await Shell.Current.GoToAsync("//HomePage");
             //NavigatoToPage("login", "MainTabbedPage", Email);
         }
 
         private async void RegisterUserRealtimeDatabase()
         {
-            MyUser myUser = new MyUser() { Email = Email, FirstName = FirstName, LastName = LastName };
-            await userService.AddUser(myUser);
+
+            MyUser user = new MyUser()
+            {
+                FirstName = FirstName,
+                LastName = LastName,
+                Email = Email,
+                Phone = Phone,
+                adress = new Adress() { City = City, HouseNumber = HouseNumber, Street = Street },
+                Gender = Gender
+            };
+            await userService.AddUser(user);
+
+            MessagingCenter.Send(this, "Usr", user);
+
+            Preferences.Set("FirstName", user.FirstName);
+            Preferences.Set("Email", user.Email);
+            Preferences.Set("Phone", user.Phone);
+            Preferences.Set("Adress", user.adress.Street + user.adress.HouseNumber + user.adress.City);
+            Preferences.Set("Gender", user.Gender);
+            Preferences.Set("Street", user.adress.Street);
+            Preferences.Set("City", user.adress.City);
+            Preferences.Set("HouseNumber", user.adress.HouseNumber);
+
+
         }
 
         private void saveUserInfo(string UserName)
@@ -123,30 +226,6 @@ namespace GardenEinfach.ViewModels
             Preferences.Set("Username", UserName);
         }
 
-        //private async void NavigatoToPage<T>(string titel, string page, T data)
-        //{
-        //    //var navigationParams = new NavigationParameters
-        //    //{
-        //    //     { titel, data }
-        //    //};
 
-        //    await _nav.NavigateAsync(page, navigationParams);
-        //}
-        //ctor
-        //PostService postService;
-
-        private ObservableCollection<MyUser> _Emails;
-        public ObservableCollection<MyUser> Emails
-        {
-            get { return _Emails; }
-            set { SetProperty(ref _Emails, value); }
-        }
-        public RegisterViewModel()
-        {
-            //_nav = navigationService;
-            //postService = new PostService();
-            Emails = new ObservableCollection<MyUser>();
-
-        }
     }
 }

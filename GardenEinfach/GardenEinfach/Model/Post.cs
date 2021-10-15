@@ -11,7 +11,7 @@ namespace GardenEinfach.Model
 
         public List<string> Images { get; set; }
         public string Titel { get; set; }
-        public string Location { get; set; }
+        public Adress Location { get; set; }
 
         public int Price { get; set; }
 

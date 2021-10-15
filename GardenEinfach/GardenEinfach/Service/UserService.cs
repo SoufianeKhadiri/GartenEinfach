@@ -31,23 +31,56 @@ namespace GardenEinfach.Service
                .Child("Users")
                .OnceAsync<MyUser>()).Select(item => new MyUser
                {
+                   FirstName = item.Object.FirstName,
+                   LastName = item.Object.LastName,
                    Email = item.Object.Email,
-                   FirstName = item.Object.FirstName
+                   adress = item.Object.adress,
+                   Phone = item.Object.Phone,
+                   Gender = item.Object.Gender,
+                   Key = item.Key
 
                }).ToList();
         }
-
-        public MyUser GetUserInfo(List<MyUser> users, string email)
+        public async Task<MyUser> GetUsr(string email)
         {
-            MyUser myUser = new MyUser();
+            var users = await GetAllUsers();
 
-            var user = users.Where(x => x.Email == email);
-            foreach (var item in user)
-            {
-                myUser = item;
-            }
-            return myUser;
+            await client
+             .Child("Users")
+             .OnceAsync<MyUser>();
+
+            return users.Where(u => u.Email == email).FirstOrDefault();
+            //.Child("Users").Child("Email").EqualTo(email)
+            //.OnceAsync<MyUser>());
         }
+
+
+        //public MyUser GetUserInfo(List<MyUser> users, string email)
+        //{
+        //    //MyUser myUser = new MyUser();
+
+        //    //var user = users.Where(x => x.Email == email);
+        //    //foreach (var item in user)
+        //    //{
+        //    //    myUser = item;
+        //    //}
+        //    //return myUser;
+        //}
+        //public async Task<List<MyUser>> getUsersInfo()
+        //{
+        //    return (await client
+        //      .Child("Users")
+        //      .OnceAsync<MyUser>()).Select(item => new MyUser
+        //      {
+        //          FirstName = item.Object.FirstName,
+        //          LastName = item.Object.LastName,
+        //          Email = item.Object.Email,
+        //          adress = item.Object.adress,
+        //          Phone = item.Object.Phone,
+        //          Key = item.Key
+
+        //      }).ToList();
+        //}
 
         public async Task AddUser(MyUser user)
         {

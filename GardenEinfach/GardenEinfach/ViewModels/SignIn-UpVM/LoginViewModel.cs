@@ -7,6 +7,7 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -42,6 +43,12 @@ namespace GardenEinfach.ViewModels
         }
 
 
+        private bool _RememberMe;
+        public bool RememberMe
+        {
+            get { return _RememberMe; }
+            set { SetProperty(ref _RememberMe, value); }
+        }
 
         private DelegateCommand _LoginCommand;
         public DelegateCommand LoginCommand =>
@@ -57,7 +64,12 @@ namespace GardenEinfach.ViewModels
                 var auth = await authProvider.SignInWithEmailAndPasswordAsync(Email, Password);
                 var token = auth.GetFreshAuthAsync();
                 var SerializedContent = JsonConvert.SerializeObject(token);
-                Preferences.Set("myFirebaseRefreshToken", SerializedContent);
+
+                if (RememberMe == true)
+                {
+                    Preferences.Set("myFirebaseRefreshToken", SerializedContent);
+                }
+
                 getUserInfo();
 
                 await Shell.Current.GoToAsync("//HomePage");
@@ -75,10 +87,22 @@ namespace GardenEinfach.ViewModels
 
         async void getUserInfo()
         {
-            var users = await userService.GetAllUsers();
-            var userInfo = userService.GetUserInfo(users, Email);
-            Preferences.Set("UserName", userInfo.FirstName);
 
+            var user = await userService.GetUsr(Email);
+
+
+            MessagingCenter.Send(this, "UsrLogin", user);
+
+            Preferences.Set("FirstName", user.FirstName);
+            Preferences.Set("Email", user.Email);
+            Preferences.Set("Phone", user.Phone);
+            Preferences.Set("Adress", user.adress.Street + user.adress.HouseNumber + user.adress.City);
+            Preferences.Set("Gender", user.Gender);
+            Preferences.Set("Street", user.adress.Street);
+            Preferences.Set("City", user.adress.City);
+            Preferences.Set("HouseNumber", user.adress.HouseNumber);
+
+            string s = Preferences.Get("Street", "");
         }
 
         private void saveUserInfo(string UserName)

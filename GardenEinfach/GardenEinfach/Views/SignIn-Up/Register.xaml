@@ -13,13 +13,14 @@
         <Image Source="login.png" Aspect="AspectFill" />
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition Height="2.7*"/>
-                <RowDefinition Height="2.7*"/>
+                <RowDefinition Height="80"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="40"/>
             </Grid.RowDefinitions>
-            <Frame Grid.Row="1" Grid.RowSpan="2" Margin="20" HeightRequest="600" CornerRadius="20" VerticalOptions="EndAndExpand" >
+            <Label Text="Create new account" FontSize="28"  TextColor="WhiteSmoke" HorizontalOptions="Center" VerticalOptions="Center"/>
+            <Frame Grid.Row="1"  Margin="20,0"  CornerRadius="20" HeightRequest="400" >
 
-                <Grid Margin="10">
+                <Grid Margin="5">
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                         <RowDefinition/>
@@ -39,18 +40,20 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <!--FirstName-->
-                        <Entry Placeholder="Firstname" Text="{Binding FirstName}" HorizontalTextAlignment="Center"/>
+                        <Entry Placeholder="Firstname" Text="{Binding FirstName}" HorizontalTextAlignment="Start"/>
                         <!--LastName-->
-                        <Entry Grid.Column="1" Placeholder="LastName" Text="{Binding LastName}" HorizontalTextAlignment="Center"/>
+                        <Entry Grid.Column="1" Placeholder="LastName" Text="{Binding LastName}" HorizontalTextAlignment="Start"/>
                     </Grid>
                     <!--GenderList-->
-                    <Picker Grid.Row="1" ItemsSource="{Binding GenderList}" />
+                    <Picker Grid.Row="1" Title="Gender" TitleColor="Gray" ItemsSource="{Binding GenderList}" SelectedItem="{Binding Gender}" />
+
+
                     <!--Email-->
-                    <Entry Grid.Row="2" Placeholder="Email"/>
+                    <Entry Grid.Row="2" Placeholder="Email" Text="{Binding Email}"/>
                     <!--Password-->
-                    <Entry Grid.Row="3" Placeholder="Password"/>
+                    <Entry Grid.Row="3" Placeholder="Password" IsPassword="True" Text="{Binding Password}"/>
                     <!--Phone-->
-                    <Entry Grid.Row="4" Placeholder="Phone"/>
+                    <Entry Grid.Row="4" Placeholder="Phone" Text="{Binding Phone}" />
                     <!--Adress-->
                     <Grid Grid.Row="5">
                         <Grid.ColumnDefinitions>
@@ -58,8 +61,8 @@
                             <ColumnDefinition Width="0.5*"/>
 
                         </Grid.ColumnDefinitions>
-                        <Entry Placeholder="Street"/>
-                        <Entry Grid.Column="1" Placeholder="House#" />
+                        <Entry Placeholder="Street" Text="{Binding Street}"/>
+                        <Entry Grid.Column="1" Placeholder="House#" Text="{Binding HouseNumber}" />
 
                     </Grid>
                     <Grid Grid.Row="6">
@@ -67,17 +70,20 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <Entry Placeholder="City"/>
+                        <Entry Placeholder="City" Text="{Binding City}"/>
                     </Grid>
-                    <Button Text="Register" CornerRadius="20" Grid.Row="7" Margin="50,45" HeightRequest="50" />
-                    <StackLayout Orientation="Horizontal" Grid.Row="3" HorizontalOptions="Center">
-                        <Label Text="already Registred?" TextColor="White"/>
-                        <Button Text="Log in" BackgroundColor="Transparent" TextColor="LightBlue" VerticalOptions="StartAndExpand" 
-                      Margin="-10,-14,0,0" Command="{Binding LoginC}"/>
-                    </StackLayout>
+                    <Button Text="Register" CornerRadius="20" Grid.Row="7" Margin="30,15,30,-15" 
+                            Command="{Binding RegisterC}" HeightRequest="50" />
+
 
                 </Grid>
             </Frame>
+            <StackLayout Orientation="Horizontal" Grid.Row="2" HorizontalOptions="Center">
+                <Label Text="already Registred?" TextColor="White"/>
+                <Button Text="Login" BackgroundColor="Transparent" TextColor="LightBlue" VerticalOptions="StartAndExpand" 
+                      Margin="-10,-14,0,0" Command="{Binding LoginC}"/>
+            </StackLayout>
+
         </Grid>
 
     </Grid>

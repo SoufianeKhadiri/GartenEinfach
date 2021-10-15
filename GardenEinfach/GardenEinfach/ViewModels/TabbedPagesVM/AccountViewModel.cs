@@ -1,4 +1,5 @@
 ﻿
+using GardenEinfach.Model;
 using GardenEinfach.Views.PageDetails;
 using Prism.Commands;
 using System;
@@ -12,6 +13,13 @@ namespace GardenEinfach.ViewModels
     public class AccountViewModel : BaseViewModel
     {
 
+        private string _Email;
+        public string Email
+        {
+            get { return _Email; }
+            set { SetProperty(ref _Email, value); }
+        }
+
         private string _UserName;
         public string UserName
         {
@@ -21,7 +29,18 @@ namespace GardenEinfach.ViewModels
 
         public AccountViewModel()
         {
-            UserName = Preferences.Get("Username", "");
+            UserName = Preferences.Get("FirstName", "");
+            MessagingCenter.Subscribe<RegisterViewModel, MyUser>(this, "Usr", (vm, user) =>
+                {
+                    UserName = user.FirstName;
+
+                });
+            MessagingCenter.Subscribe<LoginViewModel, MyUser>(this, "UsrLogin", (vm, user) =>
+            {
+                UserName = user.FirstName;
+
+            });
+
         }
         #region Commands
         private DelegateCommand _GoToMyPosts;
@@ -44,6 +63,15 @@ namespace GardenEinfach.ViewModels
             await Shell.Current.GoToAsync("//Login");
         }
 
+
+        private DelegateCommand _ProfileSettingC;
+        public DelegateCommand ProfileSettingC =>
+        _ProfileSettingC ?? (_ProfileSettingC = new DelegateCommand(ProfileSettingM));
+
+        async void ProfileSettingM()
+        {
+            await Shell.Current.GoToAsync("ProfileSetting");
+        }
 
 
         #endregion

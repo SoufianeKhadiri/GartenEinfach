@@ -9,31 +9,44 @@
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"  
 >
     <Grid>
-
         <Grid.RowDefinitions>
-            <RowDefinition />
-            <RowDefinition  />
-            <RowDefinition />
+            <RowDefinition/>
             <RowDefinition />
         </Grid.RowDefinitions>
+        <Image Source="login.png" Aspect="AspectFill" Grid.RowSpan="2"/>
+        <Grid Grid.Row="1">
 
-        <Image Source="login.png" Aspect="AspectFill" Grid.RowSpan="4"/>
-        <!--Email-->
-        <Frame CornerRadius="5" Padding="0" Grid.Row="1" VerticalOptions= "Center" Margin="50,0">
-            <CustomEntry:BorderlessEntry  Placeholder="Email" PlaceholderColor="#bababa" FontSize="16" 
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition  />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+
+            <!--Email-->
+            <Frame CornerRadius="5" Padding="0" Grid.Row="0" VerticalOptions= "Center" Margin="50,0">
+                <CustomEntry:BorderlessEntry  Placeholder="Email" PlaceholderColor="#bababa" FontSize="16" 
                                               HorizontalOptions="FillAndExpand" Text="{Binding Email}"/>
-        </Frame>
-        <!--Password-->
-        <Frame CornerRadius="5" Padding="0" Grid.Row="1" VerticalOptions= "EndAndExpand" Margin="50,0">
-            <CustomEntry:BorderlessEntry  Placeholder="Password" PlaceholderColor="#bababa" FontSize="16" 
+            </Frame>
+            <!--Password-->
+            <Frame CornerRadius="5" Padding="0" Grid.Row="1" VerticalOptions= "EndAndExpand" Margin="50,0">
+                <CustomEntry:BorderlessEntry  Placeholder="Password" PlaceholderColor="#bababa" FontSize="16" 
                                               HorizontalOptions="FillAndExpand" Text="{Binding Password}"/>
-        </Frame>
+            </Frame>
 
-        <Button Text="Login" CornerRadius="20" Grid.Row="2" Margin="50,45" HeightRequest="50" Command="{Binding LoginCommand}"/>
-        <StackLayout Orientation="Horizontal" Grid.Row="3" HorizontalOptions="Center">
-            <Label Text="Dont't have an account?" TextColor="White"/>
-            <Button Text="sign up" BackgroundColor="Transparent" TextColor="#5DBA63" VerticalOptions="StartAndExpand" 
+
+            <Label Text="Remember me ?"  Grid.Row="2" Margin="50,14,0,0" TextColor="White" FontSize="16" />
+            <Switch IsToggled="{Binding RememberMe}"  Grid.Row="2" Margin="0,0,50,0" HorizontalOptions="EndAndExpand"/>
+
+
+            <Button Text="Login" CornerRadius="20" Grid.Row="3" Margin="50,0" HeightRequest="50" Command="{Binding LoginCommand}"/>
+            <StackLayout Orientation="Horizontal" Grid.Row="4" HorizontalOptions="Center" VerticalOptions="EndAndExpand">
+                <Label Text="Dont't have an account?" TextColor="White"/>
+                <Button Text="sign up" BackgroundColor="Transparent" TextColor="#5DBA63" VerticalOptions="StartAndExpand" 
                       Margin="-10,-14,0,0" Command="{Binding RegisterC}"/>
-        </StackLayout>
+            </StackLayout>
+        </Grid>
     </Grid>
 </ContentPage>

@@ -20,6 +20,22 @@ namespace GardenEinfach.ViewModels
 
         #region Post Props
 
+
+        private string _Phone;
+        public string Phone
+        {
+            get { return _Phone; }
+            set { SetProperty(ref _Phone, value); }
+        }
+
+
+        private string _Adress;
+        public string Adress
+        {
+            get { return _Adress; }
+            set { SetProperty(ref _Adress, value); }
+        }
+
         private string _Titel;
         public string Titel
         {
@@ -77,13 +93,15 @@ namespace GardenEinfach.ViewModels
         }
 
         PostService postService;
-        //ctor
+
         public static DelegateCommand FotoFromCamera { get; set; }
         public static DelegateCommand FotoFromGallery { get; set; }
 
         public static DelegateCommand CleanForm { get; set; }
+        //ctor
         public AddPostViewModel()
         {
+            GetCurrentUserInfo();
 
             Images = new ObservableCollection<MyImage>();
             ImgSource = "addImage.svg";
@@ -95,9 +113,31 @@ namespace GardenEinfach.ViewModels
             FotoFromGallery = new DelegateCommand(TakeFotoFromGalery);
             CleanForm = new DelegateCommand(EmptyForm);
             Loading = false;
+
+            MessagingSub();
+
+
         }
 
+        private void GetCurrentUserInfo()
+        {
+            var user = GetUserPreferences();
+            Adress = user.FullyAdress;
+            Phone = user.Phone;
+        }
 
+        private void MessagingSub()
+        {
+            MessagingCenter.Subscribe<LoginViewModel, MyUser>(this, "UsrLogin", (vm, user) =>
+            {
+                if (user != null)
+                {
+                    Adress = user.adress.Street + " " + user.adress.HouseNumber + " " + user.adress.City;
+                    Phone = user.Phone;
+                }
+
+            });
+        }
 
         private void InitPicker()
         {

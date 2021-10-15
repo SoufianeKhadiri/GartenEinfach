@@ -49,7 +49,7 @@
                                     <VisualStateGroup Name="CommonStates">
                                         <VisualState Name="Selected">
                                             <VisualState.Setters>
-                                                <Setter Property="BackgroundColor" Value="White" />
+                                                <!--<Setter Property="BackgroundColor" Value="White" />-->
                                             </VisualState.Setters>
                                         </VisualState>
                                     </VisualStateGroup>
@@ -100,22 +100,23 @@
                                               Title="Category"  ItemsSource="{Binding Categories}" SelectedItem="{Binding Category}"  />
             </Frame>
             <!--Profil info-->
-            <!--<Frame CornerRadius="5" Padding="0,0,0,5" Grid.Row="6" Margin="10,0,10,0" HeightRequest="80">
+            <Frame CornerRadius="5" Padding="0,0,0,5" Grid.Row="6" Margin="10,0,10,0" >
                 <StackLayout>
                     <StackLayout Orientation="Horizontal">
-                        <Label Text="Adress:" FontSize="16" Margin="10"/>
-                        <CustomEntry:BorderlessEntry  Placeholder="Adress"  PlaceholderColor="#bababa" FontSize="16" 
+                        <Label Text="Adress" FontSize="16" Margin="10" TextColor="Gray"/>
+                        <Label  Text="{Binding Adress}" FontSize="16" Margin="5,10,0,0"
                                               HorizontalOptions="FillAndExpand"  />
                     </StackLayout>
 
                     <StackLayout Orientation="Horizontal">
-                        <Label Text="Name:" FontSize="16" Margin="10"/>
-                        <CustomEntry:BorderlessEntry Margin="5,0,0,0" Placeholder="Name"  PlaceholderColor="#bababa" FontSize="16" 
+                        <Label Text="Phone" FontSize="16" Margin="10"/>
+                        <Label  Text="{Binding Phone}"   FontSize="16"  Margin="10,10,0,0"
                                               HorizontalOptions="FillAndExpand"  />
+                        <Button BackgroundColor="Transparent" Text="Edit" TextColor="Green" Margin="0,0,0,0"/>
                     </StackLayout>
                 </StackLayout>
 
-            </Frame>-->
+            </Frame>
             <!--Post btn-->
             <Button Grid.Row="7" Command="{Binding AddPost}" CornerRadius="20" Margin="10" Text="Post" Background="white"  BorderColor="#5DBA63" TextColor="#5DBA63" BorderWidth="1"/>
 

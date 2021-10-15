@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace GardenEinfach.ViewModels
@@ -15,6 +15,25 @@ namespace GardenEinfach.ViewModels
         //public IDataStore<Post> DataStore => DependencyService.Get<IDataStore<Post>>();
         public IDataStore<Post> dataStore;
         public IUserService userService;
+        public MyUser GetUserPreferences()
+        {
+            MyUser usr = new MyUser();
+            Adress adress = new Adress();
+
+            adress.Street = Preferences.Get("Street", "");
+            adress.City = Preferences.Get("City", "");
+            adress.HouseNumber = Preferences.Get("HouseNumber", "");
+
+            usr.FirstName = Preferences.Get("FirstName", "");
+            usr.LastName = Preferences.Get("LastName", "");
+            usr.Email = Preferences.Get("Email", "");
+            usr.Phone = Preferences.Get("Phone", "");
+            usr.FullyAdress = Preferences.Get("Adress", "");
+            usr.Gender = Preferences.Get("Gender", "");
+            usr.adress = adress;
+
+            return usr;
+        }
         public BaseViewModel()
         {
             dataStore = new MockDataStore();
