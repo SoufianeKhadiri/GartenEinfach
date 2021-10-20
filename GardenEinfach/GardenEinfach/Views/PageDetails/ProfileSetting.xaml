@@ -7,57 +7,71 @@
              xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:Class="GardenEinfach.Views.PageDetails.ProfileSetting">
-    <Grid VerticalOptions="Center" Margin="0,50,0,30">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
 
-        </Grid.RowDefinitions>
+    <Grid>
 
-        <!--First/lastName-->
-        <StackLayout Orientation="Horizontal" Grid.Row="0" Margin="10,10,10,0">
-            <Frame CornerRadius="5" Padding="0">
-                <CustomEntry:BorderlessEntry Grid.Row="1" Placeholder="Firstname" PlaceholderColor="#bababa" FontSize="16" 
+
+        <Grid VerticalOptions="StartAndExpand"  Margin="30">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <ffimageloading:CachedImage Source="{Binding UserImage}" HeightRequest="100" WidthRequest="100" 
+                                        HorizontalOptions="Start" />
+
+        </Grid>
+        <Grid VerticalOptions="EndAndExpand" Margin="0,0,0,30">
+            <Grid.RowDefinitions>
+
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+
+            </Grid.RowDefinitions>
+
+            <!--First/lastName-->
+            <StackLayout Orientation="Horizontal" Grid.Row="0" Margin="10,10,10,0">
+                <Frame CornerRadius="5" Padding="0">
+                    <CustomEntry:BorderlessEntry Grid.Row="1" Placeholder="Firstname" PlaceholderColor="#bababa" FontSize="16" 
                                                  WidthRequest="150" Text="{Binding FirstName}"/>
-            </Frame>
-            <Frame CornerRadius="5" Padding="0" Margin="30,0,0,0">
-                <CustomEntry:BorderlessEntry Grid.Row="1" Placeholder="Lastname" PlaceholderColor="#bababa" FontSize="16" 
+                </Frame>
+                <Frame CornerRadius="5" Padding="0" Margin="30,0,0,0">
+                    <CustomEntry:BorderlessEntry Grid.Row="1" Placeholder="Lastname" PlaceholderColor="#bababa" FontSize="16" 
                                                  WidthRequest="150" Text="{Binding LastName}"/>
+                </Frame>
+
+            </StackLayout>
+            <!--Email-->
+            <Frame CornerRadius="5" Padding="0" Grid.Row="1" Margin="10,5,10,0">
+                <CustomEntry:BorderlessEntry  Placeholder="Email" PlaceholderColor="#bababa" FontSize="16" 
+                                              HorizontalOptions="FillAndExpand" Text="{Binding Email}"/>
+            </Frame>
+            <!--Phone-->
+            <Frame CornerRadius="5" Padding="0" Grid.Row="2" Margin="10,5,10,0">
+                <CustomEntry:BorderlessEntry  Placeholder="Phone" PlaceholderColor="#bababa" FontSize="16" 
+                                              HorizontalOptions="FillAndExpand" Text="{Binding Phone}"/>
             </Frame>
 
-        </StackLayout>
-        <!--Email-->
-        <Frame CornerRadius="5" Padding="0" Grid.Row="1" Margin="10,5,10,0">
-            <CustomEntry:BorderlessEntry  Placeholder="Email" PlaceholderColor="#bababa" FontSize="16" 
-                                              HorizontalOptions="FillAndExpand" Text="{Binding Email}"/>
-        </Frame>
-        <!--Phone-->
-        <Frame CornerRadius="5" Padding="0" Grid.Row="2" Margin="10,5,10,0">
-            <CustomEntry:BorderlessEntry  Placeholder="Phone" PlaceholderColor="#bababa" FontSize="16" 
-                                              HorizontalOptions="FillAndExpand" Text="{Binding Phone}"/>
-        </Frame>
 
-
-        <!--Adress-->
-        <Frame CornerRadius="5" Padding="0,0,0,5" Grid.Row="3" Margin="10,10,10,0" >
-            <StackLayout>
-                <StackLayout Orientation="Horizontal">
-                    <CustomEntry:BorderlessEntry  Placeholder="Street" PlaceholderColor="#bababa" FontSize="16" 
+            <!--Adress-->
+            <Frame CornerRadius="5" Padding="0,0,0,5" Grid.Row="3" Margin="10,10,10,0" >
+                <StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <CustomEntry:BorderlessEntry  Placeholder="Street" PlaceholderColor="#bababa" FontSize="16" 
                                               HorizontalOptions="FillAndExpand" Text="{Binding Street}"/>
-                    <CustomEntry:BorderlessEntry WidthRequest="120" Placeholder="House number" PlaceholderColor="#bababa" FontSize="16" 
+                        <CustomEntry:BorderlessEntry WidthRequest="120" Placeholder="House number" PlaceholderColor="#bababa" FontSize="16" 
                                               HorizontalOptions="EndAndExpand" Text="{Binding HouseNumber}"/>
-                </StackLayout>
+                    </StackLayout>
 
-                <StackLayout Orientation="Horizontal">
-                    <CustomEntry:BorderlessEntry  Placeholder="City" PlaceholderColor="#bababa" FontSize="16" 
+                    <StackLayout Orientation="Horizontal">
+                        <CustomEntry:BorderlessEntry  Placeholder="City" PlaceholderColor="#bababa" FontSize="16" 
                                               HorizontalOptions="FillAndExpand" Text="{Binding City}"/>
 
+                    </StackLayout>
                 </StackLayout>
-            </StackLayout>
 
-        </Frame>
-
+            </Frame>
+        </Grid>
     </Grid>
 </ContentPage>

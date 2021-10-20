@@ -25,7 +25,8 @@
 
             </ffimageloadingsvg:SvgCachedImage>
 
-            <ffimageloading:CachedImage   VerticalOptions="Center" Margin="0,0,10,0" Source="man"
+            <!--ProfileFoto-->
+            <ffimageloading:CachedImage   VerticalOptions="Center" Margin="0,0,10,0" Source="{Binding UserImage}"
                                                   HeightRequest="40" WidthRequest="40" HorizontalOptions="EndAndExpand">
                 <ffimageloading:CachedImage.Transformations>
                     <fftransformations:RoundedTransformation Radius="240"/>

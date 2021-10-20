@@ -17,11 +17,11 @@ namespace GardenEinfach.ViewModels
     {
 
 
-        private string _Email;
-        public string Email
+        private string _EmailInput;
+        public string EmailInput
         {
-            get { return _Email; }
-            set { SetProperty(ref _Email, value); }
+            get { return _EmailInput; }
+            set { SetProperty(ref _EmailInput, value); }
         }
 
 
@@ -61,7 +61,7 @@ namespace GardenEinfach.ViewModels
 
 
                 var authProvider = new FirebaseAuthProvider(new FirebaseConfig(WebApiKey));
-                var auth = await authProvider.SignInWithEmailAndPasswordAsync(Email, Password);
+                var auth = await authProvider.SignInWithEmailAndPasswordAsync(EmailInput, Password);
                 var token = auth.GetFreshAuthAsync();
                 var SerializedContent = JsonConvert.SerializeObject(token);
 
@@ -70,13 +70,10 @@ namespace GardenEinfach.ViewModels
                     Preferences.Set("myFirebaseRefreshToken", SerializedContent);
                 }
 
-                getUserInfo();
+                SetUserInfo();
 
-                await Shell.Current.GoToAsync("//HomePage");
-                //NavigatoToPage("login", "MainTabbedPage", Email);
+                await Shell.Current.GoToAsync("//HomePage/Home");
 
-
-                //await App.Current.MainPage.DisplayAlert("Alert", gettoken, "ok");
             }
             catch (Exception)
             {
@@ -85,15 +82,16 @@ namespace GardenEinfach.ViewModels
             }
         }
 
-        async void getUserInfo()
+        async void SetUserInfo()
         {
 
-            var user = await userService.GetUsr(Email);
+            var user = await userService.GetUsr(EmailInput);
 
 
             MessagingCenter.Send(this, "UsrLogin", user);
 
             Preferences.Set("FirstName", user.FirstName);
+            Preferences.Set("LastName", user.LastName);
             Preferences.Set("Email", user.Email);
             Preferences.Set("Phone", user.Phone);
             Preferences.Set("Adress", user.adress.Street + user.adress.HouseNumber + user.adress.City);
@@ -101,14 +99,12 @@ namespace GardenEinfach.ViewModels
             Preferences.Set("Street", user.adress.Street);
             Preferences.Set("City", user.adress.City);
             Preferences.Set("HouseNumber", user.adress.HouseNumber);
+            Preferences.Set("UserImage", user.Image);
 
-            string s = Preferences.Get("Street", "");
+
         }
 
-        private void saveUserInfo(string UserName)
-        {
-            Preferences.Set("Username", UserName);
-        }
+
 
         private DelegateCommand _Register;
         public DelegateCommand RegisterC =>

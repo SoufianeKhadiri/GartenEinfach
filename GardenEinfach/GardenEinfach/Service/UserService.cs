@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,7 +38,9 @@ namespace GardenEinfach.Service
                    adress = item.Object.adress,
                    Phone = item.Object.Phone,
                    Gender = item.Object.Gender,
-                   Key = item.Key
+                   Key = item.Key,
+                   Image = item.Object.Image,
+
 
                }).ToList();
         }
@@ -50,42 +53,29 @@ namespace GardenEinfach.Service
              .OnceAsync<MyUser>();
 
             return users.Where(u => u.Email == email).FirstOrDefault();
-            //.Child("Users").Child("Email").EqualTo(email)
-            //.OnceAsync<MyUser>());
+
         }
 
-
-        //public MyUser GetUserInfo(List<MyUser> users, string email)
-        //{
-        //    //MyUser myUser = new MyUser();
-
-        //    //var user = users.Where(x => x.Email == email);
-        //    //foreach (var item in user)
-        //    //{
-        //    //    myUser = item;
-        //    //}
-        //    //return myUser;
-        //}
-        //public async Task<List<MyUser>> getUsersInfo()
-        //{
-        //    return (await client
-        //      .Child("Users")
-        //      .OnceAsync<MyUser>()).Select(item => new MyUser
-        //      {
-        //          FirstName = item.Object.FirstName,
-        //          LastName = item.Object.LastName,
-        //          Email = item.Object.Email,
-        //          adress = item.Object.adress,
-        //          Phone = item.Object.Phone,
-        //          Key = item.Key
-
-        //      }).ToList();
-        //}
 
         public async Task AddUser(MyUser user)
         {
 
             await client.Child("Users").PostAsync(user);
+
+        }
+
+        public async Task UpdateUserFoto(string email, string imageUrl, MyUser user)
+        {
+
+
+            var toUpdateUser = (await client
+                .Child("Users")
+                .OnceAsync<MyUser>()).Where(a => a.Object.Email == email).FirstOrDefault();
+
+            await client
+             .Child("Users")
+             .Child(toUpdateUser.Key)
+             .PutAsync(user);
 
         }
 
@@ -107,9 +97,56 @@ namespace GardenEinfach.Service
             return UserData;
         }
 
-        //Task<string> CreateUserFirebaseAuth(string email, string password)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public MyUser GetUserPreferences()
+        {
+            MyUser usr = new MyUser();
+            Adress adress = new Adress();
+
+            adress.Street = Preferences.Get("Street", "");
+            adress.City = Preferences.Get("City", "");
+            adress.HouseNumber = Preferences.Get("HouseNumber", "");
+            usr.FirstName = Preferences.Get("FirstName", "");
+            usr.LastName = Preferences.Get("LastName", "");
+            usr.Email = Preferences.Get("Email", "");
+            usr.Phone = Preferences.Get("Phone", "");
+            usr.FullyAdress = Preferences.Get("Adress", "");
+            usr.Gender = Preferences.Get("Gender", "");
+            usr.adress = adress;
+            usr.Image = Preferences.Get("UserImage", "");
+            return usr;
+        }
+
+        public string SetUserImage(string gender)
+        {
+            string userImage = "";
+
+            if (gender == "Male")
+            {
+                userImage = "man";
+            }
+            else if (gender == "Female")
+            {
+                userImage = "women";
+            }
+            else if (gender == "Other")
+            {
+                userImage = "other";
+            }
+            else
+            {
+                userImage = "other";
+            }
+
+            return userImage;
+        }
+
+
+        public async Task<string> UploadUserImage(Stream stream, string Titel, string database)
+        {
+
+            var storageImage = await storage.Child(database).Child(Titel).PutAsync(stream);
+            string imgUrl = storageImage;
+            return imgUrl;
+        }
     }
 }

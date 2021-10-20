@@ -181,17 +181,7 @@ namespace GardenEinfach.ViewModels
 
         }
 
-        async void CreateUserFirebaseAuth()
-        {
 
-            //var SerializedContent = JsonConvert.SerializeObject(token);
-            //Preferences.Set("myFirebaseRefreshToken", SerializedContent);
-            //saveUserInfo(FirstName);
-            //RegisterUserRealtimeDatabase();
-            //await App.Current.MainPage.DisplayAlert("Success", "Account created!", "ok");
-            //await Shell.Current.GoToAsync("//HomePage");
-            //NavigatoToPage("login", "MainTabbedPage", Email);
-        }
 
         private async void RegisterUserRealtimeDatabase()
         {
@@ -203,13 +193,23 @@ namespace GardenEinfach.ViewModels
                 Email = Email,
                 Phone = Phone,
                 adress = new Adress() { City = City, HouseNumber = HouseNumber, Street = Street },
-                Gender = Gender
+                Gender = Gender,
+                Image = userService.SetUserImage(Gender)
+
             };
             await userService.AddUser(user);
 
             MessagingCenter.Send(this, "Usr", user);
 
+            saveUserInfo(user);
+
+
+        }
+
+        private void saveUserInfo(MyUser user)
+        {
             Preferences.Set("FirstName", user.FirstName);
+            Preferences.Set("LastName", user.LastName);
             Preferences.Set("Email", user.Email);
             Preferences.Set("Phone", user.Phone);
             Preferences.Set("Adress", user.adress.Street + user.adress.HouseNumber + user.adress.City);
@@ -217,13 +217,7 @@ namespace GardenEinfach.ViewModels
             Preferences.Set("Street", user.adress.Street);
             Preferences.Set("City", user.adress.City);
             Preferences.Set("HouseNumber", user.adress.HouseNumber);
-
-
-        }
-
-        private void saveUserInfo(string UserName)
-        {
-            Preferences.Set("Username", UserName);
+            Preferences.Set("UserImage", user.Image);
         }
 
 

@@ -63,10 +63,11 @@
             <BoxView  Grid.Row="3" Style="{StaticResource Separator}" />
 
             <!--Profile-->
-            <pancake:PancakeView Grid.Row="4" Padding="0" CornerRadius="20,20,0,0" HeightRequest="80" 
+            <pancake:PancakeView Grid.Row="4" Padding="0" CornerRadius="20,20,0,0" HeightRequest="90" 
                Margin="0,0"   BackgroundColor="WhiteSmoke" >
                 <Grid>
                     <Grid.RowDefinitions>
+                        <RowDefinition/>
                         <RowDefinition/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
@@ -77,7 +78,7 @@
 
 
                     <!--profile image-->
-                    <ffimageloading:CachedImage    Source="plant.jpg"  Grid.RowSpan="2"
+                    <ffimageloading:CachedImage    Source="{Binding UserImage}"  Grid.RowSpan="3"
                                                   Margin="10">
                         <ffimageloading:CachedImage.Transformations>
                             <fftransformations:RoundedTransformation Radius="240"/>
@@ -85,8 +86,9 @@
                     </ffimageloading:CachedImage>
 
 
-                    <Label Text="{Binding UserName}" Grid.Column="1" Margin="0,20,0,0" />
-                    <Label Text="8793  Glogglehoff gasse 12 trofaiach" Grid.Column="1" Grid.Row="1" />
+                    <Label Text="{Binding Username}" Grid.Row="0" Grid.Column="1" TextColor="Black" FontSize="16" Margin="0,8,0,0" />
+                    <Label Text="{Binding Adress}" Grid.Column="1" Grid.Row="1" Margin="0,0,0,0" />
+                    <Label Text="{Binding Phone}" Grid.Column="1" Grid.Row="2" Margin="0,-5,0,0"/>
                 </Grid>
 
             </pancake:PancakeView>

@@ -17,6 +17,19 @@ namespace GardenEinfach.ViewModels
         #region Post props
 
 
+        private string _UserImageP;
+        public string UserImageP
+        {
+            get { return _UserImageP; }
+            set { SetProperty(ref _UserImageP, value); }
+        }
+
+        private string _PhoneP;
+        public string PhoneP
+        {
+            get { return _PhoneP; }
+            set { SetProperty(ref _PhoneP, value); }
+        }
 
         private bool _SingleImage;
         public bool SingleImage
@@ -135,7 +148,7 @@ namespace GardenEinfach.ViewModels
             try
             {
 
-                var AllPosts = await dataStore.GetItemsAsync();
+                var AllPosts = await postService.GetItemsAsync();
                 var post = await Task.FromResult(AllPosts.FirstOrDefault(p => p.Key == key));
                 p = post;
                 // define the Loop of the CarouselViewl
@@ -161,7 +174,10 @@ namespace GardenEinfach.ViewModels
             Description = PostDetail.Description;
             Titel = PostDetail.Titel;
             Price = PostDetail.Price.ToString();
-            //Username = PostDetail.User.FirstName.ToString();
+            Username = PostDetail.User.FirstName;
+            Adress = PostDetail.User.FullyAdress;
+            PhoneP = PostDetail.User.Phone;
+            UserImageP = userService.SetUserImage(PostDetail.User.Gender);
         }
 
         private void CarouselViewLoop(Post p)

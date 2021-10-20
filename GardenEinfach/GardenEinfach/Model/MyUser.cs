@@ -7,7 +7,7 @@ namespace GardenEinfach.Model
     public class MyUser
     {
         public string Key { get; set; }
-        public string UserId { get; set; }
+
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
@@ -20,5 +20,7 @@ namespace GardenEinfach.Model
         //public string Password { get; set; }
 
         public string Phone { get; set; }
+
+        public string Image { get; set; }
     }
 }

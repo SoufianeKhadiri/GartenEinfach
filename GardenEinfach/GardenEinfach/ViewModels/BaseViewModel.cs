@@ -13,31 +13,129 @@ namespace GardenEinfach.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         //public IDataStore<Post> DataStore => DependencyService.Get<IDataStore<Post>>();
-        public IDataStore<Post> dataStore;
+        public IPostService<Post> postService;
         public IUserService userService;
-        public MyUser GetUserPreferences()
-        {
-            MyUser usr = new MyUser();
-            Adress adress = new Adress();
 
-            adress.Street = Preferences.Get("Street", "");
-            adress.City = Preferences.Get("City", "");
-            adress.HouseNumber = Preferences.Get("HouseNumber", "");
-
-            usr.FirstName = Preferences.Get("FirstName", "");
-            usr.LastName = Preferences.Get("LastName", "");
-            usr.Email = Preferences.Get("Email", "");
-            usr.Phone = Preferences.Get("Phone", "");
-            usr.FullyAdress = Preferences.Get("Adress", "");
-            usr.Gender = Preferences.Get("Gender", "");
-            usr.adress = adress;
-
-            return usr;
-        }
         public BaseViewModel()
         {
-            dataStore = new MockDataStore();
+            postService = new PostService();
             userService = new UserService();
+            GetCurrentUserInfo();
+            MessageSubscribe();
+        }
+
+        #region User Props
+
+        private string _FirstName;
+        public string FirstName
+        {
+            get { return _FirstName; }
+            set { SetProperty(ref _FirstName, value); }
+        }
+
+        private string _LastName;
+        public string LastName
+        {
+            get { return _LastName; }
+            set { SetProperty(ref _LastName, value); }
+        }
+
+
+        private string _Email;
+        public string Email
+        {
+            get { return _Email; }
+            set { SetProperty(ref _Email, value); }
+        }
+        private string _Phone;
+        public string Phone
+        {
+            get { return _Phone; }
+            set { SetProperty(ref _Phone, value); }
+        }
+        private string _HouseNumber;
+        public string HouseNumber
+        {
+            get { return _HouseNumber; }
+            set { SetProperty(ref _HouseNumber, value); }
+        }
+        private string _City;
+        public string City
+        {
+            get { return _City; }
+            set { SetProperty(ref _City, value); }
+        }
+        private string _Street;
+        public string Street
+        {
+            get { return _Street; }
+            set { SetProperty(ref _Street, value); }
+        }
+        private string _UserImage;
+        public string UserImage
+        {
+            get { return _UserImage; }
+            set { SetProperty(ref _UserImage, value); }
+        }
+
+        private string _FullyAdress;
+        public string FullyAdress
+        {
+            get { return _Street + " " + _HouseNumber + " " + _City; }
+            set { SetProperty(ref _FullyAdress, value); }
+        }
+        #endregion
+        private void GetCurrentUserInfo()
+        {
+            var user = userService.GetUserPreferences();
+
+            Street = user.adress.Street;
+            City = user.adress.City;
+            HouseNumber = user.adress.HouseNumber;
+            FirstName = user.FirstName;
+            LastName = user.LastName;
+            Email = user.Email;
+            Phone = user.Phone;
+            UserImage = user.Image;
+        }
+
+        private void MessageSubscribe()
+        {
+            MessagingCenter.Subscribe<RegisterViewModel, MyUser>(this, "Usr", (vm, user) =>
+            {
+                FirstName = user.FirstName;
+                LastName = user.LastName;
+                UserImage = user.Image;
+                Street = user.adress.Street;
+                City = user.adress.City;
+                HouseNumber = user.adress.HouseNumber;
+                Email = user.Email;
+                Phone = user.Phone;
+
+
+            });
+            MessagingCenter.Subscribe<LoginViewModel, MyUser>(this, "UsrLogin", (vm, user) =>
+            {
+                FirstName = user.FirstName;
+                LastName = user.LastName;
+                UserImage = user.Image;
+                Street = user.adress.Street;
+                City = user.adress.City;
+                HouseNumber = user.adress.HouseNumber;
+                Email = user.Email;
+                Phone = user.Phone;
+            });
+            //MessagingCenter.Subscribe<AccountViewModel, MyUser>(this, "UpdateUser", (vm, user) =>
+            //{
+            //    FirstName = user.FirstName;
+            //    LastName = user.LastName;
+            //    UserImage = user.Image;
+            //    Street = user.adress.Street;
+            //    City = user.adress.City;
+            //    HouseNumber = user.adress.HouseNumber;
+            //    Email = user.Email;
+            //    Phone = user.Phone;
+            //});
         }
 
         bool isBusy = false;

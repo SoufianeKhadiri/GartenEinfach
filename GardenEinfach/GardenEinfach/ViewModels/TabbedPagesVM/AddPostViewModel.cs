@@ -92,7 +92,7 @@ namespace GardenEinfach.ViewModels
             set { SetProperty(ref _Loading, value); }
         }
 
-        PostService postService;
+
 
         public static DelegateCommand FotoFromCamera { get; set; }
         public static DelegateCommand FotoFromGallery { get; set; }
@@ -121,7 +121,7 @@ namespace GardenEinfach.ViewModels
 
         private void GetCurrentUserInfo()
         {
-            var user = GetUserPreferences();
+            var user = userService.GetUserPreferences();
             Adress = user.FullyAdress;
             Phone = user.Phone;
         }
@@ -151,6 +151,7 @@ namespace GardenEinfach.ViewModels
         async void AddPostM()
         {
             Loading = true;
+            //UploadIMages
             List<string> imagesUrl = new List<string>();
             int imageNumber = 0;
             foreach (var item in ImagesStream)
@@ -158,12 +159,18 @@ namespace GardenEinfach.ViewModels
                 imagesUrl.Add(await postService.UploadImage(item, imageNumber.ToString(), Titel, "Posts"));
                 imageNumber++;
             }
-
-            //string imgUrl =  await postService.UploadImage(imgStream, Titel);
-            //User usr = new User() { Name = "name" , Adress = "adress" , Email = "email"
-            //, Password = "password", Phone = "92863827532" };
-            Post p = new Post() { Images = imagesUrl, Category = Category, Price = Price, Titel = Titel, Description = Description, Time = getCurrentTime() };
-            await dataStore.AddItemAsync(p);
+            //Prepare Post to push to the Db
+            Post p = new Post()
+            {
+                Images = imagesUrl,
+                Category = Category,
+                Price = Price,
+                Titel = Titel,
+                Description = Description,
+                Time = getCurrentTime(),
+                User = userService.GetUserPreferences()
+            };
+            await postService.AddItemAsync(p);
             Loading = false;
 
             await PopupNavigation.Instance.PushAsync(new AddPostPopup());

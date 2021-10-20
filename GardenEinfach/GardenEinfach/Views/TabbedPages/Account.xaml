@@ -26,14 +26,25 @@
             <Image Source="nature.jpg" Aspect="AspectFill" />
         </pancake:PancakeView>
         <!--profile image-->
-        <ffimageloading:CachedImage    Source="man"  Grid.Row ="0" HeightRequest="100" VerticalOptions="EndAndExpand"
-                                                  Margin="0,0,0,-40">
-            <ffimageloading:CachedImage.Transformations>
-                <fftransformations:RoundedTransformation Radius="240"/>
-            </ffimageloading:CachedImage.Transformations>
-        </ffimageloading:CachedImage>
+        <Grid Margin="0,0,0,-40">
+            <ffimageloading:CachedImage   Source="{Binding UserImage}"  Grid.Row ="0" HeightRequest="100" VerticalOptions="EndAndExpand"
+                                                  Margin="0,0,0,0">
+                <ffimageloading:CachedImage.Transformations>
+                    <fftransformations:RoundedTransformation Radius="240"/>
+                </ffimageloading:CachedImage.Transformations>
+                <ffimageloading:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ChangeUserImage}"/>
+                </ffimageloading:CachedImage.GestureRecognizers>
+            </ffimageloading:CachedImage>
+            <ffimageloading:CachedImage Source="cameraUser" HorizontalOptions="Center" VerticalOptions="EndAndExpand" 
+                                    HeightRequest="30" WidthRequest="30" Margin="80,0,0,0" >
+                <ffimageloading:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding ChangeUserImage}"/>
+                </ffimageloading:CachedImage.GestureRecognizers>
+            </ffimageloading:CachedImage>
+        </Grid>
         <!--Profile Name-->
-        <Label Text="{Binding UserName}" x:Name="firstName" Grid.Row="1" HorizontalOptions="Center" FontSize="22" FontAttributes="Bold" Margin="0,40,0,0"/>
+        <Label Text="{Binding FirstName}" x:Name="firstName" Grid.Row="1" HorizontalOptions="Center" FontSize="22" FontAttributes="Bold" Margin="0,40,0,0"/>
         <!--Separator-->
         <BoxView  Grid.Row="3" Style="{StaticResource Separator}" />
         <!--myPosts-->

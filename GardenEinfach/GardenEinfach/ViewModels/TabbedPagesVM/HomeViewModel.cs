@@ -11,12 +11,22 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace GardenEinfach.ViewModels
 {
     public class HomeViewModel : BaseViewModel
     {
+
+        //private string _UserImage;
+        //public string UserImage
+        //{
+        //    get { return _UserImage; }
+        //    set { SetProperty(ref _UserImage, value); }
+        //}
+
+
         #region Refresh
 
         public DelegateCommand Refresh { get; set; }
@@ -34,7 +44,7 @@ namespace GardenEinfach.ViewModels
 
         public Command LoadItemsCommand { get; }
         public ObservableCollection<Post> Items { get; }
-        FirebaseClient client;
+        //FirebaseClient client;
         private string _PostsNumber;
         public string PostsNumber
         {
@@ -59,15 +69,6 @@ namespace GardenEinfach.ViewModels
                 }
             }
         }
-
-        //private DelegateCommand _NavigateForwardCommand;
-        //public DelegateCommand NavigateForwardCommand =>
-        //_NavigateForwardCommand ?? (_NavigateForwardCommand = new DelegateCommand(CommandMthode));
-
-        //async void CommandMthode()
-        //{
-        //    await NavigationService.NavigateAsync("/NavigationPage/TestContent");
-        //}
 
 
         private Post _Post;
@@ -134,19 +135,13 @@ namespace GardenEinfach.ViewModels
 
         }
 
+
         private void RefreshM()
         {
             IsRefreshing = true;
             getPostsData();
             IsRefreshing = false;
         }
-
-
-
-
-
-
-        public static PostService postService;
 
         private IEnumerable<Post> _PostList;
         public IEnumerable<Post> PostList
@@ -158,7 +153,7 @@ namespace GardenEinfach.ViewModels
 
         public async void getPostsData()
         {
-            var posts = await dataStore.GetItemsAsync();
+            var posts = await postService.GetItemsAsync();
             PostsList = new ObservableCollection<Post>(posts);
             PtsList = PostsList;
             PostsNumber = PostsList.Count().ToString();
@@ -168,47 +163,18 @@ namespace GardenEinfach.ViewModels
         {
             await Shell.Current.GoToAsync($"{ nameof(Posts)}");
 
-
-            //NavigatoToPage("posts", "Posts", Posts);
-
-            //var navigationParams = new NavigationParameters
-            //{
-            //     { "posts", Posts }
-            //};
-
-            //await NavigationService.NavigateAsync("Posts", navigationParams);
         }
 
-        //private async void NavigatoToPage<T>(string titel, string page, T data)
-        //{
-        //    //var navigationParams = new NavigationParameters
-        //    //{
-        //    //     { titel, data }
-        //    //};
 
 
+        private DelegateCommand _GoAccount;
+        public DelegateCommand GoAccount =>
+        _GoAccount ?? (_GoAccount = new DelegateCommand(GoAccountM));
 
-        //    //await  NavigationService.NavigateAsync("MainTabbedPage?selectedTab=Home" , navigationParams);
-        //    //await NavigationService.NavigateAsync(page, navigationParams);
-        //}
-        //private async void Navigate<T>(string titel, T data)
-        //{
-        //    //var navigationParams = new NavigationParameters
-        //    //{
-        //    //     { titel, data }
-        //    //};
-
-        //    //await NavigationService.NavigateAsync($"{nameof(MyPostDetail)}", navigationParams);
-        //}
-
-        //private DelegateCommand _GoAccount;
-        //public DelegateCommand GoAccount =>
-        //_GoAccount ?? (_GoAccount = new DelegateCommand(GoAccountM));
-
-        //async void GoAccountM()
-        //{
-        //    //await NavigationService.NavigateAsync("Account");
-        //}
+        async void GoAccountM()
+        {
+            await Shell.Current.GoToAsync("//HomePage/Account");
+        }
 
 
 
@@ -220,32 +186,10 @@ namespace GardenEinfach.ViewModels
         private async void ShowMyPosts()
         {
             await Shell.Current.GoToAsync($"{ nameof(MyPosts)}");
-            //var navigationParams = new NavigationParameters
-            //{
-            //     { "posts", Posts }
-            //};
 
-
-            //await NavigationService.SelectTabAsync("Home");
-            //await NavigationService.NavigateAsync("MyPosts", navigationParams);
 
         }
     }
 }
 
-//        private DelegateCommand _test;
-//        public DelegateCommand Test =>
-//        _test ?? (_test = new DelegateCommand(CommandMthode));
 
-//        async void CommandMthode()
-//        {
-//            await Navigation.PushAsync(new PostDetail());
-//        }
-
-//        INavigation Navigation;
-//        public HomeViewModel(INavigation navigation)
-//        {
-//            Navigation = navigation;
-//        }
-//    }
-//}
