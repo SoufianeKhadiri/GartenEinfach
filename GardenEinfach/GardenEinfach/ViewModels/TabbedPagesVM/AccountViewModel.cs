@@ -16,41 +16,24 @@ namespace GardenEinfach.ViewModels
 {
     public class AccountViewModel : BaseViewModel
     {
-        #region Props
 
-
-        //private string _UserImage;
-        //public string UserImage
-        //{
-        //    get { return _UserImage; }
-        //    set { SetProperty(ref _UserImage, value); }
-        //}
-        //private string _Email;
-        //public string Email
-        //{
-        //    get { return _Email; }
-        //    set { SetProperty(ref _Email, value); }
-        //}
-
-        //private string _UserName;
-        //public string UserName
-        //{
-        //    get { return _UserName; }
-        //    set { SetProperty(ref _UserName, value); }
-        //}
-        #endregion
         public static DelegateCommand FotoCamera { get; set; }
         public static DelegateCommand FotoGallery { get; set; }
-
+        public static DelegateCommand RefreshUserInfo { get; set; }
         //ctor
         public AccountViewModel()
         {
-            //FirstName = Preferences.Get("FirstName", "");
-            //UserImage = userService.SetUserImage(Preferences.Get("Gender", ""));
-            // MessageSubscribe();
+
             FotoCamera = new DelegateCommand(TakeFotoFromCamera);
             FotoGallery = new DelegateCommand(TakeFotoFromGalery);
+            RefreshUserInfo = new DelegateCommand(RefreshUserInfoM);
         }
+
+        private void RefreshUserInfoM()
+        {
+            GetUserInfoFromDb();
+        }
+
         public async void TakeFotoFromCamera()
         {
 
@@ -63,14 +46,16 @@ namespace GardenEinfach.ViewModels
                     PhotoSize = PhotoSize.Custom,
                     CustomPhotoSize = 10,
                     Directory = "Xamarin",
-                    SaveToAlbum = true
+                    SaveToAlbum = true,
+
                 });
                 if (photo != null)
                 {
 
                     UserImage = await userService.UploadUserImage(photo.GetStream(), Preferences.Get("Email", ""), "UsersImages");
-                    Preferences.Set("UserImage", UserImage);
-                    await userService.UpdateUserFoto(Email, UserImage, userService.GetUserPreferences());
+                    //Preferences.Set("UserImage", UserImage);
+                    await userService.UpdateUserInfo(userService.GetUserPreferences(), Email);
+                    HomeViewModel.RefreshUserInfo.Execute();
                 }
             }
             catch (Exception ex)
@@ -94,10 +79,10 @@ namespace GardenEinfach.ViewModels
                 if (photo != null)
                 {
 
-                    UserImage = await userService.UploadUserImage(photo.GetStream(), Preferences.Get("Email", ""), "UsersImages");
-                    Preferences.Set("UserImage", UserImage);
-                    await userService.UpdateUserFoto(Email, UserImage, userService.GetUserPreferences());
-                    //MessagingCenter.Send(this, "UpdateUser", userService.GetUserPreferences());
+                    UserImage = await userService.UploadUserImage(photo.GetStream(), Email, "UsersImages");
+                    //Preferences.Set("UserImage", UserImage);
+                    await userService.UpdateUserInfo(userService.GetUserPreferences(), Email);
+                    HomeViewModel.RefreshUserInfo.Execute();
                 }
             }
             catch (Exception ex)
@@ -106,20 +91,7 @@ namespace GardenEinfach.ViewModels
 
             }
         }
-        //private void MessageSubscribe()
-        //{
-        //    MessagingCenter.Subscribe<RegisterViewModel, MyUser>(this, "Usr", (vm, user) =>
-        //    {
-        //        FirstName = user.FirstName;
-        //        UserImage = userService.SetUserImage(user.Gender);
 
-        //    });
-        //    MessagingCenter.Subscribe<LoginViewModel, MyUser>(this, "UsrLogin", (vm, user) =>
-        //    {
-        //        FirstName = user.FirstName;
-        //        UserImage = userService.SetUserImage(user.Gender);
-        //    });
-        //}
 
         #region Commands
         private DelegateCommand _GoToMyPosts;
@@ -159,6 +131,7 @@ namespace GardenEinfach.ViewModels
 
         async void ChangeUserImageM()
         {
+            UserImagePopUpViewModel.FromAccount = true;
             await PopupNavigation.Instance.PushAsync(new UserImagePopUp());
         }
 

@@ -19,13 +19,17 @@ namespace GardenEinfach.Service
     {
         public static FirebaseClient client;
         public static FirebaseStorage storage;
+        public static FirebaseAuthProvider authProvider;
         public string WebApiKey;
         public UserService()
         {
             client = new FirebaseClient("https://gardenservice-ec613-default-rtdb.firebaseio.com");
             storage = new FirebaseStorage("gardenservice-ec613.appspot.com");
             WebApiKey = "AIzaSyD_rzOMR_cTLm9JYCo1WylNJqXOc56rTvI";
+            authProvider = new FirebaseAuthProvider(new FirebaseConfig(WebApiKey));
         }
+
+
         public async Task<List<MyUser>> GetAllUsers()
         {
             return (await client
@@ -56,7 +60,6 @@ namespace GardenEinfach.Service
 
         }
 
-
         public async Task AddUser(MyUser user)
         {
 
@@ -64,25 +67,16 @@ namespace GardenEinfach.Service
 
         }
 
-        public async Task UpdateUserFoto(string email, string imageUrl, MyUser user)
-        {
-
-
-            var toUpdateUser = (await client
-                .Child("Users")
-                .OnceAsync<MyUser>()).Where(a => a.Object.Email == email).FirstOrDefault();
-
-            await client
-             .Child("Users")
-             .Child(toUpdateUser.Key)
-             .PutAsync(user);
-
-        }
-
         async Task<string> IUserService.CreateUserFirebaseAuth(string email, string password)
         {
-            var authProvider = new FirebaseAuthProvider(new FirebaseConfig(WebApiKey));
             var auth = await authProvider.CreateUserWithEmailAndPasswordAsync(email, password);
+            var token = auth.FirebaseToken;
+
+            return token;
+        }
+        async Task<string> IUserService.loginUser(string email, string password)
+        {
+            var auth = await authProvider.SignInWithEmailAndPasswordAsync(email, password);
             var token = auth.FirebaseToken;
 
             return token;
@@ -116,6 +110,57 @@ namespace GardenEinfach.Service
             return usr;
         }
 
+        public void SetUserPreferences(MyUser newUsrInfo)
+        {
+            MyUser usr = new MyUser();
+            Adress adress = new Adress();
+
+            adress.Street = Preferences.Get("Street", newUsrInfo.adress.Street);
+            adress.City = Preferences.Get("City", newUsrInfo.adress.City);
+            adress.HouseNumber = Preferences.Get("HouseNumber", newUsrInfo.adress.HouseNumber);
+            usr.FirstName = Preferences.Get("FirstName", newUsrInfo.FirstName);
+            usr.LastName = Preferences.Get("LastName", newUsrInfo.LastName);
+            usr.Email = Preferences.Get("Email", newUsrInfo.Email);
+            usr.Phone = Preferences.Get("Phone", newUsrInfo.Phone);
+            //usr.FullyAdress = Preferences.Get("Adress", newUsrInfo.FirstName);
+            usr.Gender = Preferences.Get("Gender", newUsrInfo.Gender);
+            usr.adress = adress;
+            usr.Image = Preferences.Get("UserImage", newUsrInfo.Image);
+
+        }
+        public async Task<string> UpdateUserInfo(MyUser newuser, string email)
+        {
+
+            var toUpdateUser = (await client
+                 .Child("Users")
+                 .OnceAsync<MyUser>()).Where(a => a.Object.Email == email).FirstOrDefault();
+
+            await client
+             .Child("Users")
+             .Child(toUpdateUser.Key)
+             .PutAsync(newuser);
+
+            return newuser.Image;
+        }
+
+        public MyUser CreateUser(string firstName, string lastName, string email, string phone,
+                                 string gender, string image, string street, string city, string houseNumber)
+        {
+            MyUser usr = new MyUser();
+            Adress adress = new Adress();
+            usr.FirstName = firstName;
+            usr.LastName = lastName;
+            usr.Email = email;
+            usr.Phone = phone;
+            usr.Gender = gender;
+            usr.Image = image;
+            adress.Street = street;
+            adress.City = city;
+            adress.HouseNumber = houseNumber;
+            usr.adress = adress;
+
+            return usr;
+        }
         public string SetUserImage(string gender)
         {
             string userImage = "";

@@ -2,76 +2,127 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Shell.NavBarIsVisible="True"
+             
+             Shell.PresentationMode="Modal" 
              xmlns:CustomEntry="clr-namespace:GardenEinfach.CustomUi"
              xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:Class="GardenEinfach.Views.PageDetails.ProfileSetting">
-
-    <Grid>
-
-
-        <Grid VerticalOptions="StartAndExpand"  Margin="30">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <ffimageloading:CachedImage Source="{Binding UserImage}" HeightRequest="100" WidthRequest="100" 
-                                        HorizontalOptions="Start" />
-
-        </Grid>
-        <Grid VerticalOptions="EndAndExpand" Margin="0,0,0,30">
+    <ScrollView>
+        <Grid>
             <Grid.RowDefinitions>
-
+                <RowDefinition Height="200"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
-
+                <RowDefinition Height="80"/>
             </Grid.RowDefinitions>
+            <!--Background IMage-->
+            <ffimageloading:CachedImage Source="login" Aspect="AspectFill" Grid.RowSpan="3"/>
 
-            <!--First/lastName-->
-            <StackLayout Orientation="Horizontal" Grid.Row="0" Margin="10,10,10,0">
-                <Frame CornerRadius="5" Padding="0">
-                    <CustomEntry:BorderlessEntry Grid.Row="1" Placeholder="Firstname" PlaceholderColor="#bababa" FontSize="16" 
+            <!--CloseandValid-->
+            <ffimageloading:CachedImage Source="close" HorizontalOptions="Start" VerticalOptions="Start"
+                                        HeightRequest="30" WidthRequest="30" Margin="10">
+                <ffimageloading:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Back}"/>
+                </ffimageloading:CachedImage.GestureRecognizers>
+            </ffimageloading:CachedImage>
+            <ffimageloading:CachedImage Source="valid" HorizontalOptions="EndAndExpand" VerticalOptions="Start"
+                                        HeightRequest="35" WidthRequest="35" Margin="10">
+                <ffimageloading:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding SaveUserInfo}"/>
+                </ffimageloading:CachedImage.GestureRecognizers>
+            </ffimageloading:CachedImage>
+            <!--profile image-->
+            <Grid VerticalOptions="Center"  Margin="30" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Margin="0,0,0,0" Grid.ColumnSpan="2">
+                    <ffimageloading:CachedImage   Source="{Binding ImgSource}" Grid.Row ="0" HeightRequest="120" WidthRequest="120" VerticalOptions="EndAndExpand"
+                                                  Margin="0,0,0,0">
+                        <ffimageloading:CachedImage.Transformations>
+                            <fftransformations:RoundedTransformation Radius="240"/>
+                        </ffimageloading:CachedImage.Transformations>
+                        <ffimageloading:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ChangeUserImage}"/>
+                        </ffimageloading:CachedImage.GestureRecognizers>
+                    </ffimageloading:CachedImage>
+                    <ffimageloading:CachedImage Source="cameraUser" HorizontalOptions="Center" VerticalOptions="EndAndExpand" 
+                                    HeightRequest="30" WidthRequest="30" Margin="80,0,0,0" >
+                        <ffimageloading:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding ChangeUserImage}"/>
+                        </ffimageloading:CachedImage.GestureRecognizers>
+                    </ffimageloading:CachedImage>
+                </Grid>
+
+            </Grid>
+            <!--UserData-->
+            <Grid VerticalOptions="Start" Margin="0,0,0,30" Grid.Row="1">
+                <Grid.RowDefinitions>
+
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+
+                </Grid.RowDefinitions>
+
+                <!--First/lastName-->
+                <StackLayout Orientation="Horizontal" Grid.Row="0" Margin="10,10,10,0">
+                    <Frame CornerRadius="5" Padding="0">
+                        <CustomEntry:BorderlessEntry Grid.Row="1" Placeholder="Firstname" PlaceholderColor="#bababa" FontSize="16" 
                                                  WidthRequest="150" Text="{Binding FirstName}"/>
-                </Frame>
-                <Frame CornerRadius="5" Padding="0" Margin="30,0,0,0">
-                    <CustomEntry:BorderlessEntry Grid.Row="1" Placeholder="Lastname" PlaceholderColor="#bababa" FontSize="16" 
+                    </Frame>
+                    <Frame CornerRadius="5" Padding="0" Margin="30,0,0,0">
+                        <CustomEntry:BorderlessEntry Grid.Row="1" Placeholder="Lastname" PlaceholderColor="#bababa" FontSize="16" 
                                                  WidthRequest="150" Text="{Binding LastName}"/>
+                    </Frame>
+
+                </StackLayout>
+                <!--Email-->
+                <Frame CornerRadius="5" Padding="0" Grid.Row="1" Margin="10,5,10,0">
+                    <CustomEntry:BorderlessEntry  Placeholder="Email" PlaceholderColor="#bababa" FontSize="16" 
+                                              HorizontalOptions="FillAndExpand" Text="{Binding EmailInput}"/>
                 </Frame>
-
-            </StackLayout>
-            <!--Email-->
-            <Frame CornerRadius="5" Padding="0" Grid.Row="1" Margin="10,5,10,0">
-                <CustomEntry:BorderlessEntry  Placeholder="Email" PlaceholderColor="#bababa" FontSize="16" 
-                                              HorizontalOptions="FillAndExpand" Text="{Binding Email}"/>
-            </Frame>
-            <!--Phone-->
-            <Frame CornerRadius="5" Padding="0" Grid.Row="2" Margin="10,5,10,0">
-                <CustomEntry:BorderlessEntry  Placeholder="Phone" PlaceholderColor="#bababa" FontSize="16" 
+                <!--Phone-->
+                <Frame CornerRadius="5" Padding="0" Grid.Row="2" Margin="10,5,10,0">
+                    <CustomEntry:BorderlessEntry  Placeholder="Phone" PlaceholderColor="#bababa" FontSize="16" 
                                               HorizontalOptions="FillAndExpand" Text="{Binding Phone}"/>
-            </Frame>
-
-
-            <!--Adress-->
-            <Frame CornerRadius="5" Padding="0,0,0,5" Grid.Row="3" Margin="10,10,10,0" >
-                <StackLayout>
-                    <StackLayout Orientation="Horizontal">
-                        <CustomEntry:BorderlessEntry  Placeholder="Street" PlaceholderColor="#bababa" FontSize="16" 
+                </Frame>
+                <!--Adress-->
+                <Frame CornerRadius="5" Padding="0,0,0,5" Grid.Row="3" Margin="10,10,10,0" >
+                    <StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <CustomEntry:BorderlessEntry  Placeholder="Street" PlaceholderColor="#bababa" FontSize="16" 
                                               HorizontalOptions="FillAndExpand" Text="{Binding Street}"/>
-                        <CustomEntry:BorderlessEntry WidthRequest="120" Placeholder="House number" PlaceholderColor="#bababa" FontSize="16" 
+                            <CustomEntry:BorderlessEntry WidthRequest="120" Placeholder="House number" PlaceholderColor="#bababa" FontSize="16" 
                                               HorizontalOptions="EndAndExpand" Text="{Binding HouseNumber}"/>
-                    </StackLayout>
+                        </StackLayout>
 
-                    <StackLayout Orientation="Horizontal">
-                        <CustomEntry:BorderlessEntry  Placeholder="City" PlaceholderColor="#bababa" FontSize="16" 
+                        <StackLayout Orientation="Horizontal">
+                            <CustomEntry:BorderlessEntry  Placeholder="City" PlaceholderColor="#bababa" FontSize="16" 
                                               HorizontalOptions="FillAndExpand" Text="{Binding City}"/>
 
+                        </StackLayout>
                     </StackLayout>
-                </StackLayout>
 
-            </Frame>
+                </Frame>
+
+            </Grid>
+            <Button Grid.Row="2" Command="{Binding SaveUserInfo}" CornerRadius="20" Margin="10,10,10,20" 
+               Text="save" Background="white"  BorderColor="#5DBA63" TextColor="#5DBA63" BorderWidth="1"/>
+
+            <StackLayout HeightRequest="50" WidthRequest="50" IsVisible="{Binding Loading}" Grid.RowSpan="3" VerticalOptions="Center">
+                <Frame CornerRadius="240" Margin="135,0" BackgroundColor="WhiteSmoke">
+                    <ActivityIndicator IsRunning="True" Color="Green" Grid.RowSpan="3" />
+                </Frame>
+            </StackLayout>
+
+
         </Grid>
-    </Grid>
+
+    </ScrollView>
 </ContentPage>

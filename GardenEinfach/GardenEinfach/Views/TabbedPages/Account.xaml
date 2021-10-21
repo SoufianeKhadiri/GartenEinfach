@@ -27,7 +27,7 @@
         </pancake:PancakeView>
         <!--profile image-->
         <Grid Margin="0,0,0,-40">
-            <ffimageloading:CachedImage   Source="{Binding UserImage}"  Grid.Row ="0" HeightRequest="100" VerticalOptions="EndAndExpand"
+            <ffimageloading:CachedImage   Source="{Binding ImgSource}"  Grid.Row ="0" HeightRequest="120" WidthRequest="120" VerticalOptions="EndAndExpand"
                                                   Margin="0,0,0,0">
                 <ffimageloading:CachedImage.Transformations>
                     <fftransformations:RoundedTransformation Radius="240"/>

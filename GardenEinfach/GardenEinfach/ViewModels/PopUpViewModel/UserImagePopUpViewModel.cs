@@ -2,6 +2,7 @@
 using Plugin.Media.Abstractions;
 using Prism.Commands;
 using Prism.Mvvm;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace GardenEinfach.ViewModels
         {
 
         }
-
+        public static bool FromAccount { get; set; }
 
         private DelegateCommand _Camera;
         public DelegateCommand Camera =>
@@ -24,7 +25,17 @@ namespace GardenEinfach.ViewModels
 
         private void CameraM()
         {
-            AccountViewModel.FotoCamera.Execute();
+
+            if (FromAccount == true)
+            {
+                AccountViewModel.FotoCamera.Execute();
+            }
+            else
+            {
+                ProfileSettingViewModel.FotoCamera.Execute();
+            }
+
+            PopupNavigation.Instance.PopAsync(true);
         }
 
         private DelegateCommand _Gallery;
@@ -34,6 +45,7 @@ namespace GardenEinfach.ViewModels
         void Gallerym()
         {
             AccountViewModel.FotoGallery.Execute();
+            PopupNavigation.Instance.PopAsync(true);
         }
 
     }

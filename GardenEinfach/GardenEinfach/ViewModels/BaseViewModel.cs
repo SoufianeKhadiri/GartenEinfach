@@ -1,6 +1,7 @@
 ﻿using GardenEinfach.Model;
 using GardenEinfach.Service;
 using GardenEinfach.Services;
+using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -21,7 +22,8 @@ namespace GardenEinfach.ViewModels
             postService = new PostService();
             userService = new UserService();
             GetCurrentUserInfo();
-            MessageSubscribe();
+            GetUserInfoFromDb();
+            //MessageSubscribe();
         }
 
         #region User Props
@@ -84,10 +86,41 @@ namespace GardenEinfach.ViewModels
             get { return _Street + " " + _HouseNumber + " " + _City; }
             set { SetProperty(ref _FullyAdress, value); }
         }
+
+        private ImageSource _ImgSource;
+        public ImageSource ImgSource
+        {
+            get { return _ImgSource; }
+            set { SetProperty(ref _ImgSource, value); }
+        }
+
+        private string _Gender;
+        public string Gender
+        {
+            get { return _Gender; }
+            set { SetProperty(ref _Gender, value); }
+        }
+
         #endregion
-        private void GetCurrentUserInfo()
+        public void GetCurrentUserInfo()
         {
             var user = userService.GetUserPreferences();
+
+            //Street = user.adress.Street;
+            //City = user.adress.City;
+            //HouseNumber = user.adress.HouseNumber;
+            //FirstName = user.FirstName;
+            //LastName = user.LastName;
+            Email = user.Email;
+            //Phone = user.Phone;
+            //UserImage = user.Image;
+            //Gender = user.Gender;
+        }
+
+
+        public async void GetUserInfoFromDb()
+        {
+            var user = await userService.GetUsr(Email);
 
             Street = user.adress.Street;
             City = user.adress.City;
@@ -97,6 +130,9 @@ namespace GardenEinfach.ViewModels
             Email = user.Email;
             Phone = user.Phone;
             UserImage = user.Image;
+            ImgSource = ImageSource.FromUri(new Uri(UserImage));
+            Gender = user.Gender;
+
         }
 
         private void MessageSubscribe()
@@ -111,7 +147,7 @@ namespace GardenEinfach.ViewModels
                 HouseNumber = user.adress.HouseNumber;
                 Email = user.Email;
                 Phone = user.Phone;
-
+                Gender = user.Gender;
 
             });
             MessagingCenter.Subscribe<LoginViewModel, MyUser>(this, "UsrLogin", (vm, user) =>
@@ -124,6 +160,7 @@ namespace GardenEinfach.ViewModels
                 HouseNumber = user.adress.HouseNumber;
                 Email = user.Email;
                 Phone = user.Phone;
+                Gender = user.Gender;
             });
             //MessagingCenter.Subscribe<AccountViewModel, MyUser>(this, "UpdateUser", (vm, user) =>
             //{

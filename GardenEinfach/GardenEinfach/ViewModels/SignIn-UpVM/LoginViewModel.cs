@@ -58,11 +58,8 @@ namespace GardenEinfach.ViewModels
         {
             try
             {
+                var token = await userService.loginUser(EmailInput, Password);
 
-
-                var authProvider = new FirebaseAuthProvider(new FirebaseConfig(WebApiKey));
-                var auth = await authProvider.SignInWithEmailAndPasswordAsync(EmailInput, Password);
-                var token = auth.GetFreshAuthAsync();
                 var SerializedContent = JsonConvert.SerializeObject(token);
 
                 if (RememberMe == true)
@@ -75,7 +72,7 @@ namespace GardenEinfach.ViewModels
                 await Shell.Current.GoToAsync("//HomePage/Home");
 
             }
-            catch (Exception)
+            catch (FirebaseAuthException ex)
             {
 
                 await App.Current.MainPage.DisplayAlert("Alert", "Invalid Email or Password", "ok");

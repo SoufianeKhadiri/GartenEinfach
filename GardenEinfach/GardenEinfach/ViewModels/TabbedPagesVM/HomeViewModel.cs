@@ -19,17 +19,10 @@ namespace GardenEinfach.ViewModels
     public class HomeViewModel : BaseViewModel
     {
 
-        //private string _UserImage;
-        //public string UserImage
-        //{
-        //    get { return _UserImage; }
-        //    set { SetProperty(ref _UserImage, value); }
-        //}
-
-
         #region Refresh
 
         public DelegateCommand Refresh { get; set; }
+        public static DelegateCommand RefreshUserInfo { get; set; }
         public static DelegateCommand RefreshFromPostDetail { get; set; }
 
         private bool _IsRegreshing;
@@ -130,15 +123,19 @@ namespace GardenEinfach.ViewModels
             ShowAllMyPosts = new DelegateCommand(ShowMyPosts);
             ShowAllPosts = new DelegateCommand(ShowPosts);
             Refresh = new DelegateCommand(RefreshM);
+            RefreshUserInfo = new DelegateCommand(RefreshUserInfoM);
             RefreshFromPostDetail = new DelegateCommand(RefreshM);
-
-
         }
 
+        private void RefreshUserInfoM()
+        {
+            GetUserInfoFromDb();
+        }
 
         private void RefreshM()
         {
             IsRefreshing = true;
+
             getPostsData();
             IsRefreshing = false;
         }

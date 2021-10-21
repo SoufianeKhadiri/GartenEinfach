@@ -10,18 +10,26 @@ namespace GardenEinfach.Service
 {
     public interface IUserService
     {
-        //MyUser GetUserInfo(List<MyUser> users, string email);
+
         Task<List<MyUser>> GetAllUsers();
         Task AddUser(MyUser user);
         Task<string> CreateUserFirebaseAuth(string email, string password);
+        Task<string> loginUser(string email, string password);
         ObservableCollection<MyUser> getUsers();
 
         Task<MyUser> GetUsr(string email);
 
-        Task UpdateUserFoto(string email, string imageUrl, MyUser user);
+        Task<string> UpdateUserInfo(MyUser newuser, string email);
 
         MyUser GetUserPreferences();
+
+        void SetUserPreferences(MyUser newUsrInfo);
         Task<string> UploadUserImage(Stream stream, string Titel, string database);
         string SetUserImage(string gender);
+
+        MyUser CreateUser(string firstName, string lastName, string email, string phone,
+                                  string gender, string image, string street, string city, string houseNumber);
+
+
     }
 }

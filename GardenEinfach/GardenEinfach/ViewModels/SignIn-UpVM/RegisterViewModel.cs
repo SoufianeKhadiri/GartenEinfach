@@ -199,7 +199,7 @@ namespace GardenEinfach.ViewModels
             };
             await userService.AddUser(user);
 
-            MessagingCenter.Send(this, "Usr", user);
+            //  MessagingCenter.Send(this, "Usr", user);
 
             saveUserInfo(user);
 
