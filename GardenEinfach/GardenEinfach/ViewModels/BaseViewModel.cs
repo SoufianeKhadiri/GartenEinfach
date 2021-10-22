@@ -1,6 +1,7 @@
 ﻿using GardenEinfach.Model;
 using GardenEinfach.Service;
 using GardenEinfach.Services;
+using Plugin.CloudFirestore;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -21,10 +22,14 @@ namespace GardenEinfach.ViewModels
         {
             postService = new PostService();
             userService = new UserService();
-            GetCurrentUserInfo();
-            GetUserInfoFromDb();
-            //MessageSubscribe();
+
+            Email = Preferences.Get("Email", "");
+            GetUserInfoFromDb(Email);
+            MessageSubscribe();
+
         }
+
+
 
         #region User Props
 
@@ -80,12 +85,15 @@ namespace GardenEinfach.ViewModels
             set { SetProperty(ref _UserImage, value); }
         }
 
+
         private string _FullyAdress;
         public string FullyAdress
         {
-            get { return _Street + " " + _HouseNumber + " " + _City; }
+            get { return _FullyAdress; }
             set { SetProperty(ref _FullyAdress, value); }
         }
+
+
 
         private ImageSource _ImgSource;
         public ImageSource ImgSource
@@ -102,77 +110,49 @@ namespace GardenEinfach.ViewModels
         }
 
         #endregion
-        public void GetCurrentUserInfo()
+
+        public async void GetUserInfoFromDb(string email)
         {
-            var user = userService.GetUserPreferences();
+            if (!string.IsNullOrEmpty(email))
+            {
+                var user = await userService.GetUsr(email);
 
-            //Street = user.adress.Street;
-            //City = user.adress.City;
-            //HouseNumber = user.adress.HouseNumber;
-            //FirstName = user.FirstName;
-            //LastName = user.LastName;
-            Email = user.Email;
-            //Phone = user.Phone;
-            //UserImage = user.Image;
-            //Gender = user.Gender;
+                if (user != null)
+                {
+                    Street = user.adress.Street;
+                    City = user.adress.City;
+                    HouseNumber = user.adress.HouseNumber;
+                    FirstName = user.FirstName;
+                    LastName = user.LastName;
+                    Email = user.Email;
+                    Phone = user.Phone;
+                    UserImage = user.Image;
+                    ImgSource = ImageSource.FromUri(new Uri(UserImage));
+                    Gender = user.Gender;
+                    FullyAdress = Street + " " + HouseNumber + " " + City;
+                }
+
+            }
         }
-
-
-        public async void GetUserInfoFromDb()
-        {
-            var user = await userService.GetUsr(Email);
-
-            Street = user.adress.Street;
-            City = user.adress.City;
-            HouseNumber = user.adress.HouseNumber;
-            FirstName = user.FirstName;
-            LastName = user.LastName;
-            Email = user.Email;
-            Phone = user.Phone;
-            UserImage = user.Image;
-            ImgSource = ImageSource.FromUri(new Uri(UserImage));
-            Gender = user.Gender;
-
-        }
-
         private void MessageSubscribe()
         {
-            MessagingCenter.Subscribe<RegisterViewModel, MyUser>(this, "Usr", (vm, user) =>
+            MessagingCenter.Subscribe<RegisterViewModel, string>(this, "Register", (vm, SentEmail) =>
             {
-                FirstName = user.FirstName;
-                LastName = user.LastName;
-                UserImage = user.Image;
-                Street = user.adress.Street;
-                City = user.adress.City;
-                HouseNumber = user.adress.HouseNumber;
-                Email = user.Email;
-                Phone = user.Phone;
-                Gender = user.Gender;
+                GetUserInfoFromDb(SentEmail);
+            });
+            MessagingCenter.Subscribe<LoginViewModel, string>(this, "Login", (vm, SentEmailInput) =>
+            {
+                GetUserInfoFromDb(SentEmailInput);
 
             });
-            MessagingCenter.Subscribe<LoginViewModel, MyUser>(this, "UsrLogin", (vm, user) =>
+            MessagingCenter.Subscribe<AccountViewModel, string>(this, "Account", (vm, SentEmail) =>
             {
-                FirstName = user.FirstName;
-                LastName = user.LastName;
-                UserImage = user.Image;
-                Street = user.adress.Street;
-                City = user.adress.City;
-                HouseNumber = user.adress.HouseNumber;
-                Email = user.Email;
-                Phone = user.Phone;
-                Gender = user.Gender;
+                GetUserInfoFromDb(SentEmail);
             });
-            //MessagingCenter.Subscribe<AccountViewModel, MyUser>(this, "UpdateUser", (vm, user) =>
-            //{
-            //    FirstName = user.FirstName;
-            //    LastName = user.LastName;
-            //    UserImage = user.Image;
-            //    Street = user.adress.Street;
-            //    City = user.adress.City;
-            //    HouseNumber = user.adress.HouseNumber;
-            //    Email = user.Email;
-            //    Phone = user.Phone;
-            //});
+            MessagingCenter.Subscribe<ProfileSettingViewModel, string>(this, "Account", (vm, SentEmail) =>
+            {
+                GetUserInfoFromDb(SentEmail);
+            });
         }
 
         bool isBusy = false;

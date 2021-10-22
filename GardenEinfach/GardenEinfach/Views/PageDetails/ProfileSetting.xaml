@@ -17,17 +17,17 @@
                 <RowDefinition Height="80"/>
             </Grid.RowDefinitions>
             <!--Background IMage-->
-            <ffimageloading:CachedImage Source="login" Aspect="AspectFill" Grid.RowSpan="3"/>
+            <ffimageloading:CachedImage Source="login" Aspect="AspectFill" Grid.RowSpan="4"/>
 
             <!--CloseandValid-->
             <ffimageloading:CachedImage Source="close" HorizontalOptions="Start" VerticalOptions="Start"
-                                        HeightRequest="30" WidthRequest="30" Margin="10">
+                                        HeightRequest="25" WidthRequest="25" Margin="20">
                 <ffimageloading:CachedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding Back}"/>
                 </ffimageloading:CachedImage.GestureRecognizers>
             </ffimageloading:CachedImage>
             <ffimageloading:CachedImage Source="valid" HorizontalOptions="EndAndExpand" VerticalOptions="Start"
-                                        HeightRequest="35" WidthRequest="35" Margin="10">
+                                        HeightRequest="35" WidthRequest="35" Margin="20">
                 <ffimageloading:CachedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding SaveUserInfo}"/>
                 </ffimageloading:CachedImage.GestureRecognizers>
@@ -56,10 +56,11 @@
                         </ffimageloading:CachedImage.GestureRecognizers>
                     </ffimageloading:CachedImage>
                 </Grid>
-
+                <Label Text="{Binding FirstName}" HorizontalOptions="Center" VerticalOptions="EndAndExpand" FontSize="30" 
+                                                  Margin="60,0,0,-40"      FontAttributes="Bold" TextColor="White"/>
             </Grid>
             <!--UserData-->
-            <Grid VerticalOptions="Start" Margin="0,0,0,30" Grid.Row="1">
+            <Grid VerticalOptions="Start" Margin="0,20,0,30" Grid.Row="1">
                 <Grid.RowDefinitions>
 
                     <RowDefinition Height="auto"/>

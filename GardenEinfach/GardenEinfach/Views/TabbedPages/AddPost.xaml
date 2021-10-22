@@ -104,7 +104,7 @@
                 <StackLayout>
                     <StackLayout Orientation="Horizontal">
                         <Label Text="Adress" FontSize="16" Margin="10" TextColor="Gray"/>
-                        <Label  Text="{Binding Adress}" FontSize="16" Margin="5,10,0,0"
+                        <Label  Text="{Binding FullyAdress}" FontSize="16" Margin="5,10,0,0"
                                               HorizontalOptions="FillAndExpand"  />
                     </StackLayout>
 

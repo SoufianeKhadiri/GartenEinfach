@@ -25,6 +25,7 @@ namespace GardenEinfach
 
             if (string.IsNullOrEmpty(FirebaseToken))
             {
+                Preferences.Set("Email", "");
                 await Shell.Current.GoToAsync("//Login");
             }
             else

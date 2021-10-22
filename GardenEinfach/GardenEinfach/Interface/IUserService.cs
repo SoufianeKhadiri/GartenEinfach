@@ -21,9 +21,9 @@ namespace GardenEinfach.Service
 
         Task<string> UpdateUserInfo(MyUser newuser, string email);
 
-        MyUser GetUserPreferences();
+        //MyUser GetUserPreferences();
 
-        void SetUserPreferences(MyUser newUsrInfo);
+        //void SetUserPreferences(MyUser newUsrInfo);
         Task<string> UploadUserImage(Stream stream, string Titel, string database);
         string SetUserImage(string gender);
 

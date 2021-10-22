@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>455127549912-11hnk7k3v1d6hb96ga129lp6fuvgptus.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.455127549912-11hnk7k3v1d6hb96ga129lp6fuvgptus</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCUKVgtSYoCQJrXNc-ca-0RrmSEfEqn2qA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>455127549912</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.companyname.GardenEinfach</string>
+	<key>PROJECT_ID</key>
+	<string>gardenservice-ec613</string>
+	<key>STORAGE_BUCKET</key>
+	<string>gardenservice-ec613.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:455127549912:ios:b3e560b838d0e9f0f5d4ad</string>
+	<key>DATABASE_URL</key>
+	<string>https://gardenservice-ec613-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

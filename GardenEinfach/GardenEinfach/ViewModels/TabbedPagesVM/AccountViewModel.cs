@@ -19,20 +19,17 @@ namespace GardenEinfach.ViewModels
 
         public static DelegateCommand FotoCamera { get; set; }
         public static DelegateCommand FotoGallery { get; set; }
-        public static DelegateCommand RefreshUserInfo { get; set; }
+
         //ctor
         public AccountViewModel()
         {
 
             FotoCamera = new DelegateCommand(TakeFotoFromCamera);
             FotoGallery = new DelegateCommand(TakeFotoFromGalery);
-            RefreshUserInfo = new DelegateCommand(RefreshUserInfoM);
+
         }
 
-        private void RefreshUserInfoM()
-        {
-            GetUserInfoFromDb();
-        }
+
 
         public async void TakeFotoFromCamera()
         {
@@ -52,10 +49,11 @@ namespace GardenEinfach.ViewModels
                 if (photo != null)
                 {
 
-                    UserImage = await userService.UploadUserImage(photo.GetStream(), Preferences.Get("Email", ""), "UsersImages");
-                    //Preferences.Set("UserImage", UserImage);
-                    await userService.UpdateUserInfo(userService.GetUserPreferences(), Email);
-                    HomeViewModel.RefreshUserInfo.Execute();
+                    UserImage = await userService.UploadUserImage(photo.GetStream(), Email, "UsersImages");
+                    var user = userService.CreateUser(FirstName, LastName, Email, Phone, Gender, UserImage, Street, City, HouseNumber);
+                    await userService.UpdateUserInfo(user, Email);
+                    MessagingCenter.Send(this, "Account", Email);
+
                 }
             }
             catch (Exception ex)
@@ -78,11 +76,10 @@ namespace GardenEinfach.ViewModels
                 });
                 if (photo != null)
                 {
-
                     UserImage = await userService.UploadUserImage(photo.GetStream(), Email, "UsersImages");
-                    //Preferences.Set("UserImage", UserImage);
-                    await userService.UpdateUserInfo(userService.GetUserPreferences(), Email);
-                    HomeViewModel.RefreshUserInfo.Execute();
+                    var user = userService.CreateUser(FirstName, LastName, Email, Phone, Gender, UserImage, Street, City, HouseNumber);
+                    await userService.UpdateUserInfo(user, Email);
+                    MessagingCenter.Send(this, "Account", Email);
                 }
             }
             catch (Exception ex)
@@ -111,6 +108,7 @@ namespace GardenEinfach.ViewModels
         async void LogoutM()
         {
             Preferences.Set("myFirebaseRefreshToken", "");
+            Preferences.Set("Email", "");
             await Shell.Current.GoToAsync("//Login");
         }
 
@@ -134,9 +132,6 @@ namespace GardenEinfach.ViewModels
             UserImagePopUpViewModel.FromAccount = true;
             await PopupNavigation.Instance.PushAsync(new UserImagePopUp());
         }
-
-
-
 
         #endregion
     }

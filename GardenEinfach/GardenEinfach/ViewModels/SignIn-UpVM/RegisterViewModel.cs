@@ -18,12 +18,7 @@ namespace GardenEinfach.ViewModels
     {
 
         #region Props
-        private string _Email;
-        public string Email
-        {
-            get { return _Email; }
-            set { SetProperty(ref _Email, value); }
-        }
+
         private ObservableCollection<MyUser> _Emails;
         public ObservableCollection<MyUser> Emails
         {
@@ -39,59 +34,6 @@ namespace GardenEinfach.ViewModels
         }
 
 
-        private string _FistName;
-        public string FirstName
-        {
-            get { return _FistName; }
-            set { SetProperty(ref _FistName, value); }
-        }
-
-
-        private string _LastName;
-        public string LastName
-        {
-            get { return _LastName; }
-            set { SetProperty(ref _LastName, value); }
-        }
-
-        private string _Adress;
-        public string Adress
-        {
-            get { return _Adress; }
-            set { SetProperty(ref _Adress, value); }
-        }
-
-
-        private string _Phone;
-        public string Phone
-        {
-            get { return _Phone; }
-            set { SetProperty(ref _Phone, value); }
-        }
-
-
-        private string _HouseNumber;
-        public string HouseNumber
-        {
-            get { return _HouseNumber; }
-            set { SetProperty(ref _HouseNumber, value); }
-        }
-
-
-        private string _Street;
-        public string Street
-        {
-            get { return _Street; }
-            set { SetProperty(ref _Street, value); }
-        }
-
-        private string _City;
-        public string City
-        {
-            get { return _City; }
-            set { SetProperty(ref _City, value); }
-        }
-
 
         private List<string> _GenderList;
         public List<string> GenderList
@@ -100,12 +42,7 @@ namespace GardenEinfach.ViewModels
             set { SetProperty(ref _GenderList, value); }
         }
 
-        private string _Gender;
-        public string Gender
-        {
-            get { return _Gender; }
-            set { SetProperty(ref _Gender, value); }
-        }
+
 
         #endregion
 
@@ -141,6 +78,7 @@ namespace GardenEinfach.ViewModels
 
         async void RegisterM()
         {
+
             string token;
 
             try
@@ -152,7 +90,7 @@ namespace GardenEinfach.ViewModels
                 await App.Current.MainPage.DisplayAlert("Success", "Account created!", "ok");
                 await Shell.Current.GoToAsync("//HomePage");
 
-                emptyForm();
+
             }
             catch (FirebaseAuthException ex)
             {
@@ -177,7 +115,7 @@ namespace GardenEinfach.ViewModels
         private void emptyForm()
         {
             FirstName = LastName = Phone = HouseNumber = Street = City =
-            Email = Password = Gender;
+            Email = Password = Gender = "";
 
         }
 
@@ -198,27 +136,27 @@ namespace GardenEinfach.ViewModels
 
             };
             await userService.AddUser(user);
-
-            //  MessagingCenter.Send(this, "Usr", user);
-
-            saveUserInfo(user);
-
-
-        }
-
-        private void saveUserInfo(MyUser user)
-        {
-            Preferences.Set("FirstName", user.FirstName);
-            Preferences.Set("LastName", user.LastName);
             Preferences.Set("Email", user.Email);
-            Preferences.Set("Phone", user.Phone);
-            Preferences.Set("Adress", user.adress.Street + user.adress.HouseNumber + user.adress.City);
-            Preferences.Set("Gender", user.Gender);
-            Preferences.Set("Street", user.adress.Street);
-            Preferences.Set("City", user.adress.City);
-            Preferences.Set("HouseNumber", user.adress.HouseNumber);
-            Preferences.Set("UserImage", user.Image);
+            MessagingCenter.Send(this, "Register", user.Email);
+            emptyForm();
+            // saveUserInfo(user);
+
+
         }
+
+        //private void saveUserInfo(MyUser user)
+        //{
+        //    Preferences.Set("FirstName", user.FirstName);
+        //    Preferences.Set("LastName", user.LastName);
+        //    Preferences.Set("Email", user.Email);
+        //    Preferences.Set("Phone", user.Phone);
+        //    Preferences.Set("Adress", user.adress.Street + user.adress.HouseNumber + user.adress.City);
+        //    Preferences.Set("Gender", user.Gender);
+        //    Preferences.Set("Street", user.adress.Street);
+        //    Preferences.Set("City", user.adress.City);
+        //    Preferences.Set("HouseNumber", user.adress.HouseNumber);
+        //    Preferences.Set("UserImage", user.Image);
+        //}
 
 
     }

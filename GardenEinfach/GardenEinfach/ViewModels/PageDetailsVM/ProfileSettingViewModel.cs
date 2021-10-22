@@ -87,7 +87,7 @@ namespace GardenEinfach.ViewModels
                                                         Gender, NewUserImage, Street, HouseNumber, City);
                     await userService.UpdateUserInfo(newUsr, Email);
 
-                    userService.SetUserPreferences(newUsr);
+                    MessagingCenter.Send(this, "Account", Email);
                 }
                 else
                 {
@@ -96,7 +96,7 @@ namespace GardenEinfach.ViewModels
                                                         Gender, UserImage, Street, HouseNumber, City);
                     await userService.UpdateUserInfo(newUser, Email);
 
-                    userService.SetUserPreferences(newUser);
+                    MessagingCenter.Send(this, "Account", Email);
                 }
             }
             catch (Exception)
@@ -108,8 +108,8 @@ namespace GardenEinfach.ViewModels
 
 
             Loading = false;
-            HomeViewModel.RefreshUserInfo.Execute();
-            AccountViewModel.RefreshUserInfo.Execute();
+            //HomeViewModel.RefreshUserInfo.Execute();
+            //AccountViewModel.RefreshUserInfo.Execute();
 
             await Shell.Current.GoToAsync("..");
             await Application.Current.MainPage.DisplayToastAsync("user info updated", 1500);

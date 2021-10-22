@@ -91,43 +91,43 @@ namespace GardenEinfach.Service
             return UserData;
         }
 
-        public MyUser GetUserPreferences()
-        {
-            MyUser usr = new MyUser();
-            Adress adress = new Adress();
+        //public MyUser GetUserPreferences()
+        //{
+        //    MyUser usr = new MyUser();
+        //    Adress adress = new Adress();
 
-            adress.Street = Preferences.Get("Street", "");
-            adress.City = Preferences.Get("City", "");
-            adress.HouseNumber = Preferences.Get("HouseNumber", "");
-            usr.FirstName = Preferences.Get("FirstName", "");
-            usr.LastName = Preferences.Get("LastName", "");
-            usr.Email = Preferences.Get("Email", "");
-            usr.Phone = Preferences.Get("Phone", "");
-            usr.FullyAdress = Preferences.Get("Adress", "");
-            usr.Gender = Preferences.Get("Gender", "");
-            usr.adress = adress;
-            usr.Image = Preferences.Get("UserImage", "");
-            return usr;
-        }
+        //    adress.Street = Preferences.Get("Street", "");
+        //    adress.City = Preferences.Get("City", "");
+        //    adress.HouseNumber = Preferences.Get("HouseNumber", "");
+        //    usr.FirstName = Preferences.Get("FirstName", "");
+        //    usr.LastName = Preferences.Get("LastName", "");
+        //    usr.Email = Preferences.Get("Email", "");
+        //    usr.Phone = Preferences.Get("Phone", "");
+        //    usr.FullyAdress = Preferences.Get("Adress", "");
+        //    usr.Gender = Preferences.Get("Gender", "");
+        //    usr.adress = adress;
+        //    usr.Image = Preferences.Get("UserImage", "");
+        //    return usr;
+        //}
 
-        public void SetUserPreferences(MyUser newUsrInfo)
-        {
-            MyUser usr = new MyUser();
-            Adress adress = new Adress();
+        //public void SetUserPreferences(MyUser newUsrInfo)
+        //{
+        //    MyUser usr = new MyUser();
+        //    Adress adress = new Adress();
 
-            adress.Street = Preferences.Get("Street", newUsrInfo.adress.Street);
-            adress.City = Preferences.Get("City", newUsrInfo.adress.City);
-            adress.HouseNumber = Preferences.Get("HouseNumber", newUsrInfo.adress.HouseNumber);
-            usr.FirstName = Preferences.Get("FirstName", newUsrInfo.FirstName);
-            usr.LastName = Preferences.Get("LastName", newUsrInfo.LastName);
-            usr.Email = Preferences.Get("Email", newUsrInfo.Email);
-            usr.Phone = Preferences.Get("Phone", newUsrInfo.Phone);
-            //usr.FullyAdress = Preferences.Get("Adress", newUsrInfo.FirstName);
-            usr.Gender = Preferences.Get("Gender", newUsrInfo.Gender);
-            usr.adress = adress;
-            usr.Image = Preferences.Get("UserImage", newUsrInfo.Image);
+        //    adress.Street = Preferences.Get("Street", newUsrInfo.adress.Street);
+        //    adress.City = Preferences.Get("City", newUsrInfo.adress.City);
+        //    adress.HouseNumber = Preferences.Get("HouseNumber", newUsrInfo.adress.HouseNumber);
+        //    usr.FirstName = Preferences.Get("FirstName", newUsrInfo.FirstName);
+        //    usr.LastName = Preferences.Get("LastName", newUsrInfo.LastName);
+        //    usr.Email = Preferences.Get("Email", newUsrInfo.Email);
+        //    usr.Phone = Preferences.Get("Phone", newUsrInfo.Phone);
+        //    //usr.FullyAdress = Preferences.Get("Adress", newUsrInfo.FirstName);
+        //    usr.Gender = Preferences.Get("Gender", newUsrInfo.Gender);
+        //    usr.adress = adress;
+        //    usr.Image = Preferences.Get("UserImage", newUsrInfo.Image);
 
-        }
+        //}
         public async Task<string> UpdateUserInfo(MyUser newuser, string email)
         {
 
@@ -167,15 +167,15 @@ namespace GardenEinfach.Service
 
             if (gender == "Male")
             {
-                userImage = "man";
+                userImage = "https://firebasestorage.googleapis.com/v0/b/gardenservice-ec613.appspot.com/o/UsersImages%2Fman.png?alt=media&token=334c1458-9f1c-495a-9043-12d8fe43cd97";
             }
             else if (gender == "Female")
             {
-                userImage = "women";
+                userImage = "https://firebasestorage.googleapis.com/v0/b/gardenservice-ec613.appspot.com/o/UsersImages%2Fwomen.png?alt=media&token=148e8911-9a3d-4804-8206-5480ba60f52c";
             }
             else if (gender == "Other")
             {
-                userImage = "other";
+                userImage = "https://firebasestorage.googleapis.com/v0/b/gardenservice-ec613.appspot.com/o/UsersImages%2Fother.png?alt=media&token=8d059a66-1394-4467-bcbc-fc13d8493727";
             }
             else
             {

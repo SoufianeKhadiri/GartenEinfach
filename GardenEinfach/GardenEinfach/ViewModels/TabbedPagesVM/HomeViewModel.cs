@@ -22,7 +22,7 @@ namespace GardenEinfach.ViewModels
         #region Refresh
 
         public DelegateCommand Refresh { get; set; }
-        public static DelegateCommand RefreshUserInfo { get; set; }
+
         public static DelegateCommand RefreshFromPostDetail { get; set; }
 
         private bool _IsRegreshing;
@@ -111,8 +111,6 @@ namespace GardenEinfach.ViewModels
         public DelegateCommand ShowAllMyPosts { get; set; }
         public DelegateCommand ShowAllPosts { get; set; }
 
-
-
         public DelegateCommand NavigateForwardCommand { get; set; }
 
         //ctor
@@ -123,14 +121,11 @@ namespace GardenEinfach.ViewModels
             ShowAllMyPosts = new DelegateCommand(ShowMyPosts);
             ShowAllPosts = new DelegateCommand(ShowPosts);
             Refresh = new DelegateCommand(RefreshM);
-            RefreshUserInfo = new DelegateCommand(RefreshUserInfoM);
+
             RefreshFromPostDetail = new DelegateCommand(RefreshM);
         }
 
-        private void RefreshUserInfoM()
-        {
-            GetUserInfoFromDb();
-        }
+
 
         private void RefreshM()
         {

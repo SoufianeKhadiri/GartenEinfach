@@ -15,7 +15,7 @@ namespace GardenEinfach.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
-
+        #region Props
 
         private string _EmailInput;
         public string EmailInput
@@ -32,22 +32,18 @@ namespace GardenEinfach.ViewModels
             set { SetProperty(ref _Password, value); }
         }
 
-
-        public string WebApiKey = "AIzaSyD_rzOMR_cTLm9JYCo1WylNJqXOc56rTvI";
-
-        //ctor
-
-        public LoginViewModel()
-        {
-
-        }
-
-
         private bool _RememberMe;
         public bool RememberMe
         {
             get { return _RememberMe; }
             set { SetProperty(ref _RememberMe, value); }
+        }
+        #endregion
+        //ctor
+
+        public LoginViewModel()
+        {
+
         }
 
         private DelegateCommand _LoginCommand;
@@ -79,24 +75,23 @@ namespace GardenEinfach.ViewModels
             }
         }
 
-        async void SetUserInfo()
+        void SetUserInfo()
         {
 
-            var user = await userService.GetUsr(EmailInput);
+            //var user = await userService.GetUsr(EmailInput);
 
+            MessagingCenter.Send(this, "Login", EmailInput);
 
-            MessagingCenter.Send(this, "UsrLogin", user);
-
-            Preferences.Set("FirstName", user.FirstName);
-            Preferences.Set("LastName", user.LastName);
-            Preferences.Set("Email", user.Email);
-            Preferences.Set("Phone", user.Phone);
-            Preferences.Set("Adress", user.adress.Street + user.adress.HouseNumber + user.adress.City);
-            Preferences.Set("Gender", user.Gender);
-            Preferences.Set("Street", user.adress.Street);
-            Preferences.Set("City", user.adress.City);
-            Preferences.Set("HouseNumber", user.adress.HouseNumber);
-            Preferences.Set("UserImage", user.Image);
+            //Preferences.Set("FirstName", user.FirstName);
+            //Preferences.Set("LastName", user.LastName);
+            Preferences.Set("Email", EmailInput);
+            //Preferences.Set("Phone", user.Phone);
+            //Preferences.Set("Adress", user.adress.Street + user.adress.HouseNumber + user.adress.City);
+            //Preferences.Set("Gender", user.Gender);
+            //Preferences.Set("Street", user.adress.Street);
+            //Preferences.Set("City", user.adress.City);
+            //Preferences.Set("HouseNumber", user.adress.HouseNumber);
+            //Preferences.Set("UserImage", user.Image);
 
 
         }

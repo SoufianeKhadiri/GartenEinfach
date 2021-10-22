@@ -21,20 +21,20 @@ namespace GardenEinfach.ViewModels
         #region Post Props
 
 
-        private string _Phone;
-        public string Phone
-        {
-            get { return _Phone; }
-            set { SetProperty(ref _Phone, value); }
-        }
+        //private string _Phone;
+        //public string Phone
+        //{
+        //    get { return _Phone; }
+        //    set { SetProperty(ref _Phone, value); }
+        //}
 
 
-        private string _Adress;
-        public string Adress
-        {
-            get { return _Adress; }
-            set { SetProperty(ref _Adress, value); }
-        }
+        //private string _Adress;
+        //public string Adress
+        //{
+        //    get { return _Adress; }
+        //    set { SetProperty(ref _Adress, value); }
+        //}
 
         private string _Titel;
         public string Titel
@@ -114,30 +114,30 @@ namespace GardenEinfach.ViewModels
             CleanForm = new DelegateCommand(EmptyForm);
             Loading = false;
 
-            MessagingSub();
+            //MessagingSub();
 
 
         }
 
         private void GetCurrentUserInfo()
         {
-            var user = userService.GetUserPreferences();
-            Adress = user.FullyAdress;
-            Phone = user.Phone;
+            //var user = userService.;
+            //Adress = user.FullyAdress;
+            //Phone = user.Phone;
         }
 
-        private void MessagingSub()
-        {
-            MessagingCenter.Subscribe<LoginViewModel, MyUser>(this, "UsrLogin", (vm, user) =>
-            {
-                if (user != null)
-                {
-                    Adress = user.adress.Street + " " + user.adress.HouseNumber + " " + user.adress.City;
-                    Phone = user.Phone;
-                }
+        //private void MessagingSub()
+        //{
+        //    MessagingCenter.Subscribe<LoginViewModel, MyUser>(this, "UsrLogin", (vm, user) =>
+        //    {
+        //        if (user != null)
+        //        {
+        //            Adress = user.adress.Street + " " + user.adress.HouseNumber + " " + user.adress.City;
+        //            Phone = user.Phone;
+        //        }
 
-            });
-        }
+        //    });
+        //}
 
         private void InitPicker()
         {
@@ -168,7 +168,7 @@ namespace GardenEinfach.ViewModels
                 Titel = Titel,
                 Description = Description,
                 Time = getCurrentTime(),
-                User = userService.GetUserPreferences()
+                //User = userService.GetUserPreferences()
             };
             await postService.AddItemAsync(p);
             Loading = false;
