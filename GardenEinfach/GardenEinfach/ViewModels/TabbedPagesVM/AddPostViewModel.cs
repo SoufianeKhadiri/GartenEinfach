@@ -168,7 +168,7 @@ namespace GardenEinfach.ViewModels
                 Titel = Titel,
                 Description = Description,
                 Time = getCurrentTime(),
-                //User = userService.GetUserPreferences()
+                User = await userService.GetUsr(Email)
             };
             await postService.AddItemAsync(p);
             Loading = false;

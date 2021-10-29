@@ -12,9 +12,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
-                <RowDefinition Height="auto"/>
                 <RowDefinition Height="1"/>
-
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
 
             </Grid.RowDefinitions>
@@ -47,23 +46,28 @@
 
             </ffimageloadingsvg:SvgCachedImage>
 
-            <!--Titel-->
-            <Label Text="{Binding Titel}" Grid.Row="1" Margin="10" FontSize="Large" TextColor="Black" />
-            <!--price-->
-            <StackLayout Orientation="Horizontal" Grid.Row="1" HorizontalOptions="EndAndExpand" Margin="10,10,20,10">
+            <!--Post Data-->
+            <Grid Grid.Row="1">
+                <StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <!--Titel-->
+                        <Label Text="{Binding Titel}"  Margin="10" FontSize="Large" TextColor="Black" />
+                        <!--price-->
+                        <StackLayout Orientation="Horizontal"  HorizontalOptions="EndAndExpand" Margin="10,10,20,10">
 
-                <Label  Text="€" FontAttributes="Bold" FontSize="Large" TextColor="Black"/>
-                <Label   Text="{Binding Price}"  FontAttributes="Bold" FontSize="Large" TextColor="Black"/>
-            </StackLayout>
-            <!--description-->
-            <Label Margin="10" Grid.Row="2" Text="{Binding Description}"/>
-
-
+                            <Label  Text="€" FontAttributes="Bold" FontSize="Large" TextColor="Black"/>
+                            <Label   Text="{Binding Price}"  FontAttributes="Bold" FontSize="Large" TextColor="Black"/>
+                        </StackLayout>
+                    </StackLayout>
+                    <!--description-->
+                    <Label Margin="10"  Text="{Binding Description}"/>
+                </StackLayout>
+            </Grid>
             <!--Separator-->
-            <BoxView  Grid.Row="3" Style="{StaticResource Separator}" />
+            <BoxView  Grid.Row="2" Style="{StaticResource Separator}" />
 
             <!--Profile-->
-            <pancake:PancakeView Grid.Row="4" Padding="0" CornerRadius="20,20,0,0" HeightRequest="90" 
+            <pancake:PancakeView Grid.Row="3" Padding="0" CornerRadius="20,20,0,0" HeightRequest="90" 
                Margin="0,0"   BackgroundColor="WhiteSmoke" >
                 <Grid>
                     <Grid.RowDefinitions>
@@ -78,7 +82,7 @@
 
 
                     <!--profile image-->
-                    <ffimageloading:CachedImage    Source="{Binding UserImage}"  Grid.RowSpan="3"
+                    <ffimageloading:CachedImage    Source="{Binding UserImageP}"  Grid.RowSpan="3"
                                                   Margin="10">
                         <ffimageloading:CachedImage.Transformations>
                             <fftransformations:RoundedTransformation Radius="240"/>
@@ -86,12 +90,16 @@
                     </ffimageloading:CachedImage>
 
 
-                    <Label Text="{Binding Username}" Grid.Row="0" Grid.Column="1" TextColor="Black" FontSize="16" Margin="0,8,0,0" />
+                    <Label Text="{Binding UsernameP}" Grid.Row="0" Grid.Column="1" TextColor="Black" FontSize="16" Margin="0,8,0,0" />
                     <Label Text="{Binding Adress}" Grid.Column="1" Grid.Row="1" Margin="0,0,0,0" />
-                    <Label Text="{Binding Phone}" Grid.Column="1" Grid.Row="2" Margin="0,-5,0,0"/>
+                    <Label Text="{Binding PhoneP}" Grid.Column="1" Grid.Row="2" Margin="0,-5,0,0"/>
                 </Grid>
 
             </pancake:PancakeView>
+
+            <!--Message-->
+            <Button Grid.Row="4" Text="Message" WidthRequest="200" Command="{Binding Message}"/>
+
         </Grid>
 
     </ScrollView>

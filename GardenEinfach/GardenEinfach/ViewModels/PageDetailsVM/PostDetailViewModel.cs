@@ -1,5 +1,6 @@
 ﻿
 using GardenEinfach.Model;
+using GardenEinfach.Views.TabbedPages;
 using Newtonsoft.Json;
 using Prism.Commands;
 using System;
@@ -63,11 +64,11 @@ namespace GardenEinfach.ViewModels
 
 
 
-        private string _Username;
-        public string Username
+        private string _UsernameP;
+        public string UsernameP
         {
-            get { return _Username; }
-            set { SetProperty(ref _Username, value); }
+            get { return _UsernameP; }
+            set { SetProperty(ref _UsernameP, value); }
         }
 
 
@@ -142,6 +143,8 @@ namespace GardenEinfach.ViewModels
         }
 
 
+
+
         public async void LoadItemId(string key)
         {
 
@@ -174,10 +177,11 @@ namespace GardenEinfach.ViewModels
             Description = PostDetail.Description;
             Titel = PostDetail.Titel;
             Price = PostDetail.Price.ToString();
-            Username = PostDetail.User.FirstName;
-            Adress = PostDetail.User.FullyAdress;
+            UsernameP = PostDetail.User.FirstName;
+            Adress = PostDetail.User.adress.Street + " " + PostDetail.User.adress.HouseNumber +
+                     " " + PostDetail.User.adress.City;
             PhoneP = PostDetail.User.Phone;
-            UserImageP = userService.SetUserImage(PostDetail.User.Gender);
+            UserImageP = PostDetail.User.Image;
         }
 
         private void CarouselViewLoop(Post p)
@@ -203,6 +207,16 @@ namespace GardenEinfach.ViewModels
         async void BackM()
         {
             await Shell.Current.GoToAsync("..");
+        }
+
+        private DelegateCommand _Message;
+        public DelegateCommand Message =>
+        _Message ?? (_Message = new DelegateCommand(MessageM));
+
+        void MessageM()
+        {
+            Shell.Current
+                .GoToAsync($"{nameof(Messages)}?{nameof(MessagesViewModel.Poster)}={UsernameP}");
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿
 using GardenEinfach.Model;
+using NodaTime;
 using Plugin.CloudFirestore;
 using Prism.Commands;
 using System;
@@ -7,22 +8,80 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace GardenEinfach.ViewModels
 {
+    [QueryProperty(nameof(Poster), nameof(Poster))]
     public class MessagesViewModel : BaseViewModel
     {
+
+        private string _Poster;
+        public string Poster
+        {
+            get { return _Poster; }
+            set
+            {
+                SetProperty(ref _Poster, value);
+
+            }
+        }
+
+        //ctor
         public MessagesViewModel()
         {
+
 
             Messenger messenger = new Messenger();
 
             Messages = new ObservableCollection<Messenger>();
-            GetChat();
+            //GetChat();
             //testc();
-
+            SnapshotListener();
         }
 
+        private void SnapshotListener()
+        {
+            CrossCloudFirestore.Current
+                   .Instance
+                   .Collection("Messages")
+                   .Document("Laptop").Collection("Chat").OrderBy("DateSent")
+                   .AddSnapshotListener((snapshot, error) =>
+                   {
+                       if (snapshot != null)
+                       {
+                           foreach (var documentChange in snapshot.DocumentChanges)
+                           {
+                               switch (documentChange.Type)
+                               {
+                                   case DocumentChangeType.Added:
+
+                                       var msg = documentChange.Document.ToObject<Messenger>();
+
+                                       if (msg.FromUser == "sarah")
+                                       {
+                                           msg.IsOwnerMessage = true;
+                                       }
+                                       else
+                                       {
+                                           msg.IsOwnerMessage = false;
+                                       }
+
+                                       Messages.Add(msg);
+
+                                       // Document Added
+                                       break;
+                                   case DocumentChangeType.Modified:
+                                       // Document Modified
+                                       break;
+                                   case DocumentChangeType.Removed:
+                                       // Document Removed
+                                       break;
+                               }
+                           }
+                       }
+                   });
+        }
 
         private ObservableCollection<Messenger> _Messages;
         public ObservableCollection<Messenger> Messages
@@ -32,19 +91,7 @@ namespace GardenEinfach.ViewModels
         }
 
 
-        private string _Buyyer;
-        public string Buyer
-        {
-            get { return _Buyyer; }
-            set { SetProperty(ref _Buyyer, value); }
-        }
 
-        private string _Seller;
-        public string Seller
-        {
-            get { return _Seller; }
-            set { SetProperty(ref _Seller, value); }
-        }
 
         private string _Message;
         public string Message
@@ -59,6 +106,7 @@ namespace GardenEinfach.ViewModels
             get { return _Status; }
             set { SetProperty(ref _Status, value); }
         }
+
         private DelegateCommand _Send;
         public DelegateCommand Send =>
         _Send ?? (_Send = new DelegateCommand(SendM));
@@ -71,6 +119,12 @@ namespace GardenEinfach.ViewModels
 
         private async void send()
         {
+
+            var timeZone = DateTimeZoneProviders.Tzdb["Europe/Vienna"];
+            var zonedDateTime = Instant.FromDateTimeUtc(DateTime.UtcNow).InZone(timeZone);
+            DateTime localDT = zonedDateTime.ToDateTimeUnspecified();
+
+
             await CrossCloudFirestore.Current
                          .Instance
                          .Collection("Messages")
@@ -78,15 +132,16 @@ namespace GardenEinfach.ViewModels
                          .AddAsync
                          (new Messenger()
                          {
-                             FromUser = Buyer,
-                             ToUser = Seller,
-                             DateSent = DateTime.Now,
+                             FromUser = FirstName,
+                             ToUser = Poster,
+                             DateSent = localDT,
                              Message = Message,
-                             Status = Status
+                             Status = "SENT"
                          });
 
 
         }
+
         private async void GetChat()
         {
             if (Messages.Count > 1)
@@ -94,10 +149,14 @@ namespace GardenEinfach.ViewModels
                 Messages.Clear();
             }
 
+
+
             var document = await CrossCloudFirestore.Current
                                         .Instance
                                         .Collection("Messages")
                                         .Document("Laptop").Collection("Chat")
+                                        .OrderBy("DateSent")
+                                        .LimitTo(100)
                                         .GetAsync();
 
             var msgs = document.ToObjects<Messenger>();

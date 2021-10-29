@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:customListViewDemo="clr-namespace:GardenEinfach.CustomUi"
              xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:ChatVisibility ="clr-namespace:GardenEinfach.Converter"
              x:Class="GardenEinfach.Views.TabbedPages.Messages">
 
 
@@ -41,22 +42,79 @@
             </DataTemplate>
             <customListViewDemo:ChatDataTemplateSelector x:Key="ChatDataTemplateSelector" FromTemplate="{StaticResource FromTemplate}" ToTemplate="{StaticResource ToTemplate}" />
         </ResourceDictionary>
+        <ChatVisibility:ChatVisibilityConverter x:Key="MessageVisibility" />
     </ContentPage.Resources>
 
     <ContentPage.Content>
         <StackLayout >
 
 
-            <ListView ItemsSource="{Binding Messages}" x:Name="ListMessages" HasUnevenRows="True" ItemTemplate="{StaticResource ChatDataTemplateSelector}"  CachingStrategy="RecycleElement" SeparatorColor="Transparent" />
-            <StackLayout>
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                    <Entry Text="{Binding Buyer}" WidthRequest="80"/>
-                    <Entry Text="{Binding Seller}" WidthRequest="80"/>
-                    <Entry Text="{Binding Message}" WidthRequest="80"/>
-                    <Entry Text="{Binding Status}" WidthRequest="80"/>
-                </StackLayout>
-                <Button Command="{Binding Send}" Text="send"/>
-            </StackLayout>
+            <!--<ListView ItemsSource="{Binding Messages}" x:Name="ListMessages" HasUnevenRows="True" 
+                      ItemTemplate="{StaticResource ChatDataTemplateSelector}"  
+                      CachingStrategy="RecycleElement" SeparatorColor="Transparent" />-->
+            <ListView ItemsSource="{Binding Messages}" 
+                  SeparatorVisibility="None"
+                  HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid RowDefinitions="auto, auto">
+                                <Grid ColumnDefinitions="40, *"  IsVisible="{Binding IsOwnerMessage , Converter={StaticResource MessageVisibility}}" Margin="10,0">
+                                    <!--<Label Text="{Binding UserName}"/>-->
+                                    <pancake:PancakeView CornerRadius="15,15,15,0" Padding="8"
+                                       Grid.Column="1"
+                                       HorizontalOptions="End"
+                                       
+                                       Margin="0"
+                                       BackgroundColor="#43aa8b" 
+                                       
+                                       MinimumWidthRequest="20">
+                                        <StackLayout   >
+                                            <Label Text="{Binding Message}" FontSize="Medium"  TextColor="White" />
+                                            <Label Text="{Binding DateSent, StringFormat='{0:t}'}" FontSize="Micro" TextColor="White" HorizontalOptions="Start" HorizontalTextAlignment="End" />
+
+                                        </StackLayout>
+                                    </pancake:PancakeView>
+                                </Grid>
+                                <Grid ColumnDefinitions="*, 40" Margin="10,0"
+                                  Grid.Row="1"
+                                 >
+                                    <!--<Label Text="{Binding UserName}"/>-->
+                                    <pancake:PancakeView CornerRadius="0,15,15,15" 
+                                                         Padding="8" BackgroundColor="#dee2e6"
+                                       
+                                       Margin="0"
+                                       HorizontalOptions="Start"
+                                       
+                                       >
+                                        <StackLayout   >
+                                            <Label Text="{Binding Message}" FontSize="Medium"  TextColor="Black" />
+                                            <Label Text="{Binding DateSent, StringFormat='{0:t}'}" FontSize="Micro" TextColor="DimGray" HorizontalOptions="Start" HorizontalTextAlignment="End" />
+
+                                        </StackLayout>
+                                    </pancake:PancakeView>
+                                </Grid>
+                                <!--<Grid RowDefinitions="auto, auto"  >
+                                <Label Text="{Binding UserName}"/>
+                                <Label Text="{Binding Message}"/>
+                            </Grid>-->
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Entry Text="{Binding Message}"  />
+                <Button Command="{Binding Send}" Grid.Column="1" Text="send"/>
+            </Grid>
+
+
         </StackLayout>
     </ContentPage.Content>
 
