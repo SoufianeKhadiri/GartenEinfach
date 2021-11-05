@@ -1,8 +1,11 @@
 ﻿
 using GardenEinfach.Model;
+using GardenEinfach.Service;
+using GardenEinfach.Views.PageDetails;
 using GardenEinfach.Views.TabbedPages;
 using Newtonsoft.Json;
 using Prism.Commands;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -135,9 +138,12 @@ namespace GardenEinfach.ViewModels
 
         #endregion
         public Post p;
+        public Post PDetail;
+
         //ctor
         public PostDetailViewModel()
         {
+
             p = new Post();
 
         }
@@ -182,6 +188,8 @@ namespace GardenEinfach.ViewModels
                      " " + PostDetail.User.adress.City;
             PhoneP = PostDetail.User.Phone;
             UserImageP = PostDetail.User.Image;
+
+            PDetail = PostDetail;
         }
 
         private void CarouselViewLoop(Post p)
@@ -213,10 +221,13 @@ namespace GardenEinfach.ViewModels
         public DelegateCommand Message =>
         _Message ?? (_Message = new DelegateCommand(MessageM));
 
-        void MessageM()
+        async void MessageM()
         {
-            Shell.Current
-                .GoToAsync($"{nameof(Messages)}?{nameof(MessagesViewModel.Poster)}={UsernameP}");
+            await Shell.Current
+
+            //MessagingCenter.Send(this, "PostDetail", PDetail);
+            .GoToAsync($"{nameof(Chat)}?{nameof(ChatViewModel.Key)}={Key}");
+
         }
 
     }

@@ -38,10 +38,10 @@
     <EmbeddedResource Update="Views\MainPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\PageDetails\MyPosts.xaml">
+    <EmbeddedResource Update="Views\PageDetails\Chat.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\PageDetails\PostChat.xaml">
+    <EmbeddedResource Update="Views\PageDetails\MyPosts.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\PageDetails\PostDetail.xaml">

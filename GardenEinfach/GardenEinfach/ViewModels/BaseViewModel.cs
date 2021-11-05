@@ -3,6 +3,7 @@ using GardenEinfach.Service;
 using GardenEinfach.Services;
 using Plugin.CloudFirestore;
 using Prism.Commands;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -20,6 +21,7 @@ namespace GardenEinfach.ViewModels
 
         public BaseViewModel()
         {
+
             postService = new PostService();
             userService = new UserService();
 
@@ -109,6 +111,14 @@ namespace GardenEinfach.ViewModels
             set { SetProperty(ref _Gender, value); }
         }
 
+
+        private Post _PostDetail;
+        public Post SentPostDetail
+        {
+            get { return _PostDetail; }
+            set { SetProperty(ref _PostDetail, value); }
+        }
+
         #endregion
 
         public async void GetUserInfoFromDb(string email)
@@ -130,6 +140,8 @@ namespace GardenEinfach.ViewModels
                     ImgSource = ImageSource.FromUri(new Uri(UserImage));
                     Gender = user.Gender;
                     FullyAdress = Street + " " + HouseNumber + " " + City;
+
+                    Preferences.Set("FirstName", FirstName);
                 }
 
             }
@@ -153,6 +165,7 @@ namespace GardenEinfach.ViewModels
             {
                 GetUserInfoFromDb(SentEmail);
             });
+
         }
 
         bool isBusy = false;

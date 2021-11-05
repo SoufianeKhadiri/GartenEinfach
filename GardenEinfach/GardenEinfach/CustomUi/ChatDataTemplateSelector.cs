@@ -6,17 +6,17 @@ using Xamarin.Forms;
 
 namespace GardenEinfach.CustomUi
 {
-    public class ChatDataTemplateSelector : DataTemplateSelector
-    {
-        public DataTemplate FromTemplate { get; set; }
-        public DataTemplate ToTemplate { get; set; }
+    //public class ChatDataTemplateSelector : DataTemplateSelector
+    //{
+    //    public DataTemplate FromTemplate { get; set; }
+    //    public DataTemplate ToTemplate { get; set; }
 
-        protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
-        {
+    //    //protected override DataTemplate OnSelectTemplate(object item, BindableObject container)
+    //    //{
 
-            return ((Messenger)item).Status.ToUpper().Equals("SENT") ? FromTemplate : ToTemplate;
+    //    //    //return ((Messenger)item).Status.ToUpper().Equals("SENT") ? FromTemplate : ToTemplate;
 
 
-        }
-    }
+    //    //}
+    //}
 }

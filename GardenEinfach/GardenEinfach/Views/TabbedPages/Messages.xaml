@@ -6,116 +6,43 @@
              xmlns:ChatVisibility ="clr-namespace:GardenEinfach.Converter"
              x:Class="GardenEinfach.Views.TabbedPages.Messages">
 
-
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <DataTemplate x:Key="FromTemplate">
-
-                <ViewCell>
-                    <ViewCell.View>
-                        <pancake:PancakeView  CornerRadius="15,15,15,0" Padding="8" BackgroundColor="#43aa8b"   Margin="10,5"  HorizontalOptions="End"
-                         IsClippedToBounds="True"  >
-                            <StackLayout   >
-                                <Label Text="{Binding Message}" FontSize="Medium"  TextColor="White" />
-                                <Label Text="{Binding DateSent, StringFormat='{0:t}'}" FontSize="Micro" TextColor="White" HorizontalOptions="End" HorizontalTextAlignment="End" />
-
-                            </StackLayout>
-                        </pancake:PancakeView>
-
-                    </ViewCell.View>
-                </ViewCell>
-            </DataTemplate>
-            <DataTemplate x:Key="ToTemplate">
-                <ViewCell>
-                    <ViewCell.View>
-                        <pancake:PancakeView  HorizontalOptions="Start" CornerRadius="0,15,15,15" Padding="8" BackgroundColor="#dee2e6"   Margin="10,5"  
-                          >
-                            <StackLayout   >
-                                <Label Text="{Binding Message}" FontSize="Medium"  TextColor="Black" />
-                                <Label Text="{Binding DateSent, StringFormat='{0:t}'}" FontSize="Micro" TextColor="DimGray" HorizontalOptions="Start" HorizontalTextAlignment="End" />
-
-                            </StackLayout>
-                        </pancake:PancakeView>
-
-                    </ViewCell.View>
-                </ViewCell>
-            </DataTemplate>
-            <customListViewDemo:ChatDataTemplateSelector x:Key="ChatDataTemplateSelector" FromTemplate="{StaticResource FromTemplate}" ToTemplate="{StaticResource ToTemplate}" />
-        </ResourceDictionary>
-        <ChatVisibility:ChatVisibilityConverter x:Key="MessageVisibility" />
-    </ContentPage.Resources>
-
     <ContentPage.Content>
-        <StackLayout >
+        <RefreshView>
+            <ScrollView>
+                <CollectionView  Grid.Row="2" ItemsSource="{Binding Conversations}" SelectionMode="Single" 
+                          Margin="0,5,0,0" SelectedItem="{Binding Conversation}"
+                        >
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Horizontal" VerticalItemSpacing="20" HorizontalItemSpacing="10" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
 
+                            <Grid >
+                                <!--<VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="White" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>-->
+                                <StackLayout>
+                                    <Frame CornerRadius="10"  Padding="0" IsClippedToBounds="True" HeightRequest="80" WidthRequest="80">
+                                        <Image Aspect="AspectFill" Source="{Binding Images[0]}"  />
+                                    </Frame>
+                                    <Label Text="{Binding Titel}" />
+                                </StackLayout>
 
-            <!--<ListView ItemsSource="{Binding Messages}" x:Name="ListMessages" HasUnevenRows="True" 
-                      ItemTemplate="{StaticResource ChatDataTemplateSelector}"  
-                      CachingStrategy="RecycleElement" SeparatorColor="Transparent" />-->
-            <ListView ItemsSource="{Binding Messages}" 
-                  SeparatorVisibility="None"
-                  HasUnevenRows="True">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Grid RowDefinitions="auto, auto">
-                                <Grid ColumnDefinitions="40, *"  IsVisible="{Binding IsOwnerMessage , Converter={StaticResource MessageVisibility}}" Margin="10,0">
-                                    <!--<Label Text="{Binding UserName}"/>-->
-                                    <pancake:PancakeView CornerRadius="15,15,15,0" Padding="8"
-                                       Grid.Column="1"
-                                       HorizontalOptions="End"
-                                       
-                                       Margin="0"
-                                       BackgroundColor="#43aa8b" 
-                                       
-                                       MinimumWidthRequest="20">
-                                        <StackLayout   >
-                                            <Label Text="{Binding Message}" FontSize="Medium"  TextColor="White" />
-                                            <Label Text="{Binding DateSent, StringFormat='{0:t}'}" FontSize="Micro" TextColor="White" HorizontalOptions="Start" HorizontalTextAlignment="End" />
-
-                                        </StackLayout>
-                                    </pancake:PancakeView>
-                                </Grid>
-                                <Grid ColumnDefinitions="*, 40" Margin="10,0"
-                                  Grid.Row="1"
-                                 >
-                                    <!--<Label Text="{Binding UserName}"/>-->
-                                    <pancake:PancakeView CornerRadius="0,15,15,15" 
-                                                         Padding="8" BackgroundColor="#dee2e6"
-                                       
-                                       Margin="0"
-                                       HorizontalOptions="Start"
-                                       
-                                       >
-                                        <StackLayout   >
-                                            <Label Text="{Binding Message}" FontSize="Medium"  TextColor="Black" />
-                                            <Label Text="{Binding DateSent, StringFormat='{0:t}'}" FontSize="Micro" TextColor="DimGray" HorizontalOptions="Start" HorizontalTextAlignment="End" />
-
-                                        </StackLayout>
-                                    </pancake:PancakeView>
-                                </Grid>
-                                <!--<Grid RowDefinitions="auto, auto"  >
-                                <Label Text="{Binding UserName}"/>
-                                <Label Text="{Binding Message}"/>
-                            </Grid>-->
                             </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
 
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
 
-            <Grid Margin="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="4*"/>
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-                <Entry Text="{Binding Message}"  />
-                <Button Command="{Binding Send}" Grid.Column="1" Text="send"/>
-            </Grid>
-
-
-        </StackLayout>
+                </CollectionView>
+            </ScrollView>
+        </RefreshView>
     </ContentPage.Content>
 
 </ContentPage>

@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            Shell.PresentationMode="Modal"
+            xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             x:Class="GardenEinfach.Views.PageDetails.Chat">
+
+    <ContentPage.Content>
+        <StackLayout >
+
+            <ListView ItemsSource="{Binding Messages}" 
+                  SeparatorVisibility="None"
+                  HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid RowDefinitions="auto, auto">
+                                <Grid ColumnDefinitions="40, *"  IsVisible="{Binding Sender}" Margin="10,5,10,0">
+
+                                    <pancake:PancakeView CornerRadius="15,15,15,0" Padding="8"
+                                       Grid.Column="1"
+                                       HorizontalOptions="End"
+                                       
+                                       Margin="0"
+                                       BackgroundColor="#43aa8b" 
+                                       
+                                       MinimumWidthRequest="20">
+                                        <Grid >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition  Width="30"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="{Binding Message}" FontSize="Medium"  TextColor="White" />
+                                            <Label  Grid.Column="1" Text="{Binding DateSent, StringFormat='{0:HH:mm}'}"  FontSize="Micro" 
+                                                    TextColor="White" HorizontalOptions="EndAndExpand" VerticalOptions="End"  />
+
+                                        </Grid>
+                                    </pancake:PancakeView>
+                                </Grid>
+                                <Grid ColumnDefinitions="*, 40" Margin="10,0" IsVisible="{Binding Receiver}"
+                                  Grid.Row="1"
+                                 >
+                                    <pancake:PancakeView CornerRadius="0,15,15,15" 
+                                                         Padding="8" BackgroundColor="#dee2e6"
+                                       
+                                       Margin="0"
+                                       HorizontalOptions="Start"
+                                       
+                                       >
+                                        <Grid >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition />
+                                                <ColumnDefinition  Width="30"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Label Text="{Binding Message}" FontSize="Medium"  TextColor="Black" />
+                                            <Label Grid.Column="1" Text="{Binding DateSent, StringFormat='{0:HH:mm}'}" FontSize="Micro" VerticalOptions="EndAndExpand"
+                                                   TextColor="DimGray" HorizontalOptions="Start" HorizontalTextAlignment="End" />
+
+                                        </Grid>
+                                    </pancake:PancakeView>
+                                </Grid>
+
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Entry Text="{Binding Message}"  />
+                <Button Command="{Binding Send}" Grid.Column="1" Text="send"/>
+            </Grid>
+
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

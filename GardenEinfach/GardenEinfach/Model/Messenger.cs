@@ -10,12 +10,12 @@ namespace GardenEinfach.Model
     {
         public string FromUser { get; set; }
         public string ToUser { get; set; }
-        public string Message { get; set; }
+        public List<Message> Message { get; set; }
         public DateTime DateSent { get; set; }
         //public string ImageUrl { get; set; }
-        public bool IsOwnerMessage { get; set; }
-
-        public string Status { get; set; }
+        public bool Sender { get; set; }
+        public string PostTitel { get; set; }
+        public bool Receiver { get; set; }
 
         //public List<Messenger> GetMessages()
         //{
