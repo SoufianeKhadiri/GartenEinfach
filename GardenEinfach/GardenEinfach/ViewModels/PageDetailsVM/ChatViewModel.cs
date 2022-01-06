@@ -50,8 +50,8 @@ namespace GardenEinfach.ViewModels
             }
         }
 
-        private ObservableCollection<Messenger> _Messages;
-        public ObservableCollection<Messenger> Messages
+        private ObservableCollection<Message> _Messages;
+        public ObservableCollection<Message> Messages
         {
             get { return _Messages; }
             set { SetProperty(ref _Messages, value); }
@@ -66,7 +66,7 @@ namespace GardenEinfach.ViewModels
         //ctor
         public ChatViewModel()
         {
-            Messages = new ObservableCollection<Messenger>();
+            Messages = new ObservableCollection<Message>();
             msgs = new List<Message>();
             //MessagingCenter.Subscribe<PostDetailViewModel, Post>(this, "PostDetail", (vm, post) =>
             //{
@@ -83,6 +83,10 @@ namespace GardenEinfach.ViewModels
 
         private void SnapshotListener()
         {
+            if(msgs != null)
+            {
+                msgs.Clear();
+            }
             if (!string.IsNullOrEmpty(PostTitel))
             {
                 try
@@ -90,45 +94,42 @@ namespace GardenEinfach.ViewModels
                     CrossCloudFirestore.Current
                               .Instance
                               .Collection("Messages")
-                              .Document(PostTitel).Collection("Chat").OrderBy("DateSent")
+                              .Document(PostTitel)
                               .AddSnapshotListener((snapshot, error) =>
                               {
                                   if (snapshot != null)
                                   {
-                                      foreach (var documentChange in snapshot.DocumentChanges)
+
+                                      var msg = snapshot.ToObject<Messenger>();
+
+                                      if (msg.Messages != null)
                                       {
-                                          switch (documentChange.Type)
+                                          Messages.Clear();
+
+                                          foreach (var m in msg.Messages)
                                           {
-                                              case DocumentChangeType.Added:
+                                              if (m.FromUser == Preferences.Get("FirstName", ""))
+                                              {
 
-                                                  var msg = documentChange.Document.ToObject<Messenger>();
+                                                  m.Sender = true;
+                                                  m.Receiver = false;
+                                              }
+                                              else
+                                              {
+                                                  m.Sender = false;
+                                                  m.Receiver = true;
+                                              }
+                                             // msgs.Add(m);
+                                              Messages.Add(m);
+                                              
 
-                                                  if (msg.FromUser == Preferences.Get("FirstName", ""))
-                                                  {
-
-                                                      msg.Sender = true;
-                                                      msg.Receiver = false;
-                                                  }
-                                                  else
-                                                  {
-                                                      msg.Sender = false;
-                                                      msg.Receiver = true;
-                                                  }
-
-                                                  Messages.Add(msg);
-
-                                                  // Document Added
-                                                  break;
-                                              case DocumentChangeType.Modified:
-                                                  // Document Modified
-                                                  break;
-                                              case DocumentChangeType.Removed:
-                                                  // Document Removed
-                                                  break;
                                           }
+
+
                                       }
-                                  }
+                                      }
                               });
+                
                 }
                 catch (Exception ex)
                 {
@@ -137,6 +138,61 @@ namespace GardenEinfach.ViewModels
                 }
             }
         }
+
+        //if (!string.IsNullOrEmpty(PostTitel))
+        //{
+        //    try
+        //    {
+        //        CrossCloudFirestore.Current
+        //                  .Instance
+        //                  .Collection("Messages")
+        //                  .Document(PostTitel)
+        //                  .AddSnapshotListener((snapshot, error) =>
+        //                  {
+        //                      if (snapshot != null)
+        //                      {
+        //                          foreach (var documentChange in snapshot.DocumentChanges)
+        //                          {
+        //                              switch (documentChange.Type)
+        //                              {
+        //                                  case DocumentChangeType.Added:
+
+        //                                      var msg = documentChange.Document.ToObject<Messenger>();
+
+        //                                      if (msg.FromUser == Preferences.Get("FirstName", ""))
+        //                                      {
+
+        //                                          msg.Sender = true;
+        //                                          msg.Receiver = false;
+        //                                      }
+        //                                      else
+        //                                      {
+        //                                          msg.Sender = false;
+        //                                          msg.Receiver = true;
+        //                                      }
+
+        //                                      Messages.Add(msg);
+
+        //                                      // Document Added
+        //                                      break;
+        //                                  case DocumentChangeType.Modified:
+        //                                      // Document Modified
+        //                                      break;
+        //                                  case DocumentChangeType.Removed:
+        //                                      // Document Removed
+        //                                      break;
+        //                              }
+        //                          }
+        //                      }
+        //                  });
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        string msg = ex.Message;
+        //        throw;
+        //    }
+        //}
+        //   }
 
 
         public async void LoadItemId(string key)
@@ -169,21 +225,26 @@ namespace GardenEinfach.ViewModels
         _Send ?? (_Send = new DelegateCommand(SendM));
 
         private async void SendM()
-        {
+        {           
+
             Messenger msg = new Messenger();
             Message message = new Message()
             {
                 content = Message,
                 createdAt = DateTime.Now.AddHours(1),
+                FromUser = FirstName,
+                ToUser = Poster
             };
-            msgs.Add(message);
+        
+            Messages.Add(message);
+          //  msgs.Add(message);
 
 
             msg.FromUser = FirstName;
             msg.ToUser = Poster;
             msg.DateSent = DateTime.Now.AddHours(1);
 
-            msg.Message = msgs;
+            msg.Messages = Messages;
 
 
             await CrossCloudFirestore.Current
@@ -193,7 +254,7 @@ namespace GardenEinfach.ViewModels
 
 
 
-
+            Message = "";
 
         }
 

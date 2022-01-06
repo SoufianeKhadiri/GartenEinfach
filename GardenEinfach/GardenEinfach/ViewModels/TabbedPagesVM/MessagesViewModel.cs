@@ -28,7 +28,7 @@ namespace GardenEinfach.ViewModels
             _ = getData();
 
 
-            //  SnapshotListener();
+              SnapshotListener();
         }
 
         private async Task getData()

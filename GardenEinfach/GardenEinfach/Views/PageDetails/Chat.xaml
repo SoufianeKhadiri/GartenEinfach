@@ -30,8 +30,8 @@
                                                 <ColumnDefinition />
                                                 <ColumnDefinition  Width="30"/>
                                             </Grid.ColumnDefinitions>
-                                            <Label Text="{Binding Message}" FontSize="Medium"  TextColor="White" />
-                                            <Label  Grid.Column="1" Text="{Binding DateSent, StringFormat='{0:HH:mm}'}"  FontSize="Micro" 
+                                            <Label Text="{Binding content}" FontSize="Medium"  TextColor="White" />
+                                            <Label  Grid.Column="1" Text="{Binding createdAt, StringFormat='{0:HH:mm}'}"  FontSize="Micro" 
                                                     TextColor="White" HorizontalOptions="EndAndExpand" VerticalOptions="End"  />
 
                                         </Grid>
@@ -53,8 +53,8 @@
                                                 <ColumnDefinition  Width="30"/>
                                             </Grid.ColumnDefinitions>
 
-                                            <Label Text="{Binding Message}" FontSize="Medium"  TextColor="Black" />
-                                            <Label Grid.Column="1" Text="{Binding DateSent, StringFormat='{0:HH:mm}'}" FontSize="Micro" VerticalOptions="EndAndExpand"
+                                            <Label Text="{Binding content}" FontSize="Medium"  TextColor="Black" />
+                                            <Label Grid.Column="1" Text="{Binding createdAt, StringFormat='{0:HH:mm}'}" FontSize="Micro" VerticalOptions="EndAndExpand"
                                                    TextColor="DimGray" HorizontalOptions="Start" HorizontalTextAlignment="End" />
 
                                         </Grid>

@@ -2,6 +2,7 @@
 using Plugin.CloudFirestore;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Text;
 
 namespace GardenEinfach.Model
@@ -10,7 +11,7 @@ namespace GardenEinfach.Model
     {
         public string FromUser { get; set; }
         public string ToUser { get; set; }
-        public List<Message> Message { get; set; }
+        public ObservableCollection<Message> Messages { get; set; }
         public DateTime DateSent { get; set; }
         //public string ImageUrl { get; set; }
         public bool Sender { get; set; }
