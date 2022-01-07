@@ -2,6 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:customListViewDemo="clr-namespace:GardenEinfach.CustomUi"
+              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
              xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              xmlns:ChatVisibility ="clr-namespace:GardenEinfach.Converter"
              x:Class="GardenEinfach.Views.TabbedPages.Messages">
@@ -9,14 +12,33 @@
     <ContentPage.Content>
         <RefreshView>
             <ScrollView>
-                <CollectionView  Grid.Row="2" ItemsSource="{Binding Conversations}" SelectionMode="Single" 
-                          Margin="0,5,0,0" SelectedItem="{Binding Conversation}"
+                <StackLayout Margin="0,0,10,0">
+                    <Frame>
+                        <StackLayout Orientation="Horizontal">
+                      
+                        
+                       
+                            <ffimageloadingsvg:SvgCachedImage  Margin="10" IsVisible="true" Source="backGreen.svg"
+                               BackgroundColor="transparent" WidthRequest="20" HeightRequest="20"
+                            HorizontalOptions="Start" VerticalOptions="Start"
+                            >
+                                    <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Back}"></TapGestureRecognizer>
+                                    </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+
+                                </ffimageloadingsvg:SvgCachedImage>
+
+                        <Label Text="Messages" FontSize="Title"/>
+                    </StackLayout>
+                    </Frame>
+                    <CollectionView  Grid.Row="2" ItemsSource="{Binding Chats}" SelectionMode="Single" 
+                          Margin="10" SelectedItem="{Binding Chat}" 
                         >
-                    <CollectionView.ItemsLayout>
-                        <GridItemsLayout Orientation="Horizontal" VerticalItemSpacing="20" HorizontalItemSpacing="10" />
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="5" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
 
                             <Grid >
                                 <!--<VisualStateManager.VisualStateGroups>
@@ -28,11 +50,22 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>-->
-                                <StackLayout>
+                                <StackLayout Orientation="Horizontal">
                                     <Frame CornerRadius="10"  Padding="0" IsClippedToBounds="True" HeightRequest="80" WidthRequest="80">
-                                        <Image Aspect="AspectFill" Source="{Binding Images[0]}"  />
+                                        <Image Aspect="AspectFill" Source="{Binding PostImage}"  />
                                     </Frame>
-                                    <Label Text="{Binding Titel}" />
+                                        <StackLayout>
+                                            <Label Text="{Binding otherUserChat}" FontSize="22" TextColor="Black"/>
+                                            <Label Text="{Binding PostTitel}" FontSize="Medium"/>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label  Grid.Column="1" Text="{Binding DateSent, StringFormat='{0:HH:mm}'}"  FontSize="Micro" 
+                                                    HorizontalOptions="EndAndExpand" VerticalOptions="End"  />
+                                                <Label Text="{Binding LastMsg}" />
+                                            </StackLayout>
+                                           
+
+                                        </StackLayout>
+                                    
                                 </StackLayout>
 
                             </Grid>
@@ -41,6 +74,7 @@
                     </CollectionView.ItemTemplate>
 
                 </CollectionView>
+                </StackLayout>
             </ScrollView>
         </RefreshView>
     </ContentPage.Content>

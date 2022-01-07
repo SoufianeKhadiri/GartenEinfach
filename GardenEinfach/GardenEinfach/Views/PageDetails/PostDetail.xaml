@@ -98,7 +98,7 @@
             </pancake:PancakeView>
 
             <!--Message-->
-            <Button Grid.Row="4" Text="Message" WidthRequest="200" Command="{Binding Message}"/>
+            <Button Grid.Row="4" IsVisible="{Binding MessageVisibility}" Text="Message" WidthRequest="200" Command="{Binding Message}"/>
 
         </Grid>
 

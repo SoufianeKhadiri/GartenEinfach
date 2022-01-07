@@ -118,6 +118,13 @@ namespace GardenEinfach.ViewModels
             get { return _PostDetail; }
             set { SetProperty(ref _PostDetail, value); }
         }
+        private string _UserKey;
+        public string UserKey
+        {
+            get { return _UserKey; }
+            set { SetProperty(ref _UserKey, value); }
+        }
+
 
         #endregion
 
@@ -129,6 +136,7 @@ namespace GardenEinfach.ViewModels
 
                 if (user != null)
                 {
+                    UserKey = user.Key;
                     Street = user.adress.Street;
                     City = user.adress.City;
                     HouseNumber = user.adress.HouseNumber;
@@ -142,6 +150,7 @@ namespace GardenEinfach.ViewModels
                     FullyAdress = Street + " " + HouseNumber + " " + City;
 
                     Preferences.Set("FirstName", FirstName);
+                    Preferences.Set("userId", UserKey);
                 }
 
             }

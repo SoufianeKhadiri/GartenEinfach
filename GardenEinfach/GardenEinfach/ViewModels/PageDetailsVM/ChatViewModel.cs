@@ -38,16 +38,29 @@ namespace GardenEinfach.ViewModels
             set { SetProperty(ref _PostTitel, value); }
         }
 
-        private string _Poster;
-        public string Poster
+        private string _PostOwnerid;
+        public string PostOwnerId
         {
-            get { return _Poster; }
+            get { return _PostOwnerid; }
             set
             {
-                SetProperty(ref _Poster, value);
+                SetProperty(ref _PostOwnerid, value);
 
-                PostTitel = Poster;
+               // PostTitel = PostOwnerId;
             }
+        }
+
+        private string _PostOwner;
+        public string PostOwner
+        {
+            get { return _PostOwner; }
+            set { SetProperty(ref _PostOwner, value); }
+        }
+        private string _postImage;
+        public string PostImage
+        {
+            get { return _postImage; }
+            set { SetProperty(ref _postImage, value); }
         }
 
         private ObservableCollection<Message> _Messages;
@@ -68,13 +81,7 @@ namespace GardenEinfach.ViewModels
         {
             Messages = new ObservableCollection<Message>();
             msgs = new List<Message>();
-            //MessagingCenter.Subscribe<PostDetailViewModel, Post>(this, "PostDetail", (vm, post) =>
-            //{
-            //    PostTitel = post.Titel;
-            //    Poster = post.User.FirstName;
-            //});
-
-
+           
             SnapshotListener();
 
         }
@@ -102,7 +109,7 @@ namespace GardenEinfach.ViewModels
 
                                       var msg = snapshot.ToObject<Messenger>();
 
-                                      if (msg.Messages != null)
+                                      if (msg!= null && msg.Messages != null)
                                       {
                                           Messages.Clear();
 
@@ -139,62 +146,7 @@ namespace GardenEinfach.ViewModels
             }
         }
 
-        //if (!string.IsNullOrEmpty(PostTitel))
-        //{
-        //    try
-        //    {
-        //        CrossCloudFirestore.Current
-        //                  .Instance
-        //                  .Collection("Messages")
-        //                  .Document(PostTitel)
-        //                  .AddSnapshotListener((snapshot, error) =>
-        //                  {
-        //                      if (snapshot != null)
-        //                      {
-        //                          foreach (var documentChange in snapshot.DocumentChanges)
-        //                          {
-        //                              switch (documentChange.Type)
-        //                              {
-        //                                  case DocumentChangeType.Added:
-
-        //                                      var msg = documentChange.Document.ToObject<Messenger>();
-
-        //                                      if (msg.FromUser == Preferences.Get("FirstName", ""))
-        //                                      {
-
-        //                                          msg.Sender = true;
-        //                                          msg.Receiver = false;
-        //                                      }
-        //                                      else
-        //                                      {
-        //                                          msg.Sender = false;
-        //                                          msg.Receiver = true;
-        //                                      }
-
-        //                                      Messages.Add(msg);
-
-        //                                      // Document Added
-        //                                      break;
-        //                                  case DocumentChangeType.Modified:
-        //                                      // Document Modified
-        //                                      break;
-        //                                  case DocumentChangeType.Removed:
-        //                                      // Document Removed
-        //                                      break;
-        //                              }
-        //                          }
-        //                      }
-        //                  });
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        string msg = ex.Message;
-        //        throw;
-        //    }
-        //}
-        //   }
-
-
+       
         public async void LoadItemId(string key)
         {
             try
@@ -202,6 +154,7 @@ namespace GardenEinfach.ViewModels
 
                 var AllPosts = await postService.GetItemsAsync();
                 var post = await Task.FromResult(AllPosts.FirstOrDefault(p => p.Key == key));
+               
                 FillPostData(post);
                 SnapshotListener();
 
@@ -215,8 +168,11 @@ namespace GardenEinfach.ViewModels
         }
         private void FillPostData(Post PostDetail)
         {
-            Poster = PostDetail.User.FirstName;
+            PostOwnerId = PostDetail.User.Key;
             PostTitel = PostDetail.Titel;
+            PostOwner = PostDetail.User.FirstName;
+            PostImage = PostDetail.Images[0];
+
         }
 
 
@@ -233,18 +189,23 @@ namespace GardenEinfach.ViewModels
                 content = Message,
                 createdAt = DateTime.Now.AddHours(1),
                 FromUser = FirstName,
-                ToUser = Poster
+                ToUser = PostOwner
+                
+
             };
         
             Messages.Add(message);
           //  msgs.Add(message);
 
 
-            msg.FromUser = FirstName;
-            msg.ToUser = Poster;
+            msg.FromUser = UserKey;
+            msg.ToUser = PostOwnerId;
             msg.DateSent = DateTime.Now.AddHours(1);
-
+            msg.LastMsg = Message;
+            msg.PostImage = PostImage;
             msg.Messages = Messages;
+            msg.PostTitel = PostTitel;
+            msg.Key = Key;
 
 
             await CrossCloudFirestore.Current

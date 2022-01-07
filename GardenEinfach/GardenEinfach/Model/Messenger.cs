@@ -17,6 +17,11 @@ namespace GardenEinfach.Model
         public bool Sender { get; set; }
         public string PostTitel { get; set; }
         public bool Receiver { get; set; }
+        public string PostImage { get; set; }
+        public string otherUserChat { get; set; }
+
+        public string Key { get; set; }
+        public string LastMsg { get; set; }
 
         //public List<Messenger> GetMessages()
         //{

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace GardenEinfach.ViewModels
@@ -135,6 +136,12 @@ namespace GardenEinfach.ViewModels
             set { SetProperty(ref _Images, value); }
         }
 
+        private bool _MessageVisibility;
+        public bool MessageVisibility
+        {
+            get { return _MessageVisibility; }
+            set { SetProperty(ref _MessageVisibility, value); }
+        }
 
         #endregion
         public Post p;
@@ -190,6 +197,20 @@ namespace GardenEinfach.ViewModels
             UserImageP = PostDetail.User.Image;
 
             PDetail = PostDetail;
+            MessageBtnVisibility(PostDetail.User.Key);
+        }
+
+        private void MessageBtnVisibility(string postUserId)
+        {
+            string userId = Preferences.Get("userId", "");
+            if (userId == postUserId)
+            {
+                MessageVisibility = false;
+            }
+            else
+            {
+                MessageVisibility = true;
+            }
         }
 
         private void CarouselViewLoop(Post p)

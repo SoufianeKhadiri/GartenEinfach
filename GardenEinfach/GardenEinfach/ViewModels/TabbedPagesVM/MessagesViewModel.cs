@@ -17,18 +17,46 @@ namespace GardenEinfach.ViewModels
     public class MessagesViewModel : BaseViewModel
     {
 
-        //private ObservableCollection<> _name;
-        //public ObservableCollection<> name
-        //{
-        //    get { return _name; }
-        //    set { SetProperty(ref _name, value); }
-        //}
+        private ObservableCollection<Messenger> _Chats;
+        public ObservableCollection<Messenger> Chats
+        {
+            get { return _Chats; }
+            set { SetProperty(ref _Chats, value); }
+        }
+
+        private Messenger _Chat;
+        public Messenger Chat
+        {
+            get { return _Chat; }
+            set { SetProperty(ref _Chat, value);
+
+                GotoChat(Chat.Key);
+
+            }
+        }
+
+
+        async void GotoChat(string key)
+        {
+            await Shell.Current
+
+            //MessagingCenter.Send(this, "PostDetail", PDetail);
+            .GoToAsync($"{nameof(Chat)}?{nameof(ChatViewModel.Key)}={key}");
+
+        }
+
+        private string _OtherUserChat;
+        public string OtherUserChat
+        {
+            get { return _OtherUserChat; }
+            set { SetProperty(ref _OtherUserChat, value); }
+        }
         public MessagesViewModel()
         {
             _ = getData();
 
-
-              SnapshotListener();
+            Chats = new ObservableCollection<Messenger>();
+            SnapshotListener();
         }
 
         private async Task getData()
@@ -47,10 +75,13 @@ namespace GardenEinfach.ViewModels
             }
         }
 
+
+       
+
+
         private void SnapshotListener()
         {
-            //if (!string.IsNullOrEmpty(PostTitel))
-            //{
+            string userId = Preferences.Get("userId", "");
             try
             {
                 CrossCloudFirestore.Current
@@ -65,25 +96,21 @@ namespace GardenEinfach.ViewModels
                                   {
                                       switch (documentChange.Type)
                                       {
+                                          // Document Added
                                           case DocumentChangeType.Added:
 
-                                              var msg = documentChange.Document;
+                                              var post = documentChange.Document.ToObject<Messenger>();
 
-                                              //if (msg.FromUser == Preferences.Get("FirstName", ""))
-                                              //{
+                                              if (post.FromUser == userId || post.ToUser == userId)
+                                              {
+                                                 
+                                                  post.otherUserChat = OtherUser(post.Messages[0].FromUser ,post.Messages[0].ToUser);
+                                                  
+                                                  Chats.Add(post);
 
-                                              //    msg.Sender = true;
-                                              //    msg.Receiver = false;
-                                              //}
-                                              //else
-                                              //{
-                                              //    msg.Sender = false;
-                                              //    msg.Receiver = true;
-                                              //}
-                                              string test = "";
-                                              //Messages.Add(msg);
-
-                                              // Document Added
+                                              }
+                                              
+                                              
                                               break;
                                           case DocumentChangeType.Modified:
                                               // Document Modified
@@ -93,6 +120,7 @@ namespace GardenEinfach.ViewModels
                                               break;
                                       }
                                   }
+                                
                               }
                           });
             }
@@ -101,9 +129,25 @@ namespace GardenEinfach.ViewModels
                 string msg = ex.Message;
                 throw;
             }
-            // }
+           
+           
         }
 
+
+        private string OtherUser(string user , string otherUser)
+        {
+            string currentUsr = Preferences.Get("FirstName", "");
+            string otherUsr = "";
+            if (Chats != null)
+            {
+               
+
+                otherUsr = currentUsr == user ? otherUser : user;
+
+            }
+
+            return otherUsr;
+        }
         //private async void GetChat()
         //{
         //    if (Messages.Count > 1)
