@@ -11,14 +11,29 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Data\Data.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Data\Data.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.123" />
+    <PackageReference Include="ExcelDataReader" Version="3.6.0" />
     <PackageReference Include="FirebaseAuthentication.net" Version="3.4.0" />
     <PackageReference Include="FirebaseDatabase.net" Version="4.0.6" />
     <PackageReference Include="FirebaseStorage.net" Version="1.0.3" />
+    <PackageReference Include="GemBox.Spreadsheet" Version="47.0.1363" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="6.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="NodaTime" Version="3.0.9" />
     <PackageReference Include="Plugin.CloudFirestore" Version="4.1.0" />
     <PackageReference Include="Prism.Core" Version="8.1.97" />
     <PackageReference Include="Rg.Plugins.Popup" Version="2.0.0.13" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.8.116" />
+    <PackageReference Include="System.Data.SQLite" Version="1.0.115.5" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.115.5" />
     <PackageReference Include="Xam.Plugin.Media" Version="5.0.1" />
     <PackageReference Include="Xamarin.CommunityToolkit" Version="1.2.0" />
     <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
@@ -29,6 +44,12 @@
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2012" />
     <PackageReference Include="Xamarin.Essentials" Version="1.6.1" />
     <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.763-beta" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Mono.Android">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v11.0\Mono.Android.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
@@ -83,5 +104,17 @@
     <EmbeddedResource Update="Views\TabbedPages\Search.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="AustriaPlz_Plz_Anhang.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="data.sqlite">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="plz.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>

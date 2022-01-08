@@ -1,8 +1,38 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             
+             xmlns:forms="http://xamarin.com/schemas/2020/toolkit"
              x:Class="GardenEinfach.Views.TabbedPages.Search">
-    
-  
+
+    <StackLayout>
+       
+
+        <Frame>
+            <StackLayout >
+                <StackLayout Orientation="Horizontal">
+                <SearchBar x:Name="sb" Placeholder="PLZ" WidthRequest="200"
+                       Text="{Binding Plz}"/>
+                    <Entry Text="{Binding Ort}"  WidthRequest="200" Placeholder="City" FontSize="20" Margin="0,10,0,0"/>
+                </StackLayout>
+                <ListView x:Name="listview" IsVisible="{Binding SuggestionsVisibility}"
+                          ItemsSource="{Binding PlzList}"  SelectedItem="{Binding SelectedPlz}" HeightRequest="150" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <TextCell Text="{Binding PLZ}" Detail="{Binding Ort}" />
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </Frame>
+        <Frame>
+            <StackLayout  Margin="0">
+
+                <Label Text="Price" FontSize="Large"/>
+                <forms:RangeSlider x:Name="RangeSlider" MinimumValue="10"  MaximumValue="300" LowerValue="{Binding LowerValue}" UpperValue="{Binding UpperValue}" StepValue="0"  VerticalOptions="Center"  />
+
+            </StackLayout>
+        </Frame>
+        <Button Command="{Binding CommandName}"/>
+
+    </StackLayout>
 </ContentPage>

@@ -1,6 +1,8 @@
-﻿using GardenEinfach.Views;
+﻿using GardenEinfach.Model;
+using GardenEinfach.Views;
 using GardenEinfach.Views.SignIn_Up;
 using System;
+using System.IO;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -17,6 +19,20 @@ namespace GardenEinfach
 
             Authentication();
 
+        }
+
+        static SQLiteHelper db;
+
+        public static SQLiteHelper SQLiteDb
+        {
+            get
+            {
+                if (db == null)
+                {
+                    db = new SQLiteHelper(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "data.sqlite"));
+                }
+                return db;
+            }
         }
 
         public async void Authentication()
