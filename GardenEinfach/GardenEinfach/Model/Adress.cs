@@ -11,7 +11,7 @@ namespace GardenEinfach.Model
 
         public string Street { get; set; }
 
-
+        public string PLZ { get; set; }
 
     }
 }

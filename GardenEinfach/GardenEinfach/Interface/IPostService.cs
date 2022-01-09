@@ -14,7 +14,10 @@ namespace GardenEinfach.Service
         Task DeleteItemAsync(string id);
         T GetItemAsync(List<T> items, string id);
         Task<List<T>> GetItemsAsync();
-
+        Task<Post> GetPostById(string id);
+        Task<List<Post>> GetMyPosts();
+        Task<List<Post>> PostsByPlz( string plz);
+        Task<List<Post>> PostsByPrice(int minPrice, int maxPrice);
         Task<string> UploadImage(Stream stream, string imageNumber, string Titel, string database);
 
 

@@ -94,14 +94,14 @@
                         <Label Text="Offers near to you" FontAttributes="Bold" FontSize="Medium" />
                         <Grid>
                             <ffimageloadingsvg:SvgCachedImage Source="circle.svg" WidthRequest="22" VerticalOptions="Center" Margin="0,-8,0,0"/>
-                            <Label Text="{Binding PostsNumber}" TextColor="White" Margin="5,4,0,0" FontSize="12"/>
+                            <Label Text="{Binding PostsNTYNumber}" TextColor="White" Margin="5,4,0,0" FontSize="12"/>
                         </Grid>
                         <Button Text="Show all" HorizontalOptions="EndAndExpand" TextColor="#5DBA63" 
-                        HeightRequest="40" FontSize="12" Margin="0,-8,0,0" Command="{Binding ShowAllPosts}"
+                        HeightRequest="40" FontSize="12" Margin="0,-8,0,0" Command="{Binding ShowAllPostsNTY}"
                         BorderColor="Transparent" BackgroundColor="Transparent"/>
                     </StackLayout>
-                    <CollectionView   ItemsSource="{Binding PostsList}" SelectionMode="Single" 
-                         VerticalScrollBarVisibility="Never" Margin="0,5,0,0" SelectedItem="{Binding Post }"
+                    <CollectionView   ItemsSource="{Binding PostsNearToyou}" SelectionMode="Single" 
+                         VerticalScrollBarVisibility="Never" Margin="0,5,0,0" SelectedItem="{Binding MyPostDetail }"
                         >
                         <CollectionView.ItemsLayout>
                             <GridItemsLayout Orientation="Vertical" VerticalItemSpacing="5" Span="2" />

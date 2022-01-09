@@ -1,5 +1,6 @@
 ﻿
 using GardenEinfach.Model;
+using GardenEinfach.Views.PageDetails;
 using GardenEinfach.Views.TabbedPages;
 using Newtonsoft.Json;
 using Prism.Commands;
@@ -50,8 +51,8 @@ namespace GardenEinfach.ViewModels
         public SearchViewModel()
         {
             Name = "test";
-            LowerValue = 15;
-            UpperValue = 60;
+            LowerValue = 10;
+            UpperValue = 100;
             getData();
             SuggestionsVisibility = false;
         }
@@ -87,6 +88,7 @@ namespace GardenEinfach.ViewModels
                 {
                     Plz = SelectedPlz.PLZ;
                     Ort = SelectedPlz.Ort;
+                    SuggestionsVisibility = false;
                 }
             }
         }
@@ -150,9 +152,7 @@ namespace GardenEinfach.ViewModels
             }
 
         }
-        private DelegateCommand _GetPosition;
-        public DelegateCommand CommandName =>
-            _GetPosition ?? (_GetPosition = new DelegateCommand(GetPositionM));
+       
 
         async void GetPositionM()
         {
@@ -171,58 +171,128 @@ namespace GardenEinfach.ViewModels
                     Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
                     double lat = location.Latitude;
                     double longt = location.Longitude;
-                    Location trofaiach = new Location(lat, longt);
-                    Location Bruck = new Location(47.454379952627484, 15.332897391281387);
-                    double miles = Location.CalculateDistance(trofaiach, Bruck, DistanceUnits.Kilometers);
+                    //Location trofaiach = new Location(lat, longt);
+                    //Location Bruck = new Location(47.454379952627484, 15.332897391281387);
+                    //double miles = Location.CalculateDistance(trofaiach, Bruck, DistanceUnits.Kilometers);
                 }
 
-                var locations = await Geocoding.GetLocationsAsync("14000");
-               // Location location = locations.FirstOrDefault();
-                if (location == null)
-                {
-                    GeocodePosition = "Unable to detect locations";
-                }
-                else
-                {
-                    GeocodePosition =
-                        $"{nameof(location.Latitude)}: {location.Latitude}\n" +
-                        $"{nameof(location.Longitude)}: {location.Longitude}\n";
-                }
+               // var locations = await Geocoding.GetLocationsAsync("14000");
+               //// Location location = locations.FirstOrDefault();
+               // if (location == null)
+               // {
+               //     GeocodePosition = "Unable to detect locations";
+               // }
+               // else
+               // {
+               //     GeocodePosition =
+               //         $"{nameof(location.Latitude)}: {location.Latitude}\n" +
+               //         $"{nameof(location.Longitude)}: {location.Longitude}\n";
+               // }
 
 
                 var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
                 
                 Placemark placemark = placemarks.FirstOrDefault();
 
-                string GeocodeAddress = "";
+                
                 if (placemark == null)
                 {
-                    GeocodeAddress = "Unable to detect placemarks.";
+                    await Application.Current.MainPage.DisplayAlert("Error", "Unable to detect your position", "ok");
+                   
                 }
                 else
                 {
-                    GeocodeAddress =
-                        $"{nameof(placemark.AdminArea)}: {placemark.AdminArea}\n" +
-                        $"{nameof(placemark.CountryCode)}: {placemark.CountryCode}\n" +
-                        $"{nameof(placemark.CountryName)}: {placemark.CountryName}\n" +
-                        $"{nameof(placemark.FeatureName)}: {placemark.FeatureName}\n" +
-                        $"{nameof(placemark.Locality)}: {placemark.Locality}\n" +
-                        $"{nameof(placemark.PostalCode)}: {placemark.PostalCode}\n" +
-                        $"{nameof(placemark.SubAdminArea)}: {placemark.SubAdminArea}\n" +
-                        $"{nameof(placemark.SubLocality)}: {placemark.SubLocality}\n" +
-                        $"{nameof(placemark.SubThoroughfare)}: {placemark.SubThoroughfare}\n" +
-                        $"{nameof(placemark.Thoroughfare)}: {placemark.Thoroughfare}\n";
+                    
+
+                    var posts = await postService.PostsByPlz(placemark.PostalCode);
+                    
+                    
+                    if (posts.Count > 0)
+                    {
+                        await Shell.Current
+                           .GoToAsync($"{nameof(Posts)}?{nameof(PostsViewModel.FilterKey)}={placemark.PostalCode}");
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Search", "No posts found!", "ok");
+                    }
+                    
+                    
                 }
 
             }
             catch (Exception ex)
             {
-                GeocodePosition = $"Unable to detect locations: {ex.Message}";
+                await Application.Current.MainPage.DisplayAlert("Error", "Unable to detect your position", "ok");
             }
             
         }
 
+        private DelegateCommand _SeachCommand;
+        public DelegateCommand SeachCommand =>
+            _SeachCommand ?? (_SeachCommand = new DelegateCommand(SeachCommandM));
 
+        private DelegateCommand _NearToYou;
+        public DelegateCommand NearToYou =>
+            _NearToYou ?? (_NearToYou = new DelegateCommand(GetPositionM));
+
+        
+
+        async void FilterSearchM()
+        {
+            Preferences.Set("LowerValue", LowerValue.ToString());
+            Preferences.Set("UpperValue", UpperValue.ToString());
+            Preferences.Set("Plz", "");
+
+            List<Post> filteredList = new List<Post>();
+
+            var postsByPrice = await postService.PostsByPrice(LowerValue, UpperValue);
+
+
+            // Filter with Price and Plz
+            if (!string.IsNullOrEmpty(Plz))
+            {
+                var posts = postsByPrice.Where(a => a.User.adress.PLZ == Plz).ToList();
+                filteredList = posts;
+
+                if (filteredList.Count > 0)
+                {
+                   
+                    Preferences.Set("Plz", Plz);
+                    await Shell.Current
+                       .GoToAsync($"{nameof(Posts)}?{nameof(PostsViewModel.FilterKey)}={Plz}");
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Search", "No posts found!", "ok");
+                }
+
+            }
+            // Filter only with Price
+            else
+            {
+                filteredList = postsByPrice;
+                if (filteredList.Count > 0)
+                {
+                    await Shell.Current
+                      .GoToAsync($"{nameof(Posts)}?{nameof(PostsViewModel.FilterKey)}={"empty"}");
+                }
+                else
+                {
+                    await Application.Current.MainPage.DisplayAlert("Search", "No posts found!", "ok");
+                }
+            }
+            
+
+            
+        }
+       
+
+        void SeachCommandM()
+        {
+            FilterSearchM();
+          
+        }
 
     }
 }

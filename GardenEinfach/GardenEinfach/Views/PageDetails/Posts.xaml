@@ -13,7 +13,27 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!--NavBar-->
+
+        <Frame Background="#5DBA63">
+            <StackLayout Orientation="Horizontal">
+
+                <ffimageloadingsvg:SvgCachedImage  Margin="10,5,10,0" IsVisible="true" Source="back.svg"
+                               BackgroundColor="transparent" WidthRequest="20" HeightRequest="20"
+                            HorizontalOptions="Start" VerticalOptions="Start"
+                            >
+                    <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Back}"></TapGestureRecognizer>
+                    </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+
+                </ffimageloadingsvg:SvgCachedImage>
+
+                <Label Text="Offers near to you" FontSize="Large" TextColor="White" />
+               
+            </StackLayout>
+        </Frame>
+
+
+        <!--NavBar--><!--
         <StackLayout Orientation="Horizontal" Margin="0,10,10,0">
             <ffimageloadingsvg:SvgCachedImage  Margin="10" IsVisible="true" Source="backGreen.svg"
                    BackgroundColor="transparent" WidthRequest="20" HeightRequest="20"
@@ -25,21 +45,15 @@
 
             </ffimageloadingsvg:SvgCachedImage>
 
-            <!--ProfileFoto-->
-            <ffimageloading:CachedImage   VerticalOptions="Center" Margin="0,0,10,0" Source="{Binding UserImage}"
-                                                  HeightRequest="40" WidthRequest="40" HorizontalOptions="EndAndExpand">
-                <ffimageloading:CachedImage.Transformations>
-                    <fftransformations:RoundedTransformation Radius="240"/>
-                </ffimageloading:CachedImage.Transformations>
-            </ffimageloading:CachedImage>
+            
 
 
-        </StackLayout >
+        </StackLayout >-->
         <!--Separator-->
         <BoxView  Grid.Row="1" Style="{StaticResource Separator}" />
         <StackLayout  Margin="10,0" Grid.Row="2">
 
-            <Label Text="Offers near to you" FontAttributes="Bold" FontSize="Medium" />
+            <Label Text="" FontAttributes="Bold" FontSize="Medium" />
 
 
 
@@ -56,7 +70,7 @@
                                 <VisualStateGroup Name="CommonStates">
                                     <VisualState Name="Selected">
                                         <VisualState.Setters>
-                                            <Setter Property="BackgroundColor" Value="White" />
+                                            <!--<Setter Property="BackgroundColor" Value="White" />-->
                                         </VisualState.Setters>
                                     </VisualState>
                                 </VisualStateGroup>

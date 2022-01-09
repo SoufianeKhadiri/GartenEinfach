@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:CustomEntry="clr-namespace:GardenEinfach.CustomUi"
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:ffimageloadingsvg="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             x:Class="GardenEinfach.Views.PageDetails.PostEditxaml">
+
+    <ScrollView>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <!--add Images-->
+            <ffimageloadingsvg:SvgCachedImage Source="{Binding ImgSource}" Grid.Row="0" HeightRequest="250" Aspect="Fill">
+                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding TakeFoto}" />
+                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+            </ffimageloadingsvg:SvgCachedImage>
+            <ffimageloadingsvg:SvgCachedImage Margin="10" IsVisible="{Binding DeleteFotoVisibility}"  Source="delete.svg" Grid.Row="0" HeightRequest="20" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand">
+                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding DeleteFoto}" />
+                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+            </ffimageloadingsvg:SvgCachedImage>
+
+
+
+            <!--images Collection-->
+            <StackLayout Orientation="Horizontal" Grid.Row="1" Margin="10,0">
+                <CollectionView   ItemsSource="{Binding Images}" SelectionMode="Single" SelectedItem="{Binding Image}"
+                          Margin="0,0,10,0"  HeightRequest="80"
+                        >
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Horizontal" VerticalItemSpacing="20"  />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+
+                            <Grid >
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup Name="CommonStates">
+                                        <VisualState Name="Selected">
+                                            <VisualState.Setters>
+                                                <!--<Setter Property="BackgroundColor" Value="White" />-->
+                                            </VisualState.Setters>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <StackLayout>
+                                    <Frame CornerRadius="10"  Padding="0" IsClippedToBounds="True" 
+                                       HeightRequest="80" WidthRequest="80" Margin="2">
+                                        <Image Aspect="AspectFill" Source="{Binding Source}" />
+                                    </Frame>
+
+                                </StackLayout>
+
+                            </Grid>
+
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+
+                </CollectionView>
+                <ffimageloadingsvg:SvgCachedImage Source="add.svg" HeightRequest="30"   HorizontalOptions="EndAndExpand" >
+                    <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding TakeFoto}" />
+                    </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                </ffimageloadingsvg:SvgCachedImage>
+            </StackLayout>
+            <!--Price-->
+            <StackLayout Orientation="Horizontal" Grid.Row="2" Margin="10,0,10,0">
+                <Frame CornerRadius="5" Padding="0">
+                    <CustomEntry:BorderlessEntry Grid.Row="1" Placeholder="Price" PlaceholderColor="#bababa" FontSize="16" 
+                                                 WidthRequest="150" Text="{Binding Price}"/>
+                </Frame>
+                <Label Text="€" FontSize="20" VerticalOptions="Center" />
+            </StackLayout>
+            <!--Titel-->
+            <Frame CornerRadius="5" Padding="0" Grid.Row="3" Margin="10,0,10,0">
+                <CustomEntry:BorderlessEntry  Placeholder="Titel" PlaceholderColor="#bababa" FontSize="16" 
+                                              HorizontalOptions="FillAndExpand" Text="{Binding Titel}"/>
+            </Frame>
+            <!--Description-->
+            <Frame CornerRadius="5" Padding="0" Grid.Row="4" Margin="10,0,10,0">
+
+                <CustomEntry:BorderlessEditor  Placeholder="Description"  PlaceholderColor="#bababa" FontSize="16" Text="{Binding Description}"
+                                              HorizontalOptions="FillAndExpand" HeightRequest="150" VerticalOptions="FillAndExpand" />
+
+            </Frame>
+           
+            <!--Profil info-->
+            <Frame CornerRadius="5" Padding="0,0,0,5" Grid.Row="6" Margin="10,0,10,0" >
+                <StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Adress" FontSize="16" Margin="10" TextColor="Gray"/>
+                        <Label  Text="{Binding FullyAdress}" FontSize="16" Margin="5,10,0,0"
+                                              HorizontalOptions="FillAndExpand"  />
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Phone" FontSize="16" Margin="10"/>
+                        <Label  Text="{Binding Phone}"   FontSize="16"  Margin="10,10,0,0"
+                                              HorizontalOptions="FillAndExpand"  />
+                        <Button BackgroundColor="Transparent" Text="Edit" TextColor="Green" Margin="0,0,0,0"/>
+                    </StackLayout>
+                </StackLayout>
+
+            </Frame>
+            <!--Post btn-->
+            <Button Grid.Row="7" Command="{Binding EditPost}" CornerRadius="20" Margin="10" 
+               Text="Edit post" Background="white"  BorderColor="#5DBA63" TextColor="#5DBA63" BorderWidth="1"/>
+
+            <ActivityIndicator IsRunning="{Binding Loading}" Color="Green" Margin="20" Grid.Row="6"/>
+        </Grid>
+
+    </ScrollView>
+
+</ContentPage>

@@ -6,6 +6,7 @@ using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Xamarin.Essentials;
@@ -174,6 +175,8 @@ namespace GardenEinfach.ViewModels
             {
                 GetUserInfoFromDb(SentEmail);
             });
+
+           
 
         }
 

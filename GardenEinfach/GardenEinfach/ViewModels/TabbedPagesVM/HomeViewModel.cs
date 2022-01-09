@@ -108,10 +108,39 @@ namespace GardenEinfach.ViewModels
             }
         }
 
+
+        private int _PostsNTYNumber;
+        public int PostsNTYNumber
+        {
+            get { return _PostsNTYNumber; }
+            set { SetProperty(ref _PostsNTYNumber, value); }
+        }
+
+        private ObservableCollection<Post> _PostsNearToyou;
+        public ObservableCollection<Post> PostsNearToyou
+        {
+            get { return _PostsNearToyou; }
+            set { SetProperty(ref _PostsNearToyou, value); }
+        }
+
+
         public DelegateCommand ShowAllMyPosts { get; set; }
         public DelegateCommand ShowAllPosts { get; set; }
-
+        public string DetectedPlz { get; set; }
         public DelegateCommand NavigateForwardCommand { get; set; }
+
+        private DelegateCommand _ShowAllPostsNTY;
+        public DelegateCommand ShowAllPostsNTY =>
+            _ShowAllPostsNTY ?? (_ShowAllPostsNTY = new DelegateCommand(ExecuteShowAllPostsNTY));
+
+        async void ExecuteShowAllPostsNTY()
+        {
+            if (!string.IsNullOrEmpty(DetectedPlz)) {
+
+                await Shell.Current
+              .GoToAsync($"{nameof(Posts)}?{nameof(PostsViewModel.FilterKey)}={DetectedPlz}");
+            }
+        }
 
         //ctor
         public HomeViewModel()
@@ -123,9 +152,70 @@ namespace GardenEinfach.ViewModels
             Refresh = new DelegateCommand(RefreshM);
 
             RefreshFromPostDetail = new DelegateCommand(RefreshM);
+
+            getPostsNearToYou();
         }
 
+        private async void getPostsNearToYou()
+        {
+            await OnGetPosition();
+        }
 
+        async Task OnGetPosition()
+        {
+
+            try
+            {
+                var location = await Geolocation.GetLastKnownLocationAsync();
+
+                if (location != null)
+                {
+                    Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
+                    double lat = location.Latitude;
+                    double longt = location.Longitude;
+                   
+                }
+
+                var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
+
+                Placemark placemark = placemarks.FirstOrDefault();
+
+
+                if (placemark == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Unable to detect your position", "ok");
+
+                }
+                else
+                {
+                    
+
+                    var posts = await postService.PostsByPlz(placemark.PostalCode);
+
+
+                    if (posts.Count > 0)
+                    {
+                        DetectedPlz = placemark.PostalCode;
+                        PostsNearToyou = new ObservableCollection<Post>(posts);
+                        PostsNTYNumber = PostsNearToyou.Count();
+                        //await Shell.Current
+                        //   .GoToAsync($"{nameof(Posts)}?{nameof(PostsViewModel.FilterKey)}={placemark.PostalCode}");
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Search", "No posts found!", "ok");
+                    }
+
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Unable to detect your position", "ok");
+            }
+
+        }
 
         private void RefreshM()
         {
@@ -145,8 +235,9 @@ namespace GardenEinfach.ViewModels
 
         public async void getPostsData()
         {
-            var posts = await postService.GetItemsAsync();
+            var posts = await postService.GetMyPosts();
             PostsList = new ObservableCollection<Post>(posts);
+            
             PtsList = PostsList;
             PostsNumber = PostsList.Count().ToString();
         }

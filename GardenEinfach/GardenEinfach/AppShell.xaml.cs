@@ -31,6 +31,7 @@ namespace GardenEinfach
             Routing.RegisterRoute(nameof(Register), typeof(Register));
             Routing.RegisterRoute(nameof(ProfileSetting), typeof(ProfileSetting));
             Routing.RegisterRoute(nameof(Chat), typeof(Chat));
+            Routing.RegisterRoute(nameof(PostEditxaml), typeof(PostEditxaml));
 
 
 

@@ -26,43 +26,10 @@ namespace GardenEinfach.Views.TabbedPages
             InitializeComponent();
             BindingContext = new SearchViewModel();
 
-            cls = new List<string>()
-            {
-                "Red","","Magenta","Blue","Green"
-            };
-            //listview.IsVisible = false;
-           
-        }
-
-        protected  override void OnAppearing()
-        {
-            base.OnAppearing();
-
-           
-
-
-        }
-
-        
-
-        //private List<PostZahl> GetJsonData()
-        //{
-        //   // string jsonFileName = "contacts.json";
             
+        }
 
-
-        //   // var assembly = typeof(Search).GetTypeInfo().Assembly;
-        //   // Stream stream = assembly.GetManifestResourceStream($"{assembly.GetName().Name}.{jsonFileName}");
-        //   // using (var reader = new System.IO.StreamReader(stream))
-        //   // {
-        //   //     var jsonString = reader.ReadToEnd();
-
-        //   //     //Converting JSON Array Objects into generic list    
-        //   ////     ObjContactList = JsonConvert.DeserializeObject<ContactList>(jsonString);
-        //   // }
-
-        //   // return ObjContactList.contacts;
-        //}
+       
         private void searchBar_SearchButtonPressed(object sender, System.EventArgs e)
         {
           
@@ -71,19 +38,6 @@ namespace GardenEinfach.Views.TabbedPages
 
         
 
-        private void sb_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            var keyword = sb.Text;
-            var suggestions = cls.Where(c => c.ToLower().Contains(keyword.ToLower()));
-            listview.IsVisible = true;
-            if (sb.Text.Length == 0)
-            {
-                suggestions = Enumerable.Empty<string>();
-               // listview.IsVisible = false;
-            }
-
-          //  listview.ItemsSource = suggestions;
-            
-        }
+        
     }
 }

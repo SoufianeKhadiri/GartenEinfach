@@ -3,6 +3,7 @@ using Firebase.Database.Query;
 using Firebase.Storage;
 using GardenEinfach.Model;
 using GardenEinfach.Services;
+using Plugin.CloudFirestore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace GardenEinfach.Service
 {
@@ -76,13 +78,15 @@ namespace GardenEinfach.Service
                   Titel = item.Object.Titel,
                   Description = item.Object.Description,
                   Price = item.Object.Price,
-                  //User = item.Object.User
+                  User = item.Object.User,
+                  Key = item.Key
+                  
 
 
 
               }).ToList();
         }
-
+        
 
         public async Task<List<MyUser>> GetAllUsers()
         {
@@ -108,24 +112,62 @@ namespace GardenEinfach.Service
             return allUsers.Where(a => a.Email == email).FirstOrDefault();
         }
 
+        public async Task<Post> GetPostById(string id)
+        {
 
-        //public ObservableCollection<MyUser> getUsers()
-        //{
+            var allPosts = await GetAllPosts();
+            await client
+              .Child("Posts")
+              .OnceAsync<Post>();
+            return allPosts.Where(a => a.Key == id).FirstOrDefault();
+        }
 
-        //    var UserData = client.Child("Users").AsObservable<MyUser>()
-        //                                        .AsObservableCollection();
 
-        //    return UserData;
-        //}
+        public async Task<List<Post>> PostsByPlz( string plz)
+        {
+
+            var allPosts = await GetAllPosts();
+            await client
+              .Child("Posts")
+              .OnceAsync<Post>();
+            
+            return allPosts.Where(a => a.User.adress.PLZ == plz).ToList();
+        }
+
+        public async Task<List<Post>> GetMyPosts()
+        {
+           
+            var allPosts = await GetAllPosts();
+            await client
+              .Child("Posts")
+              .OnceAsync<Post>();
+
+            return allPosts.Where(a => a.User.Key == Preferences.Get("userId", "")).ToList();
+        }
+
+        public async Task<List<Post>> PostsByPrice( int  minPrice , int maxPrice)
+        {
+
+            var allPosts = await GetAllPosts();
+            await client
+              .Child("Posts")
+              .OnceAsync<Post>();
+
+            return allPosts.Where(a => a.Price > minPrice && a.Price < maxPrice).ToList();
+        }
+
+
+
         public async Task AddItemAsync(Post item)
         {
             await client.Child("Posts").PostAsync(item);
 
         }
 
-        public Task DeleteItemAsync(string id)
+        public async Task DeleteItemAsync(string id)
         {
-            throw new NotImplementedException();
+            await client
+              .Child("Posts/"+id).DeleteAsync();
         }
 
         public Post GetItemAsync(List<Post> items, string id)
@@ -155,9 +197,10 @@ namespace GardenEinfach.Service
               }).ToList();
         }
 
-        public Task UpdateItemAsync(Post item)
+        public async Task UpdateItemAsync(Post item)
         {
-            throw new NotImplementedException();
+            await client
+              .Child("Posts/" + item.Key).PutAsync(item);
         }
     }
 }

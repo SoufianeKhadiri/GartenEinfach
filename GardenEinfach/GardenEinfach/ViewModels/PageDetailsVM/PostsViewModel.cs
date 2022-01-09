@@ -6,18 +6,57 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace GardenEinfach.ViewModels
 {
+    [QueryProperty(nameof(FilterKey), nameof(FilterKey))]
     public class PostsViewModel : BaseViewModel
     {
         private ObservableCollection<Post> _Posts;
         public ObservableCollection<Post> Posts
         {
             get { return _Posts; }
-            set { SetProperty(ref _Posts, value); }
+            set { SetProperty(ref _Posts, value);
+            }
         }
+        
+        private string _FilterKey;
+        public string FilterKey
+        {
+            get { return _FilterKey; }
+            set { SetProperty(ref _FilterKey, value);
+                LoadItemId(value);
+
+            }
+        }
+
+
+        public async void LoadItemId(string key)
+        {
+            int LowerValue = Int32.Parse(Preferences.Get("LowerValue", ""));
+            int UpperValue = Int32.Parse(Preferences.Get("UpperValue", ""));
+            if (key == "empty")
+            {
+                var postsByPrice = await postService.PostsByPrice(LowerValue, UpperValue);
+
+                
+                Posts = new ObservableCollection<Post>(postsByPrice);
+            }
+            else
+            {
+                var postsByPrice = await postService.PostsByPrice(LowerValue, UpperValue);
+                
+                var posts = postsByPrice.Where(a => a.User.adress.PLZ == key).ToList();
+                Posts = new ObservableCollection<Post>(posts);
+                 
+            }
+            
+
+        }
+
 
         private Post _Post;
         public Post Post

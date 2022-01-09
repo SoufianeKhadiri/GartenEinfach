@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Xamarin.CommunityToolkit.Extensions;
 using Xamarin.Forms;
 
 namespace GardenEinfach.ViewModels
@@ -28,7 +29,29 @@ namespace GardenEinfach.ViewModels
                 }
             }
         }
+        private DelegateCommand<Post> _EditCommand;
+        public DelegateCommand<Post> EditCommand =>
+            _EditCommand ?? (_EditCommand = new DelegateCommand<Post>(ExecuteEditCommand));
 
+        async void ExecuteEditCommand(Post post)
+        {
+            await Shell.Current
+                           .GoToAsync($"{nameof(PostEditxaml)}?{nameof(PostEditxamlViewModel.Key)}={post.Key}");
+           
+
+        }
+        private DelegateCommand<Post> _DeleteCommand;
+        public DelegateCommand<Post> DeleteCommand =>
+            _DeleteCommand ?? (_DeleteCommand = new DelegateCommand<Post>(ExecuteDeleteCommand));
+
+        async void ExecuteDeleteCommand(Post post)
+        {
+            await postService.DeleteItemAsync(post.Key);
+            var posts = await postService.GetMyPosts();
+            MyPosts = new ObservableCollection<Post>(posts);
+            await Application.Current.MainPage.DisplayToastAsync("Post is deleted!", 1500);
+
+        }
         async void OnItemSelected(Post post)
         {
             if (post == null)

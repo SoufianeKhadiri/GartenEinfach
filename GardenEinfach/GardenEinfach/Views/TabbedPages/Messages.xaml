@@ -12,24 +12,22 @@
     <ContentPage.Content>
         <RefreshView>
             <ScrollView>
-                <StackLayout Margin="0,0,10,0">
-                    <Frame>
+                <StackLayout Margin="0,0,0,0" Background="whiteSmoke">
+                    <Frame Background="#5DBA63">
                         <StackLayout Orientation="Horizontal">
-                      
-                        
-                       
-                            <ffimageloadingsvg:SvgCachedImage  Margin="10" IsVisible="true" Source="backGreen.svg"
+
+                            <ffimageloadingsvg:SvgCachedImage  Margin="10" IsVisible="true" Source="back.svg"
                                BackgroundColor="transparent" WidthRequest="20" HeightRequest="20"
                             HorizontalOptions="Start" VerticalOptions="Start"
                             >
-                                    <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding Back}"></TapGestureRecognizer>
-                                    </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Back}"></TapGestureRecognizer>
+                                </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
 
-                                </ffimageloadingsvg:SvgCachedImage>
+                            </ffimageloadingsvg:SvgCachedImage>
 
-                        <Label Text="Messages" FontSize="Title"/>
-                    </StackLayout>
+                            <Label Text="Messages" FontSize="Title" TextColor="White"/>
+                        </StackLayout>
                     </Frame>
                     <CollectionView  Grid.Row="2" ItemsSource="{Binding Chats}" SelectionMode="Single" 
                           Margin="10" SelectedItem="{Binding Chat}" 
@@ -40,7 +38,7 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
 
-                            <Grid >
+                            <Grid BackgroundColor="White">
                                 <!--<VisualStateManager.VisualStateGroups>
                                 <VisualStateGroup Name="CommonStates">
                                     <VisualState Name="Selected">
