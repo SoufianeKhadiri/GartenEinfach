@@ -108,19 +108,23 @@
             <Frame CornerRadius="5" Padding="0,0,0,5" Grid.Row="6" Margin="10,0,10,0" >
                 <StackLayout>
                     <StackLayout Orientation="Horizontal">
-                        <Label Text="Adress" FontSize="16" Margin="10" TextColor="Gray"/>
-                        <Label  Text="{Binding FullyAdress}" FontSize="16" Margin="5,10,0,0"
+                        <Label Text="Address" FontSize="16" Margin="10" TextColor="Gray"/>
+                        <StackLayout Orientation="Horizontal">
+                        <Label  Text="{Binding Street}" FontSize="16" Margin="5,10,0,0"
                                               HorizontalOptions="FillAndExpand"  />
+                            <Label  Text="{Binding City}" FontSize="16" Margin="5,10,0,0"
+                                              HorizontalOptions="FillAndExpand"  />
+                        </StackLayout>
                     </StackLayout>
-                    <StackLayout Orientation="Horizontal">
-                    <Label  Text="{Binding City}" FontSize="16" Margin="80,0,0,0"
-                                              HorizontalOptions="FillAndExpand"  />
-                    <Label  Text="{Binding PLZ}" FontSize="16" Margin="80,0,0,0"
-                                              HorizontalOptions="FillAndExpand"  />
+                    <StackLayout Orientation="Horizontal" Margin="90,0,0,0">
+                        <Label  Text="{Binding HouseNumber}" FontSize="16" 
+                                                />
+                    <Label  Text="{Binding PLZ}" FontSize="16" Margin="10,0,0,0"
+                                                />
                     </StackLayout>
                     <StackLayout Orientation="Horizontal">
                         <Label Text="Phone" FontSize="16" Margin="10"/>
-                        <Label  Text="{Binding Phone}"   FontSize="16"  Margin="10,10,0,0"
+                        <Label  Text="{Binding Phone}"   FontSize="16"  Margin="18,10,0,0"
                                               HorizontalOptions="FillAndExpand"  />
                         <Button BackgroundColor="Transparent" Text="Edit" TextColor="Green" Margin="0,0,0,0" Command="{Binding EditAddress}"/>
                     </StackLayout>

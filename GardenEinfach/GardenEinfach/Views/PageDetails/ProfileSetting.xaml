@@ -40,8 +40,9 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid Margin="0,0,0,0" Grid.ColumnSpan="2">
+                    
                     <ffimageloading:CachedImage   Source="{Binding ImgSource}" Grid.Row ="0" HeightRequest="120" WidthRequest="120" VerticalOptions="EndAndExpand"
-                                                  Margin="0,0,0,0">
+                                                  Margin="80,0,80,0">
                         <ffimageloading:CachedImage.Transformations>
                             <fftransformations:RoundedTransformation Radius="240"/>
                         </ffimageloading:CachedImage.Transformations>
