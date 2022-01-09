@@ -28,7 +28,7 @@ namespace GardenEinfach.Service
         string SetUserImage(string gender);
 
         MyUser CreateUser(string firstName, string lastName, string email, string phone,
-                                  string gender, string image, string street, string city, string houseNumber);
+                                  string gender, string image, string street, string city, string houseNumber,string plz);
 
 
     }

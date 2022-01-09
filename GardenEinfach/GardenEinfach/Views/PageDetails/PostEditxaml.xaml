@@ -25,7 +25,8 @@
                     <TapGestureRecognizer Command="{Binding TakeFoto}" />
                 </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
             </ffimageloadingsvg:SvgCachedImage>
-            <ffimageloadingsvg:SvgCachedImage Margin="10" IsVisible="{Binding DeleteFotoVisibility}"  Source="delete.svg" Grid.Row="0" HeightRequest="20" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand">
+            <ffimageloadingsvg:SvgCachedImage Margin="10" IsVisible="{Binding DeleteFotoVisibility}"  Source="delete.svg" Grid.Row="0" 
+                                              HeightRequest="30" WidthRequest="30" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand">
                 <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding DeleteFoto}" />
                 </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
@@ -108,7 +109,8 @@
                         <Label Text="Phone" FontSize="16" Margin="10"/>
                         <Label  Text="{Binding Phone}"   FontSize="16"  Margin="10,10,0,0"
                                               HorizontalOptions="FillAndExpand"  />
-                        <Button BackgroundColor="Transparent" Text="Edit" TextColor="Green" Margin="0,0,0,0"/>
+                        <Button BackgroundColor="Transparent" Text="Edit" TextColor="Green" Margin="0,0,0,0"
+                                Command="{Binding EditAddress}"/>
                     </StackLayout>
                 </StackLayout>
 

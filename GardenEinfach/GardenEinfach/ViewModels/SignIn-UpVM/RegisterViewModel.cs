@@ -88,7 +88,7 @@ namespace GardenEinfach.ViewModels
                 Preferences.Set("myFirebaseRefreshToken", SerializedContent);
                 RegisterUserRealtimeDatabase();
                 await App.Current.MainPage.DisplayAlert("Success", "Account created!", "ok");
-                await Shell.Current.GoToAsync("//HomePage");
+                await Shell.Current.GoToAsync($"//HomePage/Home?{nameof(HomeViewModel.Login)}=login");
 
 
             }
@@ -130,7 +130,7 @@ namespace GardenEinfach.ViewModels
                 LastName = LastName,
                 Email = Email,
                 Phone = Phone,
-                adress = new Adress() { City = City, HouseNumber = HouseNumber, Street = Street },
+                adress = new Adress() { City = City, HouseNumber = HouseNumber, Street = Street , PLZ = PLZ },
                 Gender = Gender,
                 Image = userService.SetUserImage(Gender)
 
@@ -143,21 +143,6 @@ namespace GardenEinfach.ViewModels
 
 
         }
-
-        //private void saveUserInfo(MyUser user)
-        //{
-        //    Preferences.Set("FirstName", user.FirstName);
-        //    Preferences.Set("LastName", user.LastName);
-        //    Preferences.Set("Email", user.Email);
-        //    Preferences.Set("Phone", user.Phone);
-        //    Preferences.Set("Adress", user.adress.Street + user.adress.HouseNumber + user.adress.City);
-        //    Preferences.Set("Gender", user.Gender);
-        //    Preferences.Set("Street", user.adress.Street);
-        //    Preferences.Set("City", user.adress.City);
-        //    Preferences.Set("HouseNumber", user.adress.HouseNumber);
-        //    Preferences.Set("UserImage", user.Image);
-        //}
-
 
     }
 }

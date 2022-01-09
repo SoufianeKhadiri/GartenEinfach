@@ -43,11 +43,11 @@ namespace GardenEinfach.ViewModels
             set { SetProperty(ref _Titel, value); }
         }
 
-        private string _Category;
-        public string Category
+        private string _Todo;
+        public string Todo
         {
-            get { return _Category; }
-            set { SetProperty(ref _Category, value); }
+            get { return _Todo; }
+            set { SetProperty(ref _Todo, value); }
         }
 
         private string[] _Categories;
@@ -139,6 +139,17 @@ namespace GardenEinfach.ViewModels
         //    });
         //}
 
+        private DelegateCommand _EditAddress;
+        public DelegateCommand EditAddress =>
+            _EditAddress ?? (_EditAddress = new DelegateCommand(ExecuteEditAddress));
+
+        async void ExecuteEditAddress()
+        {
+            await Shell.Current.GoToAsync("ProfileSetting");
+        }
+
+
+
         private void InitPicker()
         {
             Categories = new string[] { "Category1", "Category2", "Category3", "Category4", "Category5", "Category6" };
@@ -163,7 +174,7 @@ namespace GardenEinfach.ViewModels
             Post p = new Post()
             {
                 Images = imagesUrl,
-                Category = Category,
+                Todo = Todo,
                 Price = Price,
                 Titel = Titel,
                 Description = Description,
@@ -336,7 +347,7 @@ namespace GardenEinfach.ViewModels
         private void EmptyForm()
         {
             Price = 0;
-            Titel = Description = Category = "";
+            Titel = Description = Todo = "";
             Images.Clear();
         }
 

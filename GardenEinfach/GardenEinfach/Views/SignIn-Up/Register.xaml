@@ -63,6 +63,7 @@
                         </Grid.ColumnDefinitions>
                         <Entry Placeholder="Street" Text="{Binding Street}"/>
                         <Entry Grid.Column="1" Placeholder="House#" Text="{Binding HouseNumber}" />
+                        
 
                     </Grid>
                     <Grid Grid.Row="6">
@@ -71,6 +72,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <Entry Placeholder="City" Text="{Binding City}"/>
+                        <Entry Grid.Column="1" Placeholder="PLZ" Text="{Binding PLZ}" />
                     </Grid>
                     <Button Text="Register" CornerRadius="20" Grid.Row="7" Margin="30,15,30,-15" 
                             Command="{Binding RegisterC}" HeightRequest="50" />

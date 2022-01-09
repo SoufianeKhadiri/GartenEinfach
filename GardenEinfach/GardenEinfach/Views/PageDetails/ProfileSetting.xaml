@@ -100,12 +100,15 @@
                             <CustomEntry:BorderlessEntry  Placeholder="Street" PlaceholderColor="#bababa" FontSize="16" 
                                               HorizontalOptions="FillAndExpand" Text="{Binding Street}"/>
                             <CustomEntry:BorderlessEntry WidthRequest="120" Placeholder="House number" PlaceholderColor="#bababa" FontSize="16" 
-                                              HorizontalOptions="EndAndExpand" Text="{Binding HouseNumber}"/>
+                                              HorizontalOptions="EndAndExpand" Text="{Binding City}"/>
                         </StackLayout>
 
                         <StackLayout Orientation="Horizontal">
                             <CustomEntry:BorderlessEntry  Placeholder="City" PlaceholderColor="#bababa" FontSize="16" 
-                                              HorizontalOptions="FillAndExpand" Text="{Binding City}"/>
+                                              HorizontalOptions="FillAndExpand" Text="{Binding HouseNumber}"/>
+                            <CustomEntry:BorderlessEntry  Placeholder="Zip code" PlaceholderColor="#bababa" FontSize="16" 
+                                              HorizontalOptions="EndAndExpand" Margin="0,0,50,0" Text="{Binding PLZ}"/>
+
 
                         </StackLayout>
                     </StackLayout>

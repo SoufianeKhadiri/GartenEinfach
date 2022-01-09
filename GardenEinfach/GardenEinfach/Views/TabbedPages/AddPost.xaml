@@ -25,7 +25,8 @@
                     <TapGestureRecognizer Command="{Binding TakeFoto}" />
                 </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
             </ffimageloadingsvg:SvgCachedImage>
-            <ffimageloadingsvg:SvgCachedImage Margin="10" IsVisible="{Binding DeleteFotoVisibility}"  Source="delete.svg" Grid.Row="0" HeightRequest="20" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand">
+            <ffimageloadingsvg:SvgCachedImage Margin="10" IsVisible="{Binding DeleteFotoVisibility}"  Source="delete.svg" Grid.Row="0" 
+                                              HeightRequest="30" WidthRequest="30" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand">
                 <ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding DeleteFoto}" />
                 </ffimageloadingsvg:SvgCachedImage.GestureRecognizers>
@@ -94,11 +95,15 @@
                                               HorizontalOptions="FillAndExpand" HeightRequest="150" VerticalOptions="FillAndExpand" />
 
             </Frame>
-            <!--Picker-->
-            <Frame CornerRadius="5"  Padding="0" Grid.Row="5" Margin="10,0,10,0" >
-                <CustomEntry:BorderlessPicker  FontSize="16"  HorizontalOptions="FillAndExpand"   TextColor="#bababa"
-                                              Title="Category"  ItemsSource="{Binding Categories}" SelectedItem="{Binding Category}"  />
+            <!--Todo list-->
+
+            <StackLayout Grid.Row="5" Margin="10,10,10,0">
+                <Label Text="Todo list" TextColor="DimGray" Grid.Row="5" FontSize="Medium" Margin="0,0,0,5"/>
+            <Frame CornerRadius="5"  Padding="0"   >
+                <CustomEntry:BorderlessEditor  Placeholder="Todo:"  PlaceholderColor="#bababa" FontSize="16" Text="{Binding Todo}"
+                                              HorizontalOptions="FillAndExpand" HeightRequest="150" VerticalOptions="FillAndExpand"  />
             </Frame>
+            </StackLayout>
             <!--Profil info-->
             <Frame CornerRadius="5" Padding="0,0,0,5" Grid.Row="6" Margin="10,0,10,0" >
                 <StackLayout>
@@ -107,19 +112,24 @@
                         <Label  Text="{Binding FullyAdress}" FontSize="16" Margin="5,10,0,0"
                                               HorizontalOptions="FillAndExpand"  />
                     </StackLayout>
-
+                    <StackLayout Orientation="Horizontal">
+                    <Label  Text="{Binding City}" FontSize="16" Margin="80,0,0,0"
+                                              HorizontalOptions="FillAndExpand"  />
+                    <Label  Text="{Binding PLZ}" FontSize="16" Margin="80,0,0,0"
+                                              HorizontalOptions="FillAndExpand"  />
+                    </StackLayout>
                     <StackLayout Orientation="Horizontal">
                         <Label Text="Phone" FontSize="16" Margin="10"/>
                         <Label  Text="{Binding Phone}"   FontSize="16"  Margin="10,10,0,0"
                                               HorizontalOptions="FillAndExpand"  />
-                        <Button BackgroundColor="Transparent" Text="Edit" TextColor="Green" Margin="0,0,0,0"/>
+                        <Button BackgroundColor="Transparent" Text="Edit" TextColor="Green" Margin="0,0,0,0" Command="{Binding EditAddress}"/>
                     </StackLayout>
                 </StackLayout>
 
             </Frame>
             <!--Post btn-->
             <Button Grid.Row="7" Command="{Binding AddPost}" CornerRadius="20" Margin="10" 
-               Text="Post" Background="white"  BorderColor="#5DBA63" TextColor="#5DBA63" BorderWidth="1"/>
+               Text="Add post" Background="white"  BorderColor="#5DBA63" TextColor="#5DBA63" BorderWidth="1"/>
 
             <ActivityIndicator IsRunning="{Binding Loading}" Color="Green" Margin="20" Grid.Row="6"/>
         </Grid>

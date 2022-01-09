@@ -107,11 +107,11 @@ namespace GardenEinfach.ViewModels
         }
 
 
-        private string _Category;
-        public string Category
+        private string _Todo;
+        public string Todo
         {
-            get { return _Category; }
-            set { SetProperty(ref _Category, value); }
+            get { return _Todo; }
+            set { SetProperty(ref _Todo, value); }
         }
 
 
@@ -192,7 +192,7 @@ namespace GardenEinfach.ViewModels
             Price = PostDetail.Price.ToString();
             UsernameP = PostDetail.User.FirstName;
             Adress = PostDetail.User.adress.Street + " " + PostDetail.User.adress.HouseNumber +
-                     " " + PostDetail.User.adress.City;
+                     " " + PostDetail.User.adress.City + PostDetail.User.adress.PLZ;
             PhoneP = PostDetail.User.Phone;
             UserImageP = PostDetail.User.Image;
 

@@ -16,8 +16,19 @@ using Xamarin.Forms;
 
 namespace GardenEinfach.ViewModels
 {
+    [QueryProperty(nameof(Login), nameof(Login))]
     public class HomeViewModel : BaseViewModel
     {
+
+        private string _login;
+        public string Login
+        {
+            get { return _login; }
+            set { SetProperty(ref _login, value);
+                RefreshM();
+            }
+        }
+
 
         #region Refresh
 

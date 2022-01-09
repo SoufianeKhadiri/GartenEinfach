@@ -44,18 +44,13 @@ namespace GardenEinfach.Service
                    Gender = item.Object.Gender,
                    Key = item.Key,
                    Image = item.Object.Image,
-
+                   
 
                }).ToList();
         }
         public async Task<MyUser> GetUsr(string email)
         {
             var users = await GetAllUsers();
-
-            await client
-             .Child("Users")
-             .OnceAsync<MyUser>();
-
             return users.Where(u => u.Email == email).FirstOrDefault();
 
         }
@@ -91,43 +86,7 @@ namespace GardenEinfach.Service
             return UserData;
         }
 
-        //public MyUser GetUserPreferences()
-        //{
-        //    MyUser usr = new MyUser();
-        //    Adress adress = new Adress();
-
-        //    adress.Street = Preferences.Get("Street", "");
-        //    adress.City = Preferences.Get("City", "");
-        //    adress.HouseNumber = Preferences.Get("HouseNumber", "");
-        //    usr.FirstName = Preferences.Get("FirstName", "");
-        //    usr.LastName = Preferences.Get("LastName", "");
-        //    usr.Email = Preferences.Get("Email", "");
-        //    usr.Phone = Preferences.Get("Phone", "");
-        //    usr.FullyAdress = Preferences.Get("Adress", "");
-        //    usr.Gender = Preferences.Get("Gender", "");
-        //    usr.adress = adress;
-        //    usr.Image = Preferences.Get("UserImage", "");
-        //    return usr;
-        //}
-
-        //public void SetUserPreferences(MyUser newUsrInfo)
-        //{
-        //    MyUser usr = new MyUser();
-        //    Adress adress = new Adress();
-
-        //    adress.Street = Preferences.Get("Street", newUsrInfo.adress.Street);
-        //    adress.City = Preferences.Get("City", newUsrInfo.adress.City);
-        //    adress.HouseNumber = Preferences.Get("HouseNumber", newUsrInfo.adress.HouseNumber);
-        //    usr.FirstName = Preferences.Get("FirstName", newUsrInfo.FirstName);
-        //    usr.LastName = Preferences.Get("LastName", newUsrInfo.LastName);
-        //    usr.Email = Preferences.Get("Email", newUsrInfo.Email);
-        //    usr.Phone = Preferences.Get("Phone", newUsrInfo.Phone);
-        //    //usr.FullyAdress = Preferences.Get("Adress", newUsrInfo.FirstName);
-        //    usr.Gender = Preferences.Get("Gender", newUsrInfo.Gender);
-        //    usr.adress = adress;
-        //    usr.Image = Preferences.Get("UserImage", newUsrInfo.Image);
-
-        //}
+        
         public async Task<string> UpdateUserInfo(MyUser newuser, string email)
         {
 
@@ -144,7 +103,7 @@ namespace GardenEinfach.Service
         }
 
         public MyUser CreateUser(string firstName, string lastName, string email, string phone,
-                                 string gender, string image, string street, string city, string houseNumber)
+                                 string gender, string image, string street, string city, string houseNumber,string plz)
         {
             MyUser usr = new MyUser();
             Adress adress = new Adress();
@@ -157,6 +116,7 @@ namespace GardenEinfach.Service
             adress.Street = street;
             adress.City = city;
             adress.HouseNumber = houseNumber;
+            adress.PLZ = plz;
             usr.adress = adress;
 
             return usr;

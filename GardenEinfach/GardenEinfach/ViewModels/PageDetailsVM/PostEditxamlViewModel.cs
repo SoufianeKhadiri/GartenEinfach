@@ -35,45 +35,39 @@ namespace GardenEinfach.ViewModels
             }
         }
 
+        public List<string> imagesPostPath { get; set; }
+
         private async void LoadItemId(string value)
         {
            var post =  await postService.GetPostById(value);
-            Titel = post.Titel;
-            Price = post.Price;
-            Description = post.Description;
-
-            foreach (var item in post.Images)
-            {
-
-                Images.Add(new MyImage() { Source = item });
-            }
+           
+                Titel = post.Titel;
+                Price = post.Price;
+                Description = post.Description;
             
-          
-          
-            await Application.Current.MainPage.DisplayToastAsync("Post is updated!", 1500);
+                Images.Clear();
+                imagesPostPath.Clear();
+               
+                foreach (var item in post.Images)
+                {
+                Images.Add(new MyImage() { Source = item });
+                imagesPostPath.Add(item);
+                }
+
         }
 
-      
-
-            #region Post Props
 
 
-            //private string _Phone;
-            //public string Phone
-            //{
-            //    get { return _Phone; }
-            //    set { SetProperty(ref _Phone, value); }
-            //}
+        #region Post Props
 
+        private string _Todo;
+        public string Todo
+        {
+            get { return _Todo; }
+            set { SetProperty(ref _Todo, value); }
+        }
 
-            //private string _Adress;
-            //public string Adress
-            //{
-            //    get { return _Adress; }
-            //    set { SetProperty(ref _Adress, value); }
-            //}
-
-            private string _Titel;
+        private string _Titel;
             public string Titel
             {
                 get { return _Titel; }
@@ -139,8 +133,8 @@ namespace GardenEinfach.ViewModels
             public PostEditxamlViewModel()
             {
                 GetCurrentUserInfo();
-
-                Images = new ObservableCollection<MyImage>();
+                imagesPostPath = new List<string>();
+                 Images = new ObservableCollection<MyImage>();
                 ImgSource = "addImage.svg";
                 DeleteFotoVisibility = false;
                 ImagesStream = new List<Stream>();
@@ -196,23 +190,30 @@ namespace GardenEinfach.ViewModels
                     imagesUrl.Add(await postService.UploadImage(item, imageNumber.ToString(), Titel, "Posts"));
                     imageNumber++;
                 }
-                //Prepare Post to push to the Db
-                Post p = new Post()
+            //Prepare Post to push to the Db
+            foreach (var item in imagesPostPath)
+            {               
+                imagesUrl.Add(item);
+            }
+           
+            Post p = new Post()
                 {
+                    Key = Key,
                     Images = imagesUrl,
-                    Category = Category,
+                    Todo = Todo,
                     Price = Price,
                     Titel = Titel,
                     Description = Description,
                     Time = getCurrentTime(),
                     User = await userService.GetUsr(Email)
                 };
-                await postService.AddItemAsync(p);
+                await postService.UpdateItemAsync(p);
                 Loading = false;
 
-                await PopupNavigation.Instance.PushAsync(new AddPostPopup());
+            await Shell.Current.GoToAsync("..");
+            await Application.Current.MainPage.DisplayToastAsync("Post updated", 1500);
 
-            }
+        }
 
             private string getCurrentTime()
             {
@@ -283,7 +284,7 @@ namespace GardenEinfach.ViewModels
 
             void TakeFotoM()
             {
-                PopupNavigation.Instance.PushAsync(new ImagePopup());
+                PopupNavigation.Instance.PushAsync(new EditPopup());
 
             }
 
@@ -377,6 +378,15 @@ namespace GardenEinfach.ViewModels
                 Images.Clear();
             }
 
+
+        private DelegateCommand _EditAddress;
+        public DelegateCommand EditAddress =>
+            _EditAddress ?? (_EditAddress = new DelegateCommand(ExecuteEditAddress));
+
+        async void ExecuteEditAddress()
+        {
+            await Shell.Current.GoToAsync("ProfileSetting");
         }
+    }
     }
 

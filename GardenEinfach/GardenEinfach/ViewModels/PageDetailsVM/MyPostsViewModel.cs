@@ -1,7 +1,9 @@
 ﻿using GardenEinfach.Model;
 using GardenEinfach.Views.PageDetails;
+using GardenEinfach.Views.PopUp;
 using Prism.Commands;
 using Prism.Mvvm;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,6 +31,25 @@ namespace GardenEinfach.ViewModels
                 }
             }
         }
+        public static DelegateCommand ConfirmDeleteCommand { get; set; }
+        public Post DeletedPost { get; set; }
+        public  DelegateCommand<Post> DeleteCommand { get; set; }
+
+        public MyPostsViewModel()
+        {
+            DeleteCommand = new DelegateCommand<Post>(ExecuteDeleteCommand);
+            ConfirmDeleteCommand = new DelegateCommand(ConfirmDelete);
+            LoadPosts();
+        }
+
+        async private void ConfirmDelete()
+        {
+            await postService.DeleteItemAsync(DeletedPost.Key);
+            var posts = await postService.GetMyPosts();
+            MyPosts = new ObservableCollection<Post>(posts);
+            await Application.Current.MainPage.DisplayToastAsync("Post is deleted!", 1500);
+        }
+
         private DelegateCommand<Post> _EditCommand;
         public DelegateCommand<Post> EditCommand =>
             _EditCommand ?? (_EditCommand = new DelegateCommand<Post>(ExecuteEditCommand));
@@ -40,16 +61,14 @@ namespace GardenEinfach.ViewModels
            
 
         }
-        private DelegateCommand<Post> _DeleteCommand;
-        public DelegateCommand<Post> DeleteCommand =>
-            _DeleteCommand ?? (_DeleteCommand = new DelegateCommand<Post>(ExecuteDeleteCommand));
+        //private DelegateCommand<Post> _DeleteCommand;
+        //public DelegateCommand<Post> DeleteCommand =>
+        //    _DeleteCommand ?? (_DeleteCommand = new DelegateCommand<Post>(ExecuteDeleteCommand));
 
-        async void ExecuteDeleteCommand(Post post)
+          void ExecuteDeleteCommand(Post post)
         {
-            await postService.DeleteItemAsync(post.Key);
-            var posts = await postService.GetMyPosts();
-            MyPosts = new ObservableCollection<Post>(posts);
-            await Application.Current.MainPage.DisplayToastAsync("Post is deleted!", 1500);
+            DeletedPost = post;
+           PopupNavigation.Instance.PushAsync(new DeletePopup());
 
         }
         async void OnItemSelected(Post post)
@@ -86,10 +105,7 @@ namespace GardenEinfach.ViewModels
             get { return _MyPosts; }
             set { SetProperty(ref _MyPosts, value); }
         }
-        public MyPostsViewModel()
-        {
-            LoadPosts();
-        }
+       
 
         private void LoadPosts()
         {

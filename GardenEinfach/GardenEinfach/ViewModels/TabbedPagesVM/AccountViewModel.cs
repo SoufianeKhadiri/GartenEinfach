@@ -50,7 +50,7 @@ namespace GardenEinfach.ViewModels
                 {
 
                     UserImage = await userService.UploadUserImage(photo.GetStream(), Email, "UsersImages");
-                    var user = userService.CreateUser(FirstName, LastName, Email, Phone, Gender, UserImage, Street, City, HouseNumber);
+                    var user = userService.CreateUser(FirstName, LastName, Email, Phone, Gender, UserImage, Street, City, HouseNumber,PLZ);
                     await userService.UpdateUserInfo(user, Email);
                     MessagingCenter.Send(this, "Account", Email);
 
@@ -77,7 +77,7 @@ namespace GardenEinfach.ViewModels
                 if (photo != null)
                 {
                     UserImage = await userService.UploadUserImage(photo.GetStream(), Email, "UsersImages");
-                    var user = userService.CreateUser(FirstName, LastName, Email, Phone, Gender, UserImage, Street, City, HouseNumber);
+                    var user = userService.CreateUser(FirstName, LastName, Email, Phone, Gender, UserImage, Street, City, HouseNumber,PLZ);
                     await userService.UpdateUserInfo(user, Email);
                     MessagingCenter.Send(this, "Account", Email);
                 }

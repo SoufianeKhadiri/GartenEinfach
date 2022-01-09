@@ -57,15 +57,7 @@ namespace GardenEinfach.Service
 
             return await Task.FromResult(Posts.FirstOrDefault(s => s.Titel == titel));
         }
-        //public ObservableCollection<Post> getPosts()
-        //{
-
-        //    var postData = client.Child("Posts").AsObservable<Post>()
-        //                                        .AsObservableCollection();
-
-        //    return postData;
-
-        //}
+        
 
         public async Task<List<Post>> GetAllPosts()
         {
@@ -79,8 +71,8 @@ namespace GardenEinfach.Service
                   Description = item.Object.Description,
                   Price = item.Object.Price,
                   User = item.Object.User,
-                  Key = item.Key
-                  
+                  Key = item.Key,
+                  Todo = item.Object.Todo
 
 
 
@@ -114,12 +106,14 @@ namespace GardenEinfach.Service
 
         public async Task<Post> GetPostById(string id)
         {
+          
+                var allPosts = await GetAllPosts();
 
-            var allPosts = await GetAllPosts();
-            await client
-              .Child("Posts")
-              .OnceAsync<Post>();
-            return allPosts.Where(a => a.Key == id).FirstOrDefault();
+                await client
+                  .Child("Posts")
+                  .OnceAsync<Post>();
+                return allPosts.Where(a => a.Key == id).FirstOrDefault();
+        
         }
 
 
@@ -192,15 +186,18 @@ namespace GardenEinfach.Service
                   Description = item.Object.Description,
                   Price = item.Object.Price,
                   User = item.Object.User,
-                  Key = item.Key
-
+                  Key = item.Key,
+                  Todo = item.Object.Todo
               }).ToList();
         }
 
         public async Task UpdateItemAsync(Post item)
         {
-            await client
-              .Child("Posts/" + item.Key).PutAsync(item);
+            if (!string.IsNullOrEmpty(item.Key))
+            {
+                await client
+                  .Child("Posts/" + item.Key).PutAsync(item);
+            }
         }
     }
 }

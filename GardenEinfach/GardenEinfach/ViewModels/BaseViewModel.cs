@@ -88,6 +88,7 @@ namespace GardenEinfach.ViewModels
             set { SetProperty(ref _UserImage, value); }
         }
 
+        
 
         private string _FullyAdress;
         public string FullyAdress
@@ -126,6 +127,12 @@ namespace GardenEinfach.ViewModels
             set { SetProperty(ref _UserKey, value); }
         }
 
+        private string _PLZ;
+        public string PLZ
+        {
+            get { return _PLZ; }
+            set { SetProperty(ref _PLZ, value); }
+        }
 
         #endregion
 
@@ -140,6 +147,7 @@ namespace GardenEinfach.ViewModels
                     UserKey = user.Key;
                     Street = user.adress.Street;
                     City = user.adress.City;
+                    PLZ = user.adress.PLZ;
                     HouseNumber = user.adress.HouseNumber;
                     FirstName = user.FirstName;
                     LastName = user.LastName;
@@ -148,7 +156,7 @@ namespace GardenEinfach.ViewModels
                     UserImage = user.Image;
                     ImgSource = ImageSource.FromUri(new Uri(UserImage));
                     Gender = user.Gender;
-                    FullyAdress = Street + " " + HouseNumber + " " + City;
+                    FullyAdress = Street + " " + HouseNumber ;
 
                     Preferences.Set("FirstName", FirstName);
                     Preferences.Set("userId", UserKey);

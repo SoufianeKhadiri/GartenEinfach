@@ -17,7 +17,7 @@ namespace GardenEinfach.Model
 
         public string Description { get; set; }
 
-        public string Category { get; set; }
+        public string Todo { get; set; }
 
         public string PostId { get; set; }
 

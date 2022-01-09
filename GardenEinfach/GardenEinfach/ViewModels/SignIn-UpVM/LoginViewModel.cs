@@ -65,7 +65,9 @@ namespace GardenEinfach.ViewModels
 
                 SetUserInfo();
 
-                await Shell.Current.GoToAsync("//HomePage/Home");
+              //  await Shell.Current
+              //.GoToAsync($"{nameof(Posts)}?{nameof(PostsViewModel.FilterKey)}={DetectedPlz}");
+                await Shell.Current.GoToAsync($"//HomePage/Home?{nameof(HomeViewModel.Login)}=login");
 
             }
             catch (FirebaseAuthException ex)
